@@ -1,5 +1,5 @@
 package zoosys.controller;
 
-public class Controller {
+public class controller {
    Hello my name is bowen
 }
