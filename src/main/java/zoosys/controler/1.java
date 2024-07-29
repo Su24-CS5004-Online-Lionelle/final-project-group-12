@@ -1,5 +1,5 @@
 package zoosys.controler;
 
-public class 1 {
+public class Controler {
     
 }
