@@ -30,7 +30,7 @@ public class view extends JFrame {
         // Initialize and add GUI components
         add(new JLabel("Employee Name:")); // Label for employee name
         employeesManagementField = new JTextField(); // Text field for employee name input
-        add(EmployeeName);
+        add(employeeNameField);
  
     /**
      * Gets the employee name from the text field.
