@@ -2,7 +2,6 @@ package zoosys.view;
  
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -78,6 +77,19 @@ public class View {
 
     // Method to open the Enclosure Management window
     private void openEnclosureManagementWindow() {
+        Stage enclosureStage = new Stage();
+        VBox enclosureLayout = new VBox();
+        enclosureLayout.setSpacing(10);
+        enclosureLayout.setStyle("-fx-padding: 10;");
+
+        Button addEnclosureButton = new Button("Add Enclosure");
+        Button editEnclosureButton = new Button("Edit Enclosure");
+        Button deletEnclosureButton = new Button("Delet Enclosure");
+
+        enclosureLayout.getChildern().addAll(addEnclosureButton, editEnclosureButton, deletEnclosureButton);
+        Scene enclosureScene = new Scene(enclosureLayout, 400, 300);
+        enclosureStage.setScene(enclosureScene);
+        enclosureStage.show();
     }
 
     // Method to open the Employee Management window
