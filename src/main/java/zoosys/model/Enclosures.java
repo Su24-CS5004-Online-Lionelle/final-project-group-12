@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.commons.beanutils.locale.converters.IntegerLocaleConverter;
+
 /**
  * Attributes for the enclosures's conditions.
  */
@@ -38,6 +40,9 @@ public Enclosures(double size, double humidity, double temperature, double veget
 
 /**
  * Methods to add an animal to the enclosure 
+ * 
+ * @param animal The animal to add
+ * @throw IllegalArgumentException the animal cannot be empty.
  */
 @Override
 public void addAnimal(Animal animal) {
@@ -47,6 +52,7 @@ public void addAnimal(Animal animal) {
         throw new IllegalArgumentException("Animal cannot be null");
     }
 }
+
 /**
  * Getter and setter for enclosure size.
  */
@@ -55,8 +61,13 @@ public double getEnclosureSize() {
     return enclosureSize;
 }
 public void setEnclosureSize(double enclosureSize) {
-    this.enclosureSize = enclosureSize;
+    if (enclosureSize > 0) {
+        this.enclosureSize = enclosureSize;
+    } else {
+        throw new IllegalArgumentException("The enclosure size must be larger than 0.");
+    }
 }
+
 /**
  * Getter and setter for humidity.
  */
@@ -65,8 +76,13 @@ public double getHumidity() {
     return humidity;
 }
 public void setHumidity(double humidity) {
-    this.humidity = humidity;
+    if (humidity >= 0 && humidity <= 100) {
+        this.humidity = humidity;
+    } else {
+        throw new IllegalArgumentException("Humidity must be between 0 and 100.");
+    }
 }
+
 /**
  * Getter and setter for temperature.
  */
@@ -75,8 +91,13 @@ public double getTemperature() {
     return temperature;
 }
 public void setTemperature(double temperature) {
-    this.temperature = temperature;
+    if (temperature >= -30 && temperature <= 50) {
+        this.temperature = temperature;
+    } else {
+        throw new IllegalArgumentException("Temperature must be between -30 to 50 degree Celcius.");
+    }
 }
+
 /**
  * Getter and setter for vegetation coverage
  */
@@ -85,8 +106,13 @@ public double getVegetationCoverage() {
     return vegetationCoverage;
 }
 public void setVegetationCoverage(double vegetationCoverage) {
-    this.vegetationCoverage = vegetationCoverage;
+    if (vegetationCoverage >= 0 && vegetationCoverage <= 100) {
+        this.vegetationCoverage = vegetationCoverage;
+    } else {
+        throw new IllegalArgumentException("Vegetation coverage must be between 0 and 100.");
+    }
 }
+
 /**
  * Getter and setter for zone cleanliness
  */
@@ -95,8 +121,13 @@ public int getZoneCleanliness() {
     return zoneCleanliness;
 }
 public void setZoneCleanliness(int zoneCleanliness) {
-    this.zoneCleanliness = zoneCleanliness;
+    if (zoneCleanliness >= 0 && zoneCleanliness <= 100) {
+        this.zoneCleanliness = zoneCleanliness;
+    } else {
+        throw new IllegalArgumentException("Zone cleanliness must be between 0 and 100.");
+    }
 }
+
 /**
  * Getter and setter for food in trough
  */
@@ -105,38 +136,15 @@ public int getFoodInTrough() {
     return foodInTrough;
 }
 public void setFoodInTrough(int foodInTrough) {
-    this.foodInTrough = foodInTrough;
+    if (foodInTrough >= 0) {
+        this.foodInTrough = foodInTrough;
+    } else {
+        throw new IllegalArgumentException("The food remain in trough can not be negative.");
+    }
 }
-// Function to create a new enclosure
-public static Enclosures createNewEnclosure() {
-    Scanner scanner = new Scanner(System.in);
 
-    System.out.print("Please enter the enclosure size: \n");
-    double size = scanner.nextDouble();
-
-    System.out.print("Please enter the humidity: \n");
-    double humidity = scanner.nextDouble();
-
-    System.out.print("Please enter the temperature: \n");
-    double temperature = scanner.nextDouble();
-
-    System.out.print("Please enter the vegetation coverage: \n");
-    double vegetationCoverage = scanner.nextDouble();
-
-    System.out.print("Please enter the cleanliness: \n");
-    int zoneCleanliness = scanner.nextInt();
-
-    System.out.print("Please enter the food in trough: \n");
-    int foodInTrough = scanner.nextInt();
-
+public static Enclosures creaEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
+                                        int zoneCleanliness, int foodInTrough) {
     return new Enclosures(size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough);
-}
-
-    /**
-     * Method to create and add new animal to the enclosure.
-     */
-    public void addAnimal() {
-        Animal animal = new Animal();
-        this.addAnimal(animal);
     }
 }
