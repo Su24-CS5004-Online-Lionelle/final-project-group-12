@@ -2,9 +2,6 @@ package zoosys.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import org.apache.commons.beanutils.locale.converters.IntegerLocaleConverter;
 
 /**
  * Attributes for the enclosures's conditions.
@@ -144,7 +141,7 @@ public void setFoodInTrough(int foodInTrough) {
 }
 
 public static Enclosures creaEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
-                                        int zoneCleanliness, int foodInTrough) {
+        int zoneCleanliness, int foodInTrough) {
     return new Enclosures(size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough);
     }
 }
