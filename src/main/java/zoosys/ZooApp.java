@@ -10,9 +10,9 @@ public class ZooApp {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 System.out.println("Starting Zoo management Application...");
-                view view = new view();
+                View view = new View();
                 model model = new model();
-                controller controller = controller(view, model);
+                Controller controller = controller(view, model);
 
                 view.setVisible(true);
                 System.out.println("Zoo View is now visible.");

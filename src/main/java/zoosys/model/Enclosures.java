@@ -14,6 +14,7 @@ public class Enclosures implements IEnclosures{
     private double vegetationCoverage;
     private int zoneCleanliness;
     private int foodInTrough;
+    private EnclosureType enclosureType;
 
 /**
  * 
@@ -23,6 +24,7 @@ public class Enclosures implements IEnclosures{
  * @param vegetationCoverage Vegetation coverage inside the enclosures
  * @param zoneCleanliness Cleanliness inside the enclosures
  * @param foodInTrough Amount of food in trough
+ * @param enclosureType The type of enclosure
  */
 public Enclosures(double size, double humidity, double temperature, double vegetationCoverage,
                   int zoneCleanliness, int foodInTrough) {
@@ -32,6 +34,7 @@ public Enclosures(double size, double humidity, double temperature, double veget
     this.vegetationCoverage = vegetationCoverage;
     this.zoneCleanliness = zoneCleanliness;
     this.foodInTrough = foodInTrough;
+    this.enclosureType = enclosureType;
     this.animals = new ArrayList<>();
 }
 
@@ -140,8 +143,16 @@ public void setFoodInTrough(int foodInTrough) {
     }
 }
 
+public EnclosureType getEnclosureType() {
+    return enclosureType;
+}
+
+public void setEnclosureType(EnclosureType enclosureType) {
+    this.enclosureType = enclosureType;
+}
+
 public static Enclosures creaEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
-        int zoneCleanliness, int foodInTrough) {
+        int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
     return new Enclosures(size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough);
     }
 }

@@ -2,16 +2,17 @@ package zoosys.view;
  
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class view {
+public class View {
     private BorderPane layout;
 
     // Constructor to initialize the main layout
-    public view(Stage stage) {
+    public View(Stage stage) {
         this.layout = new BorderPane();
         initialize(stage);
     }
