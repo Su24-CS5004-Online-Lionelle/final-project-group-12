@@ -1,5 +1,7 @@
 package zoosys.view;
  
+import com.fasterxml.jackson.databind.ser.VirtualBeanPropertyWriter;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -27,8 +29,8 @@ public class View {
         // Create buttons for each management section
         Button animalButton = new Button("ANIMAL Management");
         Button enclosureButton = new Button("ENCLOSURE Management");
-        Button employeeButton = new Button("Employees Management");
-        Button visitorsButton = new Button("Visitors Information");
+        Button employeeButton = new Button("EMPLOYEES Management");
+        Button visitorsButton = new Button("VISITORS Information");
         Button helpButton = new Button("HELP");
         Button exitButton = new Button("EXIT");
 
@@ -86,11 +88,17 @@ public class View {
         Button editEnclosureButton = new Button("Edit Enclosure");
         Button deletEnclosureButton = new Button("Delet Enclosure");
 
+        addEnclosureButton.setOnAction(e -> openAddEnclosureDialog());
+        editEnclosureButton.setOnAction(e -> openEditEnclosureDialog());
+        deleteEnclosureButton.setOnAction(e -> openDeleteEnclosureDialog());
+
         enclosureLayout.getChildern().addAll(addEnclosureButton, editEnclosureButton, deletEnclosureButton);
+        
         Scene enclosureScene = new Scene(enclosureLayout, 400, 300);
         enclosureStage.setScene(enclosureScene);
         enclosureStage.show();
     }
+    
 
     // Method to open the Employee Management window
     private void openEmployeeManagementWindow() {

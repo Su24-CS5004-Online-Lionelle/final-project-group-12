@@ -34,7 +34,6 @@ public Enclosures(double size, double humidity, double temperature, double veget
     this.vegetationCoverage = vegetationCoverage;
     this.zoneCleanliness = zoneCleanliness;
     this.foodInTrough = foodInTrough;
-    this.enclosureType = enclosureType;
     this.animals = new ArrayList<>();
 }
 
