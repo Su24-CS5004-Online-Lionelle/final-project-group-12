@@ -86,11 +86,7 @@ public class View {
 
         Button addEnclosureButton = new Button("Add Enclosure");
         Button editEnclosureButton = new Button("Edit Enclosure");
-        Button deletEnclosureButton = new Button("Delet Enclosure");
-
-        addEnclosureButton.setOnAction(e -> openAddEnclosureDialog());
-        editEnclosureButton.setOnAction(e -> openEditEnclosureDialog());
-        deleteEnclosureButton.setOnAction(e -> openDeleteEnclosureDialog());
+        Button deletEnclosureButton = new Button("Delete Enclosure");
 
         enclosureLayout.getChildern().addAll(addEnclosureButton, editEnclosureButton, deletEnclosureButton);
         
