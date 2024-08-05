@@ -1,6 +1,4 @@
 package zoosys.view;
- 
-import com.fasterxml.jackson.databind.ser.VirtualBeanPropertyWriter;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
