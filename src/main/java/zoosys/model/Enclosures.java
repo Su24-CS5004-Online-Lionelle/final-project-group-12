@@ -7,7 +7,7 @@ import java.util.List;
  * Attributes for the enclosures's conditions.
  */
 public class Enclosures implements IEnclosures{
-    private List<Animal> animals;
+    private List<Animal> animals = new ArrayList<>(); // Initialize the list 
     private double enclosureSize;
     private double humidity;
     private double temperature;
@@ -27,14 +27,14 @@ public class Enclosures implements IEnclosures{
  * @param enclosureType The type of enclosure
  */
 public Enclosures(double size, double humidity, double temperature, double vegetationCoverage,
-                  int zoneCleanliness, int foodInTrough) {
+                  int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
     this.enclosureSize = size;
     this.humidity = humidity;
     this.temperature = temperature;
     this.vegetationCoverage = vegetationCoverage;
     this.zoneCleanliness = zoneCleanliness;
     this.foodInTrough = foodInTrough;
-    this.animals = new ArrayList<>();
+    this.enclosureType = enclosureType;
 }
 
 /**
@@ -150,8 +150,8 @@ public void setEnclosureType(EnclosureType enclosureType) {
     this.enclosureType = enclosureType;
 }
 
-public static Enclosures creaEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
+public static Enclosures creatEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
         int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
-    return new Enclosures(size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough);
+    return new Enclosures(size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough, enclosureType);
     }
 }
