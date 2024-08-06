@@ -7,7 +7,7 @@ import java.util.List;
  * Attributes for the enclosures's conditions.
  */
 public class Enclosures implements IEnclosures{
-    private List<Animal> animals = new ArrayList<>(); // Initialize the list 
+    private List<Animal> animals; // Initialize the list 
     private double enclosureSize;
     private double humidity;
     private double temperature;
@@ -29,12 +29,13 @@ public class Enclosures implements IEnclosures{
  */
 public Enclosures(double size, double humidity, double temperature, double vegetationCoverage,
                   int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
-    this.enclosureSize = size;
-    this.humidity = humidity;
-    this.temperature = temperature;
-    this.vegetationCoverage = vegetationCoverage;
-    this.zoneCleanliness = zoneCleanliness;
-    this.foodInTrough = foodInTrough;
+    this.animals = new ArrayList<>();
+    setEnclosureSize(size);
+    setHumidity(humidity);
+    setTemperature(temperature);
+    setVegetationCoverage(vegetationCoverage);
+    setZoneCleanliness(zoneCleanliness);
+    setFoodInTrough(foodInTrough);
     this.enclosureType = enclosureType;
 }
 
@@ -67,7 +68,7 @@ public double getEnclosureSize() {
  * Set the size of the enclosure.
  * 
  * @param enclosureSize
- * @throws IllegalArgumentExcepetion if the size is not greater than 0
+ * @throws IllegalArgumentException if the size is not greater than 0
  */
 public void setEnclosureSize(double enclosureSize) {
     if (enclosureSize > 0) {
@@ -224,23 +225,5 @@ public EnclosureType getEnclosureType() {
  */
 public void setEnclosureType(EnclosureType enclosureType) {
     this.enclosureType = enclosureType;
-}
-
-/**
- * Create new Enclosures instance with specified attributes.
- * 
- * @param size the size of the enclosure
- * @param humidity the humidity of the enclosure
- * @param temperature the temperature of the enclosure
- * @param vegetationCoverage the vegetation coverage of the enclosure
- * @param zoneCleanliness the zoon cleanliness of the enclosure
- * @param foodInTrough the food amount in the trough
- * @param enclosureType the type of enclosure
- * @return new Enclosures instance
- */
-public static Enclosures createEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
-        int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
-    return new Enclosures(size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough, enclosureType);
     }
-
 }
