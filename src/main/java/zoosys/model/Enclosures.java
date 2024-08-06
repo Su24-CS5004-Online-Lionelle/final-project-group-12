@@ -17,6 +17,7 @@ public class Enclosures implements IEnclosures{
     private EnclosureType enclosureType;
 
 /**
+ * Constructs new Enclosures with the specified attributes.
  * 
  * @param size Size of the enclosures
  * @param humidity Humidity inside the enclosures
@@ -54,11 +55,20 @@ public void addAnimal(Animal animal) {
 
 /**
  * Getter and setter for enclosure size.
+ * 
+ * @return enclosure size
  */
 @Override
 public double getEnclosureSize() {
     return enclosureSize;
 }
+
+/**
+ * Set the size of the enclosure.
+ * 
+ * @param enclosureSize
+ * @throws IllegalArgumentExcepetion if the size is not greater than 0
+ */
 public void setEnclosureSize(double enclosureSize) {
     if (enclosureSize > 0) {
         this.enclosureSize = enclosureSize;
@@ -69,11 +79,20 @@ public void setEnclosureSize(double enclosureSize) {
 
 /**
  * Getter and setter for humidity.
+ * 
+ * @return the humidity inside the enclosure
  */
 @Override
 public double getHumidity() {
     return humidity;
 }
+
+/**
+ * Set the humidity inside the enclosure
+ * 
+ * @param humidity the humidity to be set
+ * @throws IllegalArgumentException if the humidity is not between 0 and 100.
+ */
 public void setHumidity(double humidity) {
     if (humidity >= 0 && humidity <= 100) {
         this.humidity = humidity;
@@ -84,11 +103,20 @@ public void setHumidity(double humidity) {
 
 /**
  * Getter and setter for temperature.
+ * 
+ * @return the temperature inside the enclosure
  */
 @Override
 public double getTemperature() {
     return temperature;
 }
+
+/**
+ * Set the temperature inside the enclosure
+ * 
+ * @param temperature the temperature inside the enclosure
+ * @throws IllegalArgumentException if temperature is lower than -30 or larger than 50
+ */
 public void setTemperature(double temperature) {
     if (temperature >= -30 && temperature <= 50) {
         this.temperature = temperature;
@@ -99,11 +127,20 @@ public void setTemperature(double temperature) {
 
 /**
  * Getter and setter for vegetation coverage
+ * 
+ * @return the vegetation coverage
  */
 @Override
 public double getVegetationCoverage() {
     return vegetationCoverage;
 }
+
+/**
+ * Set the vegetation coverage inside the enclosure
+ * 
+ * @param vegetationCoverage
+ * @throws IllegalArgumentException if the coverage is not between 0 and 100
+ */
 public void setVegetationCoverage(double vegetationCoverage) {
     if (vegetationCoverage >= 0 && vegetationCoverage <= 100) {
         this.vegetationCoverage = vegetationCoverage;
@@ -114,11 +151,20 @@ public void setVegetationCoverage(double vegetationCoverage) {
 
 /**
  * Getter and setter for zone cleanliness
+ * 
+ * @return the cleanliness in zone
  */
 @Override
 public int getZoneCleanliness() {
     return zoneCleanliness;
 }
+
+/**
+ * Set the cleanliness of the zone.
+ * 
+ * @param zoneCleanliness
+ * @throws IllegalArgumentException if the cleanliness is lower than 0 or larger than 100
+ */
 public void setZoneCleanliness(int zoneCleanliness) {
     if (zoneCleanliness >= 0 && zoneCleanliness <= 100) {
         this.zoneCleanliness = zoneCleanliness;
@@ -129,11 +175,20 @@ public void setZoneCleanliness(int zoneCleanliness) {
 
 /**
  * Getter and setter for food in trough
+ * 
+ * @return the amount of food in trough
  */
 @Override
 public int getFoodInTrough() {
     return foodInTrough;
 }
+
+/**
+ * Set the amount of food in the trough.
+ * 
+ * @param foodInTrough the food amount in trough
+ * @throws IllegalArgumentException if the amount of food is negative
+ */
 public void setFoodInTrough(int foodInTrough) {
     if (foodInTrough >= 0) {
         this.foodInTrough = foodInTrough;
@@ -142,16 +197,50 @@ public void setFoodInTrough(int foodInTrough) {
     }
 }
 
+/**
+ * Get the list of animals in the enclosure
+ * 
+ * @return the list of animals
+ */
+@Override
+public List<Animal> getAnimals() {
+   return new ArrayList<>(animals);
+}
+
+/**
+ * Get the type of the enclosure
+ * 
+ * @return enclosure type
+ */
+@Override
 public EnclosureType getEnclosureType() {
     return enclosureType;
 }
 
+/**
+ * Set the type of the enclosure.
+ * 
+ * @param enclosureType the type of enclosure
+ */
 public void setEnclosureType(EnclosureType enclosureType) {
     this.enclosureType = enclosureType;
 }
 
-public static Enclosures creatEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
+/**
+ * Create new Enclosures instance with specified attributes.
+ * 
+ * @param size the size of the enclosure
+ * @param humidity the humidity of the enclosure
+ * @param temperature the temperature of the enclosure
+ * @param vegetationCoverage the vegetation coverage of the enclosure
+ * @param zoneCleanliness the zoon cleanliness of the enclosure
+ * @param foodInTrough the food amount in the trough
+ * @param enclosureType the type of enclosure
+ * @return new Enclosures instance
+ */
+public static Enclosures createEnclosures(double size, double humidity, double temperature, double vegetationCoverage, 
         int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
     return new Enclosures(size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough, enclosureType);
     }
+
 }

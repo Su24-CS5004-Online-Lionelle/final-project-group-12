@@ -114,7 +114,7 @@ public class View {
 
     // Method to open the Visitors Information window
     private void openVisitorsInformationWindow() {
-
+        
     }
 
     // Method to show the Help dialog
