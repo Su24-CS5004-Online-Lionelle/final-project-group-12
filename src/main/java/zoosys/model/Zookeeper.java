@@ -11,7 +11,7 @@ public class Zookeeper extends EmployeeImpl {
      * 
      * @param role the name of the zookeeper
      */
-    public Zookeeper(String role) {
-        super(role, "Zookeeper");
+    public Zookeeper(String name) {
+        super(name, "Zookeeper");
     }
 }

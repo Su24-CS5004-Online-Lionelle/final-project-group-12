@@ -44,6 +44,16 @@ public class EmployeeManagement {
     }
 
     /**
+     * Update the employee's info.
+     * 
+     * @param name name of the employee
+     * @param updatedEmployee updated employee info.
+     */
+    public void updateEmployee(String name, Employee updatedEmployee) {
+        employees.put(name, updatedEmployee);
+    }
+
+    /**
      * Schedules a shift for an employee.
      * @param name the name of the employee
      * @param shift the shift to schedule

@@ -11,7 +11,7 @@ public class Veterinarian extends EmployeeImpl {
      * 
      * @param role the role of the veterinarian
      */
-    public Veterinarian(String role) {
-        super(role, "Veterinarian");
+    public Veterinarian(String name) {
+        super(name, "Veterinarian");
     }
 }

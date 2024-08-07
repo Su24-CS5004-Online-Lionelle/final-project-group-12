@@ -7,7 +7,7 @@ import java.util.List;
  * Attributes for the enclosures's conditions.
  */
 public class Enclosures implements IEnclosures{
-    private List<Animal> animals; // Initialize the list 
+    private List<Animal> animals = new ArrayList<>(); // Initialize the list 
     private double enclosureSize;
     private double humidity;
     private double temperature;
@@ -19,7 +19,7 @@ public class Enclosures implements IEnclosures{
 /**
  * Constructs new Enclosures with the specified attributes.
  * 
- * @param size Size of the enclosures
+ * @param enclosureSize Size of the enclosures
  * @param humidity Humidity inside the enclosures
  * @param temperature Temperature inside the enclosures
  * @param vegetationCoverage Vegetation coverage inside the enclosures
@@ -27,10 +27,9 @@ public class Enclosures implements IEnclosures{
  * @param foodInTrough Amount of food in trough
  * @param enclosureType The type of enclosure
  */
-public Enclosures(double size, double humidity, double temperature, double vegetationCoverage,
+public Enclosures(double enclosureSize, double humidity, double temperature, double vegetationCoverage,
                   int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
-    this.animals = new ArrayList<>();
-    setEnclosureSize(size);
+    setEnclosureSize(enclosureSize);
     setHumidity(humidity);
     setTemperature(temperature);
     setVegetationCoverage(vegetationCoverage);
@@ -43,7 +42,7 @@ public Enclosures(double size, double humidity, double temperature, double veget
  * Methods to add an animal to the enclosure 
  * 
  * @param animal The animal to add
- * @throw IllegalArgumentException the animal cannot be empty.
+ * @throws IllegalArgumentException the animal cannot be empty.
  */
 @Override
 public void addAnimal(Animal animal) {
@@ -51,6 +50,24 @@ public void addAnimal(Animal animal) {
         animals.add(animal);
     } else {
         throw new IllegalArgumentException("Animal cannot be null");
+    }
+}
+
+/**
+ * Remove animal from the enclosure
+ * 
+ * @param animal the animal to be removed from the enclosure.
+ * @throws IllegalArgumentExeption the animal can not be empty or can not be removed if not in the enclosure.
+ */
+public void removeAnimal(Animal animal) {
+    if (animal != null) {
+        if(animals.contains(animal)) {
+            animals.remove(animal);
+        } else {
+            throw new IllegalArgumentException("The animal you would like to remove is not in the enclosure.");
+        }
+    } else {
+        throw new IllegalArgumentException("Animal can not be null");
     }
 }
 
