@@ -16,10 +16,12 @@ import java.util.ArrayList;
 public class view extends JFrame {
     private JPanel mainPanel;
     private controller controller;
+    private IVisitor visitor;
 
     // Constructor to initialize the main layout
     public view(controller controller) {
         this.controller = controller;
+        this.visitor = visitor;
         setTitle("G12 Zoo Management");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,7 +91,7 @@ public class view extends JFrame {
         visitorsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Visitors Information button clicked");
-                openVisitorsInformationWindow();
+                visitorsInformation();
             }
         });
 
@@ -634,110 +636,73 @@ public class view extends JFrame {
     }
 
     // Method to open the Visitors Information window
-    private void openVisitorsInformationWindow() {
+    private void visitorsInformation() {
         JFrame visitorsFrame = new JFrame("Visitors Information");
-        visitorsFrame.setSize(400, 300);
+        visitorsFrame.setSize(600, 400);
 
         JPanel visitorsPanel = new JPanel();
-        visitorsPanel.setLayout(new BoxLayout(visitorsPanel, BoxLayout.Y_AXIS));
-        visitorsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        visitorsPanel.setLayout(new BorderLayout());
 
-        JButton addVisitButton = new JButton("Add Visit");
-        JButton viewVisitsButton = new JButton("View Visits");
+        // Collect unique dates from the visits
+        Set<String> availableDates = visitor.getVisits().stream()
+                .map(Visit::getDate)
+                .collect(Collectors.toSet());
 
-        addVisitButton.addActionListener(new ActionListener() {
+        // Create JComboBox with the available dates
+        JComboBox<String> dateComboBox = new JComboBox<>(availableDates.toArray(new String[0]));
+        JTextArea visitorDetailsTextArea = new JTextArea(15, 50);
+        visitorDetailsTextArea.setEditable(false);
+
+        JPanel summaryPanel = new JPanel();
+        summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.Y_AXIS));
+        JLabel visitsCountLabel = new JLabel();
+        JLabel peakHourLabel = new JLabel();
+        JLabel averageAnimalFeedbackLabel = new JLabel();
+        JLabel averageCleanlinessFeedbackLabel = new JLabel();
+        JLabel averagePricingFeedbackLabel = new JLabel();
+        JLabel revenueLabel = new JLabel();
+
+        // Add ActionListener to dateComboBox
+        dateComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showAddVisitDialog();
+                String selectedDate = (String) dateComboBox.getSelectedItem();
+                if (selectedDate != null && !selectedDate.isEmpty()) {
+                    // Build the details string directly without using a list
+                    StringBuilder details = new StringBuilder();
+                    for (Visit visit : visitor.getVisits()) {
+                        if (visit.getDate().equals(selectedDate)) {
+                            details.append(visit.toString()).append("\n");
+                        }
+                    }
+                    visitorDetailsTextArea.setText(details.toString());
+
+                    // Update summary labels
+                    visitsCountLabel.setText("Total Visits: " + visitor.getVisitsCountByDate(selectedDate));
+                    peakHourLabel.setText("Peak Hour: " + visitor.getPeakHourByDate(selectedDate));
+                    averageAnimalFeedbackLabel.setText("Average Animal Feedback: " + visitor.getAverageAnimalFeedbackByDate(selectedDate));
+                    averageCleanlinessFeedbackLabel.setText("Average Cleanliness Feedback: " + visitor.getAverageCleanlinessFeedbackByDate(selectedDate));
+                    averagePricingFeedbackLabel.setText("Average Pricing Feedback: " + visitor.getAveragePricingFeedbackByDate(selectedDate));
+                    revenueLabel.setText("Total Revenue: " + visitor.getRevenueByDate(selectedDate));
+                }
             }
         });
 
-        viewVisitsButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                showViewVisitsDialog();
-            }
-        });
+        // Add components to summaryPanel
+        summaryPanel.add(visitsCountLabel);
+        summaryPanel.add(peakHourLabel);
+        summaryPanel.add(averageAnimalFeedbackLabel);
+        summaryPanel.add(averageCleanlinessFeedbackLabel);
+        summaryPanel.add(averagePricingFeedbackLabel);
+        summaryPanel.add(revenueLabel);
 
-        visitorsPanel.add(addVisitButton);
-        visitorsPanel.add(viewVisitsButton);
+        // Add components to visitorsPanel
+        visitorsPanel.add(dateComboBox, BorderLayout.NORTH);
+        visitorsPanel.add(new JScrollPane(visitorDetailsTextArea), BorderLayout.CENTER);
+        visitorsPanel.add(summaryPanel, BorderLayout.SOUTH);
 
+        // Add visitorsPanel to visitorsFrame and make it visible
         visitorsFrame.add(visitorsPanel);
         visitorsFrame.setVisible(true);
-    }
-
-    // Methods to show the Add Visit dialog and View Visits dialog
-    private void showAddVisitDialog() {
-        JDialog addVisitDialog = new JDialog(this, "Add Visit", true);
-        addVisitDialog.setSize(300, 300);
-        addVisitDialog.setLayout(new GridLayout(7, 2));
-
-        JLabel dateLabel = new JLabel("Date:");
-        JTextField dateField = new JTextField();
-        JLabel entryTimeLabel = new JLabel("Entry Time (HH):");
-        JTextField entryTimeField = new JTextField();
-        JLabel categoryLabel = new JLabel("Category:");
-        JTextField categoryField = new JTextField();
-        JLabel durationLabel = new JLabel("Duration (hours):");
-        JTextField durationField = new JTextField();
-        JLabel animalFeedbackLabel = new JLabel("Animal Feedback (1-5):");
-        JTextField animalFeedbackField = new JTextField();
-        JLabel cleanlinessFeedbackLabel = new JLabel("Cleanliness Feedback (1-5):");
-        JTextField cleanlinessFeedbackField = new JTextField();
-        JLabel pricingFeedbackLabel = new JLabel("Pricing Feedback (1-5):");
-        JTextField pricingFeedbackField = new JTextField();
-
-        JButton submitButton = new JButton("Submit");
-
-        submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String date = dateField.getText();
-                int entryTime = Integer.parseInt(entryTimeField.getText());
-                String category = categoryField.getText();
-                int duration = Integer.parseInt(durationField.getText());
-                int animalFeedback = Integer.parseInt(animalFeedbackField.getText());
-                int cleanlinessFeedback = Integer.parseInt(cleanlinessFeedbackField.getText());
-                int pricingFeedback = Integer.parseInt(pricingFeedbackField.getText());
-
-                controller.addVisit(date, entryTime, category, duration, animalFeedback, cleanlinessFeedback, pricingFeedback);
-
-                addVisitDialog.dispose();
-            }
-        });
-
-        addVisitDialog.add(dateLabel);
-        addVisitDialog.add(dateField);
-        addVisitDialog.add(entryTimeLabel);
-        addVisitDialog.add(entryTimeField);
-        addVisitDialog.add(categoryLabel);
-        addVisitDialog.add(categoryField);
-        addVisitDialog.add(durationLabel);
-        addVisitDialog.add(durationField);
-        addVisitDialog.add(animalFeedbackLabel);
-        addVisitDialog.add(animalFeedbackField);
-        addVisitDialog.add(cleanlinessFeedbackLabel);
-        addVisitDialog.add(cleanlinessFeedbackField);
-        addVisitDialog.add(pricingFeedbackLabel);
-        addVisitDialog.add(pricingFeedbackField);
-        addVisitDialog.add(submitButton);
-
-        addVisitDialog.setVisible(true);
-    }
-
-    private void showViewVisitsDialog() {
-        JDialog viewVisitsDialog = new JDialog(this, "View Visits", true);
-        viewVisitsDialog.setSize(400, 300);
-        viewVisitsDialog.setLayout(new BorderLayout());
-
-        JTextArea visitsTextArea = new JTextArea();
-        visitsTextArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(visitsTextArea);
-
-        for (Visit visit : controller.getVisits()) {
-            visitsTextArea.append(visit.toString() + "\n");
-        }
-
-        viewVisitsDialog.add(scrollPane, BorderLayout.CENTER);
-
-        viewVisitsDialog.setVisible(true);
     }
 
     // Method to show the Help dialog
