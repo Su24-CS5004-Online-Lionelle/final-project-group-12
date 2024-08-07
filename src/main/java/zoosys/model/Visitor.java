@@ -1,16 +1,15 @@
 package zoosys.model;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
 
 public class Visitor implements IVisitor {
     private List<Visit> visits;
@@ -148,29 +147,35 @@ public class Visitor implements IVisitor {
 
     @Override
     public void readCSV() {
-        String filePath = "visitorInfo.csv";
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
-        if (inputStream == null) {
-            System.err.println("Could not find file: " + filePath);
+        List<String> lines;
+        try {
+            InputStream is = getClass().getResourceAsStream("/visitor.csv");
+            InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(isr);
+            lines = reader.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error reading file: " + e.getMessage());
             return;
         }
 
-        try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-             CSVReader csvReader = new CSVReader(reader)) {
+        if (lines == null || lines.isEmpty()) {
+            return;
+        }
 
-            List<String[]> records = csvReader.readAll();
-            for (String[] record : records.subList(1, records.size())) { // Skip header
-                String date = record[0];
-                int entryTime = Integer.parseInt(record[1]);
-                String category = record[2];
-                int duration = Integer.parseInt(record[3]);
-                Integer animalFeedback = record[4].isEmpty() ? null : Integer.parseInt(record[4]);
-                Integer cleanlinessFeedback = record[5].isEmpty() ? null : Integer.parseInt(record[5]);
-                Integer pricingFeedback = record[6].isEmpty() ? null : Integer.parseInt(record[6]);
-                addVisit(date, entryTime, category, duration, animalFeedback, cleanlinessFeedback, pricingFeedback);
-            }
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
+        // Process header and remove it from lines
+        lines.remove(0);
+
+        // Process each line and add visits
+        for (String line : lines) {
+            String[] record = line.split(",");
+            String date = record[0];
+            int entryTime = Integer.parseInt(record[1]);
+            String category = record[2];
+            int duration = Integer.parseInt(record[3]);
+            Integer animalFeedback = record[4].isEmpty() ? null : Integer.parseInt(record[4]);
+            Integer cleanlinessFeedback = record[5].isEmpty() ? null : Integer.parseInt(record[5]);
+            Integer pricingFeedback = record[6].isEmpty() ? null : Integer.parseInt(record[6]);
+            addVisit(date, entryTime, category, duration, animalFeedback, cleanlinessFeedback, pricingFeedback);
         }
     }
 }
