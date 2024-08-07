@@ -138,4 +138,26 @@ public class Visitor implements IVisitor{
                 ", pricing=" + pricing +
                 '}';
     }
+
+    public void readCSV() {
+            String filePath = "visitorInfo.csv";
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            CSVReader csvReader = new CSVReader(reader)) {
+
+            List<String[]> records = csvReader.readAll();
+            for (String[] record : records.subList(1, records.size())) { // Skip header
+                String date = record[0];
+                int entryTime = Integer.parseInt(record[1]);
+                String category = record[2];
+                int duration = Integer.parseInt(record[3]);
+                Integer animalFeedback = record[4].isEmpty() ? null : Integer.parseInt(record[4]);
+                Integer cleanlinessFeedback = record[5].isEmpty() ? null : Integer.parseInt(record[5]);
+                Integer pricingFeedback = record[6].isEmpty() ? null : Integer.parseInt(record[6]);
+                addVisit(date, entryTime, category, duration, animalFeedback, cleanlinessFeedback, pricingFeedback);
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+    }
 }
