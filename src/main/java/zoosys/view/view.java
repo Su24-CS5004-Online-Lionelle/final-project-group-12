@@ -86,7 +86,7 @@ public class View {
         Button editEnclosureButton = new Button("Edit Enclosure");
         Button deletEnclosureButton = new Button("Delete Enclosure");
 
-        enclosureLayout.getChildern().addAll(addEnclosureButton, editEnclosureButton, deletEnclosureButton);
+        enclosureLayout.getChildren().addAll(addEnclosureButton, editEnclosureButton, deletEnclosureButton);
         
         Scene enclosureScene = new Scene(enclosureLayout, 400, 300);
         enclosureStage.setScene(enclosureScene);
