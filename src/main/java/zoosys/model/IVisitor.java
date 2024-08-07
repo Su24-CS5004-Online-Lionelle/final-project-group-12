@@ -15,4 +15,5 @@ public interface IVisitor {
     double getAveragePricingFeedbackByDate(String date);
     void setPricing(Map<String, Double> pricing);
     double getRevenueByDate(String date);
+    void readCSV();
 }

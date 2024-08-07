@@ -1,14 +1,22 @@
 package zoosys.model;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-public class Visitor implements IVisitor{
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
+public class Visitor implements IVisitor {
     private List<Visit> visits;
     private Map<String, Double> pricing;
 
-    public void VisitorImpl() {
+    public Visitor() {
         this.visits = new ArrayList<>();
         this.pricing = new HashMap<>();
         // Set default pricing
@@ -28,7 +36,6 @@ public class Visitor implements IVisitor{
     public List<Visit> getVisits() {
         return new ArrayList<>(visits);
     }
-
     @Override
     public Visit getVisit(int index) {
         if (index >= 0 && index < visits.size()) {
@@ -139,11 +146,17 @@ public class Visitor implements IVisitor{
                 '}';
     }
 
+    @Override
     public void readCSV() {
-            String filePath = "visitorInfo.csv";
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
-            InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            CSVReader csvReader = new CSVReader(reader)) {
+        String filePath = "visitorInfo.csv";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath);
+        if (inputStream == null) {
+            System.err.println("Could not find file: " + filePath);
+            return;
+        }
+
+        try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+             CSVReader csvReader = new CSVReader(reader)) {
 
             List<String[]> records = csvReader.readAll();
             for (String[] record : records.subList(1, records.size())) { // Skip header

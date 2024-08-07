@@ -1,17 +1,15 @@
 package zoosys.view;
 
 import zoosys.controller.controller;
-import zoosys.model.Animal;
-import zoosys.model.EmployeeImpl;
-import zoosys.model.EnclosureType;
-import zoosys.model.FeedingTime;
-import zoosys.model.Visit;
+import zoosys.model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class view extends JFrame {
     private JPanel mainPanel;
