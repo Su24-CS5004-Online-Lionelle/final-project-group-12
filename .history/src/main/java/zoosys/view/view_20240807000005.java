@@ -5,7 +5,6 @@ import zoosys.model.Animal;
 import zoosys.model.EmployeeImpl;
 import zoosys.model.EnclosureType;
 import zoosys.model.FeedingTime;
-import zoosys.model.Visit;
 
 import javax.swing.*;
 import java.awt.*;

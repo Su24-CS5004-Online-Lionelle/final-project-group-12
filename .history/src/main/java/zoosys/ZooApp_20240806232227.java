@@ -21,9 +21,9 @@ public class ZooApp {
                 controller controller = new controller(employeeManagement, enclosureManagement, visitorManagement);
 
                 // Initialize the view
-                view view = new view(controller);
+                view zooView = new view(controller);
 
-                view.setVisible(true);
+                zooView.setVisible(true);
                 System.out.println("Zoo View is now visible.");
             }
         });

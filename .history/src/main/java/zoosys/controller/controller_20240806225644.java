@@ -25,6 +25,7 @@ public class controller {
      * @param enclosureManagement enclosuremanagement the enclosure management
      * @param visitorManagement visitormanagement the visitor management
      */
+
     public controller(EmployeeManagement employeeManagement,
             Enclosures enclosureManagement, Visitor visitorManagement) {
         this.employeeManagement = employeeManagement;
@@ -47,39 +48,8 @@ public class controller {
      * 
      * @param id the ID of the animal to be removed
      */
-    public void removeAnimal(int id) {
-        Animal animal = findAnimalById(id);
-        if (animal != null) {
-            enclosureManagement.removeAnimal(animal);
-        }
-    }
-
-    /**
-     * Edit an existing animal in the system.
-     * 
-     * @param updatedAnimal the updated animal data
-     */
-    public void editAnimal(Animal updatedAnimal) {
-        Animal animal = findAnimalById(updatedAnimal.getAnimal_id());
-        if (animal != null) {
-            enclosureManagement.removeAnimal(animal);
-            enclosureManagement.addAnimal(updatedAnimal);
-        }
-    }
-
-    /**
-     * Find an animal by its ID.
-     * 
-     * @param id the ID of the animal
-     * @return the animal with the specified ID, or null if not found
-     */
-    private Animal findAnimalById(int id) {
-        for (Animal animal : enclosureManagement.getAnimals()) {
-            if (animal.getAnimal_id() == id) {
-                return animal;
-            }
-        }
-        return null;
+    public void removeAnimal(Animal id) {
+        enclosureManagement.removeAnimal(id);
     }
 
     // Employee
@@ -238,7 +208,7 @@ public class controller {
      * 
      * @param type the type of the enclosure
      */
-    public void setEnclosureType(EnclosureType type) {
+    public void setEnclosureSize(EnclosureType type) {
         enclosureManagement.setEnclosureType(type);
     }
 

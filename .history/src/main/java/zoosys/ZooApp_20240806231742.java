@@ -17,11 +17,11 @@ public class ZooApp {
                 Enclosures enclosureManagement = new Enclosures(1000, 50, 22, 75, 90, 50, EnclosureType.TEMPERATE);
                 Visitor visitorManagement = new Visitor();
 
-                // Initialize the controller
-                controller controller = new controller(employeeManagement, enclosureManagement, visitorManagement);
-
                 // Initialize the view
-                view view = new view(controller);
+                view view = new view();
+
+                // Initialize the controller
+                controller controller = new Controller(employeeManagement, enclosureManagement, visitorManagement);
 
                 view.setVisible(true);
                 System.out.println("Zoo View is now visible.");

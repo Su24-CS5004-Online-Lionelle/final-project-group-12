@@ -29,7 +29,7 @@ public class Animal {
     /**
      * The list of feeding times for the animal.
      */
-    private List<FeedingTime> feeding_times;
+    private List<Feeding_Time> feeding_times;
 
     /**
      * The medical record of the animal.
@@ -46,7 +46,7 @@ public class Animal {
      * @param feeding_times the list of feeding times for the animal
      * @param medical_record the medical record of the animal
      */
-    public Animal(int animal_id, String animal_name, String animal_type, int age, List<FeedingTime> feeding_times, String medical_record) {
+    public Animal(int animal_id, String animal_name, String animal_type, int age, List<Feeding_Time> feeding_times, String medical_record) {
         this.animal_id = animal_id;
         this.animal_name = animal_name;
         this.animal_type = animal_type;
@@ -134,7 +134,7 @@ public class Animal {
      * 
      * @return the list of feeding times
      */
-    public List<FeedingTime> getFeeding_times() {
+    public List<Feeding_Time> getFeeding_times() {
         return feeding_times;
     }
 
@@ -143,7 +143,7 @@ public class Animal {
      * 
      * @param feeding_times the list of feeding times
      */
-    public void setFeeding_times(List<FeedingTime> feeding_times) {
+    public void setFeeding_times(List<Feeding_Time> feeding_times) {
         this.feeding_times = feeding_times;
     }
 
