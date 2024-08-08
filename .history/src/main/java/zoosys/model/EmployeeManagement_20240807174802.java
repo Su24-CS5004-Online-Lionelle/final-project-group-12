@@ -2,7 +2,6 @@ package zoosys.model;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -118,9 +117,8 @@ public class EmployeeManagement {
      * @param employee the employee whose details are to be saved
      */
     private void updateEmployeeToCSV() {
-        try (FileWriter writer = new FileWriter("resources/employees.csv", false)) {
-            writer.append("Name,Role,Shift,Responsibilities,Tasks");
-            writer.append("\n");
+        try (FileWriter writer = new FileWriter("resources/employees.csv", true)) {
+            writer.flush();
             for (String name : getEmployeeNames()) {
                 Employee e = employees.get(name);
                 writer.append(e.toCSV());

@@ -1,9 +1,12 @@
 package zoosys.model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,7 +30,7 @@ public class EmployeeManagement {
      */
     public void addEmployee(Employee employee) {
         employees.put(employee.getName(), employee);
-        updateEmployeeToCSV(); // Save employee to CSV file
+        saveEmployeeToCSV(employee); // Save employee to CSV file
     }
 
     /**
@@ -36,7 +39,7 @@ public class EmployeeManagement {
      */
     public void removeEmployee(String name) {
         employees.remove(name);
-        updateEmployeeToCSV();
+        removeEmployeeFromCSV(name); // Remove employee to CSV file
     }
 
     /**
@@ -56,7 +59,7 @@ public class EmployeeManagement {
      */
     public void updateEmployee(String name, Employee updatedEmployee) {
         employees.put(name, updatedEmployee);
-        updateEmployeeToCSV();
+        updateEmployeeInCSV(updatedEmployee);
     }
 
     /**
@@ -71,7 +74,6 @@ public class EmployeeManagement {
         } else {
             System.out.println("Employee not found");
         }
-        updateEmployeeToCSV();
     }
 
     /**
@@ -86,7 +88,6 @@ public class EmployeeManagement {
         } else {
             System.out.println("Employee not found");
         }
-        updateEmployeeToCSV();
     }
 
     /**
@@ -117,17 +118,47 @@ public class EmployeeManagement {
      * Saves the employee details to a CSV file.
      * @param employee the employee whose details are to be saved
      */
-    private void updateEmployeeToCSV() {
-        try (FileWriter writer = new FileWriter("resources/employees.csv", false)) {
-            writer.append("Name,Role,Shift,Responsibilities,Tasks");
+    private void saveEmployeeToCSV(Employee employee) {
+        try (FileWriter writer = new FileWriter("resources/employees.csv", true)) {
+            writer.append(employee.toCSV());
             writer.append("\n");
-            for (String name : getEmployeeNames()) {
-                Employee e = employees.get(name);
-                writer.append(e.toCSV());
-                writer.append("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * Removes an employee from the CSV file by name.
+     * @param name the name of the employee to remove
+     */
+    private void removeEmployeeFromCSV(String name) {
+        List<String> updatedEmployees = new ArrayList<>();
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader("resources/employees.csv"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.startsWith(name + ",")) {
+                    updatedEmployees.add(line);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        try (FileWriter writer = new FileWriter("resources/employees.csv", false)) {
+            for (String employeeLine : updatedEmployees) {
+                writer.write(employeeLine + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Updates the employee details in the CSV file.
+     * @param updatedEmployee the updated employee
+     */
+    private void updateEmployeeInCSV(Employee updatedEmployee) {
+        removeEmployeeFromCSV(updatedEmployee.getName());
+        saveEmployeeToCSV(updatedEmployee);
     }
 }

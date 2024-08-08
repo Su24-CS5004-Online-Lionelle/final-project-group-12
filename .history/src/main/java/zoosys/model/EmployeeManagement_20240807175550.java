@@ -120,7 +120,6 @@ public class EmployeeManagement {
     private void updateEmployeeToCSV() {
         try (FileWriter writer = new FileWriter("resources/employees.csv", false)) {
             writer.append("Name,Role,Shift,Responsibilities,Tasks");
-            writer.append("\n");
             for (String name : getEmployeeNames()) {
                 Employee e = employees.get(name);
                 writer.append(e.toCSV());

@@ -538,7 +538,7 @@ public class view extends JFrame {
                 String role = roleField.getText();
                 String shift = shiftField.getText();
                 String responsibilities = responsibilitiesField.getText();
-                controller.addEmployee(name, role, shift, responsibilities);
+                controller.addEmployee(name);
 
                 addEmployeeDialog.dispose();
             }

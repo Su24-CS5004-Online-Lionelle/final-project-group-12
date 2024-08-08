@@ -2,14 +2,13 @@ package zoosys.model;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * The EmployeeManagement class manages the employees, including
- * adding, removing, scheduling shifts, and assigning responsibilities.
+ * adding, removing, scheduling shifts, and assigning responsibilities and tasks.
  */
 public class EmployeeManagement {
     private Map<String, Employee> employees;
@@ -27,7 +26,6 @@ public class EmployeeManagement {
      */
     public void addEmployee(Employee employee) {
         employees.put(employee.getName(), employee);
-        updateEmployeeToCSV(); // Save employee to CSV file
     }
 
     /**
@@ -36,7 +34,6 @@ public class EmployeeManagement {
      */
     public void removeEmployee(String name) {
         employees.remove(name);
-        updateEmployeeToCSV();
     }
 
     /**
@@ -49,14 +46,13 @@ public class EmployeeManagement {
     }
 
     /**
-     * Updates the employee's info.
+     * Update the employee's info.
      * 
      * @param name name of the employee
      * @param updatedEmployee updated employee info.
      */
     public void updateEmployee(String name, Employee updatedEmployee) {
         employees.put(name, updatedEmployee);
-        updateEmployeeToCSV();
     }
 
     /**
@@ -71,7 +67,6 @@ public class EmployeeManagement {
         } else {
             System.out.println("Employee not found");
         }
-        updateEmployeeToCSV();
     }
 
     /**
@@ -86,7 +81,20 @@ public class EmployeeManagement {
         } else {
             System.out.println("Employee not found");
         }
-        updateEmployeeToCSV();
+    }
+
+    /**
+     * Assigns a task to an employee.
+     * @param name the name of the employee
+     * @param task the task to assign
+     */
+    public void assignTask(String name, String task) {
+        Employee employee = employees.get(name);
+        if (employee != null) {
+            employee.addTask(task);
+        } else {
+            System.out.println("Employee not found");
+        }
     }
 
     /**
@@ -100,6 +108,7 @@ public class EmployeeManagement {
             System.out.println("Role: " + employee.getRole());
             System.out.println("Shift: " + employee.getShift());
             System.out.println("Responsibilities: " + employee.getResponsibilities());
+            System.out.println("Tasks: " + employee.getTasks());
         } else {
             System.out.println("Employee not found");
         }
@@ -113,21 +122,13 @@ public class EmployeeManagement {
         return employees.keySet();
     }
 
-    /**
-     * Saves the employee details to a CSV file.
-     * @param employee the employee whose details are to be saved
-     */
-    private void updateEmployeeToCSV() {
-        try (FileWriter writer = new FileWriter("resources/employees.csv", false)) {
-            writer.append("Name,Role,Shift,Responsibilities,Tasks");
+        private void saveEmployeeToCSV(Employee employee) {
+        try (FileWriter writer = new FileWriter("resources/employees.csv", true)) {
+            writer.append(employee.toCSV());
             writer.append("\n");
-            for (String name : getEmployeeNames()) {
-                Employee e = employees.get(name);
-                writer.append(e.toCSV());
-                writer.append("\n");
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
+

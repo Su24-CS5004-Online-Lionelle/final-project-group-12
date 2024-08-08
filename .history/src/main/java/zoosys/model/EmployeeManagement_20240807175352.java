@@ -118,9 +118,11 @@ public class EmployeeManagement {
      * @param employee the employee whose details are to be saved
      */
     private void updateEmployeeToCSV() {
+        PrintWriter printer = new PrintWriter("resources/employees.csv");
+        printer.print("");
+        printer.close();
         try (FileWriter writer = new FileWriter("resources/employees.csv", false)) {
             writer.append("Name,Role,Shift,Responsibilities,Tasks");
-            writer.append("\n");
             for (String name : getEmployeeNames()) {
                 Employee e = employees.get(name);
                 writer.append(e.toCSV());

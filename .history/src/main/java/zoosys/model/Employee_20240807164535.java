@@ -40,6 +40,12 @@ public interface Employee {
      */
     void addResponsibility(String responsibility);
 
+    /**
+     * Adds a task to the employee's list of tasks.
+     * 
+     * @param task the task to add
+     */
+    void addTask(String task);
 
     /**
      * Gets the employee's list of responsibilities.
@@ -48,6 +54,12 @@ public interface Employee {
      */
     String getResponsibilities();
 
+    /**
+     * Gets the employee's list of tasks.
+     * 
+     * @return a string of tasks
+     */
+    String getTasks();
 
     /**
      * Generate CSV representation of employee data.

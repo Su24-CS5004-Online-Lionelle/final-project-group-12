@@ -152,6 +152,16 @@ public class controller {
     }
 
     /**
+     * Assign task to the employee.
+     * 
+     * @param name the name of the employee
+     * @param task the task assigned to the employee
+     */
+    public void assignTask(String name, String task) {
+        employeeManagement.assignTask(name, task);
+    }
+
+    /**
      * Printe all the detials of the employees.
      * 
      * @param name the name of the employees

@@ -486,7 +486,7 @@ public class view extends JFrame {
         employeePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JButton addEmployeeButton = new JButton("Add Employee");
-        JButton editEmployeeButton = new JButton("Edit Employee");
+        JButton updateEmployeeButton = new JButton("Update Employee");
         JButton deleteEmployeeButton = new JButton("Delete Employee");
 
         addEmployeeButton.addActionListener(new ActionListener() {
@@ -495,9 +495,9 @@ public class view extends JFrame {
             }
         });
 
-        editEmployeeButton.addActionListener(new ActionListener() {
+        updateEmployeeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                showEditEmployeeDialog();
+                showUpdateEmployeeDialog();
             }
         });
 
@@ -508,7 +508,7 @@ public class view extends JFrame {
         });
 
         employeePanel.add(addEmployeeButton);
-        employeePanel.add(editEmployeeButton);
+        employeePanel.add(updateEmployeeButton);
         employeePanel.add(deleteEmployeeButton);
 
         employeeFrame.add(employeePanel);
@@ -557,10 +557,10 @@ public class view extends JFrame {
         addEmployeeDialog.setVisible(true);
     }
 
-    private void showEditEmployeeDialog() {
-        JDialog editEmployeeDialog = new JDialog(this, "Edit Employee", true);
-        editEmployeeDialog.setSize(300, 300);
-        editEmployeeDialog.setLayout(new GridLayout(5, 2));
+    private void showUpdateEmployeeDialog() {
+        JDialog updateEmployeeDialog = new JDialog(this, "update Employee", true);
+        updateEmployeeDialog.setSize(300, 300);
+        updateEmployeeDialog.setLayout(new GridLayout(5, 2));
 
         JLabel nameLabel = new JLabel("Name:");
         JTextField nameField = new JTextField();
@@ -580,27 +580,27 @@ public class view extends JFrame {
                 String shift = shiftField.getText();
                 String responsibilities = responsibilitiesField.getText();
 
-                EmployeeImpl updatedEmployee = new EmployeeImpl(name, role);
-                updatedEmployee.setShift(shift);
-                updatedEmployee.addResponsibility(responsibilities);
+                EmployeeImpl updateEmployee = new EmployeeImpl(name, role);
+                updateEmployee.setShift(shift);
+                updateEmployee.addResponsibility(responsibilities);
 
-                controller.updateEmployee(name, updatedEmployee);
+                controller.updateEmployee(name, updateEmployee);
 
-                editEmployeeDialog.dispose();
+                updateEmployeeDialog.dispose();
             }
         });
 
-        editEmployeeDialog.add(nameLabel);
-        editEmployeeDialog.add(nameField);
-        editEmployeeDialog.add(roleLabel);
-        editEmployeeDialog.add(roleField);
-        editEmployeeDialog.add(shiftLabel);
-        editEmployeeDialog.add(shiftField);
-        editEmployeeDialog.add(responsibilitiesLabel);
-        editEmployeeDialog.add(responsibilitiesField);
-        editEmployeeDialog.add(submitButton);
+        updateEmployeeDialog.add(nameLabel);
+        updateEmployeeDialog.add(nameField);
+        updateEmployeeDialog.add(roleLabel);
+        updateEmployeeDialog.add(roleField);
+        updateEmployeeDialog.add(shiftLabel);
+        updateEmployeeDialog.add(shiftField);
+        updateEmployeeDialog.add(responsibilitiesLabel);
+        updateEmployeeDialog.add(responsibilitiesField);
+        updateEmployeeDialog.add(submitButton);
 
-        editEmployeeDialog.setVisible(true);
+        updateEmployeeDialog.setVisible(true);
     }
 
     private void showDeleteEmployeeDialog() {

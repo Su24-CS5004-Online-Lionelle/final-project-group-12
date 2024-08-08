@@ -28,7 +28,7 @@ public class controller {
      */
     public controller(EmployeeManagement employeeManagement,
             Enclosures enclosureManagement, Visitor visitorManagement) {
-        this.employeeManagement = new EmployeeManagement();
+        employeeManagement = new EmployeeManagement();
         this.enclosureManagement = enclosureManagement;
         this.visitorManagement = visitorManagement;
     }
@@ -95,6 +95,9 @@ public class controller {
         for (String responsibility : responsibilities.split(",")) {
             employee.addResponsibility(responsibility.trim());
         }
+        for (String task : tasks.split(",")) {
+            employee.addTask(task.trim());
+        }
         employeeManagement.addEmployee(employee);
     }
 
@@ -149,6 +152,16 @@ public class controller {
      */
     public void assignResponsibility(String name, String responsibility) {
         employeeManagement.assignResponsibility(name, responsibility);
+    }
+
+    /**
+     * Assign task to the employee.
+     * 
+     * @param name the name of the employee
+     * @param task the task assigned to the employee
+     */
+    public void assignTask(String name, String task) {
+        employeeManagement.assignTask(name, task);
     }
 
     /**
