@@ -394,4 +394,24 @@ public class controller {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'removeEnclosure'");
     }
+
+    public void addEnclosure(Enclosure enclosure) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addEnclosure'");
+    }
+
+    public Enclosure getEnclosureById(int valueAt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnclosureById'");
+    }
+
+    public void updateEnclosure(Enclosure enclosure) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateEnclosure'");
+    }
+
+    public Object getEnclosureManagement() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEnclosureManagement'");
+    }
 }
