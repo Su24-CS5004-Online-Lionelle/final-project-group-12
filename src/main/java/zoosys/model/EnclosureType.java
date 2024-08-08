@@ -4,8 +4,9 @@ package zoosys.model;
  * The Enum to represent different types of enclosures in the zoo.
  */
 public enum EnclosureType {
-    TEMPERATE, // temperate animal enclosure
-    TROPICAL, // tropical animal enclosure
-    DESERT, // desert animal enclosure
-    ARCTIC, // arctic animal enclosure
+    TEMPERATE, // temperate climate animal enclosure
+    TROPICAL, // tropical climate animal enclosure
+    DESERT, // desert climate animal enclosure
+    ARCTIC, // arctic climate animal enclosure
+    STEPPE // steppe climate animal enclosure
 }

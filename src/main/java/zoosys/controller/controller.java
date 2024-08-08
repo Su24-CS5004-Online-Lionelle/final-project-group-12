@@ -383,4 +383,15 @@ public class controller {
     public double getAverageAnimalFeedbackByDate(String date) {
         return visitorManagement.getAverageAnimalFeedbackByDate(date);
     }
+
+    public void addEnclosure(double size, double humidity, double temperature, double vegetationCoverage,
+            int cleanliness, int food, EnclosureType type) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addEnclosure'");
+    }
+
+    public void removeEnclosure(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeEnclosure'");
+    }
 }

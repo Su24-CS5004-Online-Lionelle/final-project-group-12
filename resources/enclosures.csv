@@ -1,0 +1,6 @@
+ID,Size,Humidity,Temperature,VegetationCoverage,Cleanliness,FoodInTrough,Type
+1,200.0,50.0,25.0,60.0,88,70,TEMPERATE
+2,50.0,15.0,30.0,30.0,90,20,DESERT
+3,150.0,77.0,-10.0,10.0,80,50,ARCTIC
+4,400.0,90.0,27.0,90.0,70,40,TROPICAL
+5,2000.0,50.0,25.0,70.0,85,60,STEPPE
