@@ -22,7 +22,11 @@ public class EmployeeManagementView extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         initialize();
-        populateTable(); // Populate table with employee data on initialization
+
+        tableModel = new DefaultTableModel(new Object[]{"Name","Role","Shift","Responsibilities"}, 0);
+        table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
 
         setVisible(true);
     }
@@ -54,14 +58,9 @@ public class EmployeeManagementView extends JFrame {
             }
         });
 
-        tableModel = new DefaultTableModel(new Object[]{"Name", "Role", "Shift", "Responsibilities"}, 0);
-        table = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(table);
-
         employeePanel.add(addEmployeeButton);
         employeePanel.add(editEmployeeButton);
         employeePanel.add(deleteEmployeeButton);
-        employeePanel.add(scrollPane);
 
         add(employeePanel);
     }
@@ -133,9 +132,7 @@ public class EmployeeManagementView extends JFrame {
 
                 EmployeeImpl updatedEmployee = new EmployeeImpl(name, role);
                 updatedEmployee.setShift(shift);
-                for (String responsibility : responsibilities.split(",")) {
-                    updatedEmployee.addResponsibility(responsibility.trim());
-                }
+                updatedEmployee.addResponsibility(responsibilities);
 
                 controller.updateEmployee(name, updatedEmployee);
                 populateTable();
@@ -184,14 +181,12 @@ public class EmployeeManagementView extends JFrame {
     }
 
     private void populateTable() {
-        tableModel.setRowCount(0);
-        controller.getEmployeeManagement().readCSV(); // Ensure the CSV data is loaded
         for (Employee employee : controller.getEmployeeManagement().getAllEmployees()) {
             tableModel.addRow(new Object[]{
                 employee.getName(),
                 employee.getRole(),
                 employee.getShift(),
-                employee.getResponsibilities()
+                employee.getResponsibilities(),
             });
         }
     }

@@ -1,8 +1,8 @@
 package zoosys.view;
 
 import zoosys.controller.controller;
-import zoosys.model.Employee;
 import zoosys.model.EmployeeImpl;
+import zoosys.model.Visit;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
@@ -18,11 +18,15 @@ public class EmployeeManagementView extends JFrame {
     public EmployeeManagementView(controller controller) {
         this.controller = controller;
         setTitle("Employee Management");
-        setSize(800, 600);
+        setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         initialize();
-        populateTable(); // Populate table with employee data on initialization
+
+        tableModel = new DefaultTableModel(new Object[]{"Name","Role","Shift","Responsibilities"}, 0);
+        table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
 
         setVisible(true);
     }
@@ -54,14 +58,9 @@ public class EmployeeManagementView extends JFrame {
             }
         });
 
-        tableModel = new DefaultTableModel(new Object[]{"Name", "Role", "Shift", "Responsibilities"}, 0);
-        table = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(table);
-
         employeePanel.add(addEmployeeButton);
         employeePanel.add(editEmployeeButton);
         employeePanel.add(deleteEmployeeButton);
-        employeePanel.add(scrollPane);
 
         add(employeePanel);
     }
@@ -89,7 +88,6 @@ public class EmployeeManagementView extends JFrame {
                 String shift = shiftField.getText();
                 String responsibilities = responsibilitiesField.getText();
                 controller.addEmployee(name, role, shift, responsibilities);
-                populateTable();
 
                 addEmployeeDialog.dispose();
             }
@@ -133,12 +131,9 @@ public class EmployeeManagementView extends JFrame {
 
                 EmployeeImpl updatedEmployee = new EmployeeImpl(name, role);
                 updatedEmployee.setShift(shift);
-                for (String responsibility : responsibilities.split(",")) {
-                    updatedEmployee.addResponsibility(responsibility.trim());
-                }
+                updatedEmployee.addResponsibility(responsibilities);
 
                 controller.updateEmployee(name, updatedEmployee);
-                populateTable();
 
                 editEmployeeDialog.dispose();
             }
@@ -170,7 +165,6 @@ public class EmployeeManagementView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
                 controller.removeEmployee(name);
-                populateTable();
 
                 deleteEmployeeDialog.dispose();
             }
@@ -184,14 +178,17 @@ public class EmployeeManagementView extends JFrame {
     }
 
     private void populateTable() {
-        tableModel.setRowCount(0);
-        controller.getEmployeeManagement().readCSV(); // Ensure the CSV data is loaded
-        for (Employee employee : controller.getEmployeeManagement().getAllEmployees()) {
+        controller.getEmployeeManagement().getAllEmployees();
+        List<Visit> visits = visitor.getVisits();
+        for (Visit visit : visits) {
             tableModel.addRow(new Object[]{
-                employee.getName(),
-                employee.getRole(),
-                employee.getShift(),
-                employee.getResponsibilities()
+                    visit.getDate(),
+                    visit.getEntryTime(),
+                    visit.getCategory(),
+                    visit.getDuration(),
+                    visit.getAnimalFeedback(),
+                    visit.getCleanlinessFeedback(),
+                    visit.getOverallFeedback()
             });
         }
     }

@@ -1,19 +1,12 @@
 package zoosys.model;
 
-import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.io.FileInputStream;
-
-import com.google.common.io.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The EmployeeManagement class manages the employees, including
@@ -27,48 +20,7 @@ public class EmployeeManagement {
      */
     public EmployeeManagement() {
         employees = new HashMap<>();
-        readCSV(); // Read employees from CSV on initialization
     }
-
-
-    /**
-     * Reads the employees from a CSV file and populates the employee list.
-     */
-    public void readCSV() {
-        List<String> lines;
-        try {
-            InputStream is = new FileInputStream("resources/employees.csv");
-            InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
-            BufferedReader reader = new BufferedReader(isr);
-            lines = reader.lines().collect(Collectors.toList());
-        } catch (Exception e) {
-            System.err.println("Error reading file: " + e.getMessage());
-            return;
-        }
-
-        if (lines == null || lines.isEmpty()) {
-            return;
-        }
-
-        // Process header and remove it from lines
-        lines.remove(0);
-
-        // Process each line and add employees
-        for (String line : lines) {
-            String[] record = line.split(",");
-            String name = record[0];
-            String role = record[1];
-            String shift = record[2];
-            String responsibilities = record[3];
-            Employee employee = new EmployeeImpl(name, role);
-            employee.setShift(shift);
-            for (String responsibility : responsibilities.split(",")) {
-                employee.addResponsibility(responsibility.trim());
-            }
-            employees.put(name, employee);
-        }
-    }
-
 
     /**
      * Adds an employee to the management system.
@@ -167,7 +119,7 @@ public class EmployeeManagement {
      * @return a list of all employees
      */
     public List<Employee> getAllEmployees() {
-        return employees.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(employees.values());
     }
 
     /**
@@ -187,3 +139,4 @@ public class EmployeeManagement {
         }
     }
 }
+

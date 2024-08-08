@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.io.FileInputStream;
 
 import com.google.common.io.Files;
 
@@ -37,7 +36,7 @@ public class EmployeeManagement {
     public void readCSV() {
         List<String> lines;
         try {
-            InputStream is = new FileInputStream("resources/employees.csv");
+            InputStream is = Files.newInputStream("resources/employees.csv");
             InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(isr);
             lines = reader.lines().collect(Collectors.toList());
