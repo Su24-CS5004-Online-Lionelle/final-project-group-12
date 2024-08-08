@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Attributes for the enclosures's conditions.
  */
-public class Enclosures implements IEnclosures{
+public class Enclosure implements IEnclosures{
     private List<Animal> animals = new ArrayList<>(); // Initialize the list 
     private double enclosureSize;
     private double humidity;
@@ -15,6 +15,7 @@ public class Enclosures implements IEnclosures{
     private int zoneCleanliness;
     private int foodInTrough;
     private EnclosureType enclosureType;
+    private int id;
 
 /**
  * Constructs new Enclosures with the specified attributes.
@@ -27,8 +28,9 @@ public class Enclosures implements IEnclosures{
  * @param foodInTrough Amount of food in trough
  * @param enclosureType The type of enclosure
  */
-public Enclosures(double enclosureSize, double humidity, double temperature, double vegetationCoverage,
+public Enclosure(int id, double enclosureSize, double humidity, double temperature, double vegetationCoverage,
                   int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
+    this.id = id;
     setEnclosureSize(enclosureSize);
     setHumidity(humidity);
     setTemperature(temperature);
@@ -44,7 +46,6 @@ public Enclosures(double enclosureSize, double humidity, double temperature, dou
  * @param animal The animal to add
  * @throws IllegalArgumentException the animal cannot be empty.
  */
-@Override
 public void addAnimal(Animal animal) {
     if (animal != null) {
         animals.add(animal);
@@ -76,7 +77,6 @@ public void removeAnimal(Animal animal) {
  * 
  * @return enclosure size
  */
-@Override
 public double getEnclosureSize() {
     return enclosureSize;
 }
@@ -100,7 +100,6 @@ public void setEnclosureSize(double enclosureSize) {
  * 
  * @return the humidity inside the enclosure
  */
-@Override
 public double getHumidity() {
     return humidity;
 }
@@ -124,7 +123,6 @@ public void setHumidity(double humidity) {
  * 
  * @return the temperature inside the enclosure
  */
-@Override
 public double getTemperature() {
     return temperature;
 }
@@ -148,7 +146,6 @@ public void setTemperature(double temperature) {
  * 
  * @return the vegetation coverage
  */
-@Override
 public double getVegetationCoverage() {
     return vegetationCoverage;
 }
@@ -172,7 +169,6 @@ public void setVegetationCoverage(double vegetationCoverage) {
  * 
  * @return the cleanliness in zone
  */
-@Override
 public int getZoneCleanliness() {
     return zoneCleanliness;
 }
@@ -196,7 +192,6 @@ public void setZoneCleanliness(int zoneCleanliness) {
  * 
  * @return the amount of food in trough
  */
-@Override
 public int getFoodInTrough() {
     return foodInTrough;
 }
@@ -220,7 +215,6 @@ public void setFoodInTrough(int foodInTrough) {
  * 
  * @return the list of animals
  */
-@Override
 public List<Animal> getAnimals() {
    return new ArrayList<>(animals);
 }
@@ -230,7 +224,6 @@ public List<Animal> getAnimals() {
  * 
  * @return enclosure type
  */
-@Override
 public EnclosureType getEnclosureType() {
     return enclosureType;
 }
@@ -243,4 +236,13 @@ public EnclosureType getEnclosureType() {
 public void setEnclosureType(EnclosureType enclosureType) {
     this.enclosureType = enclosureType;
     }
+
+/**
+ * Get the ID of the enclosure.
+ * 
+ * @return the enclosure ID
+ */
+public int getId() {
+    return id;
+}
 }

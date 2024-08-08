@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class controller {
     private EmployeeManagement employeeManagement;
-    private Enclosures enclosureManagement;
+    private Enclosure enclosureManagement;
     private Visitor visitorManagement;
     
     /**
@@ -18,7 +18,7 @@ public class controller {
      * @param visitorManagement visitormanagement the visitor management
      */
     public controller(EmployeeManagement employeeManagement,
-            Enclosures enclosureManagement, Visitor visitorManagement) {
+            Enclosure enclosureManagement, Visitor visitorManagement) {
         this.employeeManagement = new EmployeeManagement();
         this.enclosureManagement = enclosureManagement;
         this.visitorManagement = visitorManagement;
