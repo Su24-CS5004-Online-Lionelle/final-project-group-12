@@ -1,15 +1,7 @@
 package zoosys.controller;
 
-import zoosys.model.Animal;
-import zoosys.model.Employee;
-import zoosys.model.EmployeeManagement;
-import zoosys.model.Enclosures;
-import zoosys.model.EnclosureType;
-import zoosys.model.Visitor;
-import zoosys.model.Visit;
-
+import zoosys.model.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  *  The Controller class that manages interactions between model and the view.
@@ -39,7 +31,9 @@ public class controller {
      * @param animal the animal to be added
      */
     public void addAnimal(Animal animal) {
-        enclosureManagement.addAnimal(animal);
+        if (animal != null) {
+            enclosureManagement.addAnimal(animal);
+        }
     }
 
     /**
@@ -60,10 +54,12 @@ public class controller {
      * @param updatedAnimal the updated animal data
      */
     public void editAnimal(Animal updatedAnimal) {
-        Animal animal = findAnimalById(updatedAnimal.getAnimal_id());
-        if (animal != null) {
-            enclosureManagement.removeAnimal(animal);
-            enclosureManagement.addAnimal(updatedAnimal);
+        if (updatedAnimal != null) {
+            Animal animal = findAnimalById(updatedAnimal.getAnimal_id());
+            if (animal != null) {
+                enclosureManagement.removeAnimal(animal);
+                enclosureManagement.addAnimal(updatedAnimal);
+            }
         }
     }
 
@@ -89,7 +85,9 @@ public class controller {
      * @param employee the employee to be added
      */
     public void addEmployee(Employee employee) {
-        employeeManagement.addEmployee(employee);
+        if (employee != null) {
+            employeeManagement.addEmployee(employee);
+        }
     }
 
     /**
@@ -98,7 +96,9 @@ public class controller {
      * @param name the name of the employee to be removed
      */
     public void removeEmployee(String name) {
-        employeeManagement.removeEmployee(name);
+        if (name != null) {
+            employeeManagement.removeEmployee(name);
+        }
     }
 
     /**
@@ -108,7 +108,9 @@ public class controller {
      * @param updatedEmployee the updated employee data
      */
     public void updateEmployee(String name, Employee updatedEmployee) {
-        employeeManagement.updateEmployee(name, updatedEmployee);
+        if (name != null && !name.isEmpty() && updatedEmployee != null) {
+            employeeManagement.updateEmployee(name, updatedEmployee);
+        }
     }
 
     /**
@@ -118,46 +120,10 @@ public class controller {
      * @return the employee with the name
      */
     public Employee getEmployee(String name) {
-        return employeeManagement.getEmployee(name);
-    }
-
-    /**
-     * Schedule shifts for the employee.
-     * 
-     * @param name the name of the employee
-     * @param shift the shift to assign
-     */
-     public void scheduleShift(String name, String shift) {
-        employeeManagement.scheduleShift(name, shift);
-    }
-
-    /**
-     * Assign the responsibility for the employee.
-     * 
-     * @param name the name of the employee
-     * @param responsibility the responsibility of the employee
-     */
-    public void assignResponsibility(String name, String responsibility) {
-        employeeManagement.assignResponsibility(name, responsibility);
-    }
-
-    /**
-     * Assign task to the employee.
-     * 
-     * @param name the name of the employee
-     * @param task the task assigned to the employee
-     */
-    public void assignTask(String name, String task) {
-        employeeManagement.assignTask(name, task);
-    }
-
-    /**
-     * Printe all the detials of the employees.
-     * 
-     * @param name the name of the employees
-     */
-    public void printEmployeeDetails(String name) {
-        employeeManagement.printEmployeeDetails(name);
+        if (name != null && !name.isEmpty()) {
+            return employeeManagement.getEmployee(name);
+        }
+        return null;
     }
 
     // Enclosures
@@ -167,7 +133,9 @@ public class controller {
     * @param animal name/type of the animal
     */
     public void addAnimalToEnclosure(Animal animal) {
-        enclosureManagement.addAnimal(animal);
+        if (animal != null) {
+            enclosureManagement.addAnimal(animal);
+        }
     }
 
     /**
@@ -176,7 +144,9 @@ public class controller {
      * @param animal name of animal
      */
     public void removeAnimalFromEnclosure(Animal animal) {
-        enclosureManagement.removeAnimal(animal);
+        if (animal != null) {
+            enclosureManagement.removeAnimal(animal);
+        }
     }
     
     /**
@@ -189,12 +159,31 @@ public class controller {
     }
 
     /**
+     * Get the size of the enclosure
+     * 
+     * @return the size of the enclosure
+     */
+    public double getEnclosureSize() {
+        return enclosureManagement.getEnclosureSize();
+    }
+    
+
+    /**
      * Set the humidity in the enclosure.
      * 
      * @param humidity the humidity of the enclosure
      */
     public void setHumidity(double humidity) {
         enclosureManagement.setHumidity(humidity);
+    }
+
+    /**
+     * Get the humidity of the enclosure.
+     * 
+     * @return the humidity of the enclosure
+     */
+    public double getHumidity() {
+        return enclosureManagement.getHumidity();
     }
 
     /**
@@ -207,12 +196,30 @@ public class controller {
     }
 
     /**
+     * Get the temperature of the enclosure.
+     * 
+     * @return the temperature of the enclosure
+     */
+    public double getTemperature() {
+        return enclosureManagement.getTemperature();
+    }
+
+    /**
      * Set the vegetation coverage in the enclosure.
      * 
      * @param vegetationCoverage the vegetation coverage in the enclosure
      */
     public void setVegetationCoverage(double vegetationCoverage) {
         enclosureManagement.setVegetationCoverage(vegetationCoverage);
+    }
+
+    /**
+     * Get the vegetation coverage of the enclosure.
+     * 
+     * @return the vegetation coverage of the enclosure
+     */
+    public double getVegetationCoverage() {
+        return enclosureManagement.getVegetationCoverage();
     }
     
     /**
@@ -225,12 +232,30 @@ public class controller {
     }
 
     /**
-     * Set the amount of food in through.
+     * Get the zone cleanliness of the enclosure.
      * 
-     * @param getFoodInTrough the amount of food in through
+     * @return the zone cleanliness of the enclosure
+     */
+    public int getZoneCleanliness() {
+        return enclosureManagement.getZoneCleanliness();
+    }
+
+    /**
+     * Set the amount of food in the trough.
+     * 
+     * @param foodInTrough the amount of food in trough
      */
     public void setFoodInTrough(int getFoodInTrough) {
         enclosureManagement.setFoodInTrough(getFoodInTrough);
+    }
+
+    /**
+     * Get the food amount inside the trough.
+     * 
+     * @return the amount of food inside the trough
+     */
+    public int getFoodInTrough() {
+        return enclosureManagement.getFoodInTrough();
     }
 
     /**
@@ -243,70 +268,7 @@ public class controller {
     }
 
     /**
-     * Get the size of the enclosure
-     * 
-     * @return the size of the enclosure
-     */
-    public double getEnclosureSize() {
-        return enclosureManagement.getEnclosureSize();
-    }
-    
-    /**
-     * Get the humidity of the enclosure.
-     * 
-     * @return the humidity of the enclosure
-     */
-    public double getHumidity() {
-        return enclosureManagement.getHumidity();
-    }
-
-    /**
-     * Get the temperature of the enclosure.
-     * 
-     * @return the temperature of the enclosure
-     */
-    public double getTemperature() {
-        return enclosureManagement.getTemperature();
-    }
-
-    /**
-     * Get the vegetation coverage of the enclosure.
-     * 
-     * @return the vegetation coverage of the enclosure
-     */
-    public double getVegetationCoverage() {
-        return enclosureManagement.getVegetationCoverage();
-    }
-
-    /**
-     * Get the zone cleanliness of the enclosure.
-     * 
-     * @return the zone cleanliness of the enclosure
-     */
-    public int getZoneCleanliness() {
-        return enclosureManagement.getZoneCleanliness();
-    }
-
-    /**
-     * Get the food amount inside the trough.
-     * 
-     * @return the amount of food inside the through
-     */
-    public int getFoodInTrough() {
-        return enclosureManagement.getFoodInTrough();
-    }
-
-    /**
-     * Get the list of animals inside the enclosure.
-     * 
-     * @return the list of animals inside the enclosure
-     */
-    public List<Animal> getAnimalsInEnclosure() {
-        return enclosureManagement.getAnimals();
-    }
-
-    /**
-     * Get the enclosure type (in clinate)
+     * Get the type of the enclosure (climate)
      * 
      * @return the type of the enclosure
      */
@@ -316,103 +278,76 @@ public class controller {
 
     // Visitor
     /**
+     * Add a visit record for a visitor.
      * 
      * @param date the date the visitor would like to visit
      * @param entryTime the entry time on the visiting date
      * @param category the category of the ticket
      * @param duration the duration of the visit
-     * @param animalFeedback the feed back on animals
-     * @param cleanlinessFeedback the feed back on zoo cleanliness 
-     * @param overallFeedback the pricing feed back
+     * @param animalFeedback the feedback on animals
+     * @param cleanlinessFeedback the feedback on zoo cleanliness 
+     * @param pricingFeedback the pricing feedback
      */
-    public void addVisit(String date, int entryTime, String category, int duration, Integer animalFeedback, Integer cleanlinessFeedback, Integer pricingFeedback) {
+    public void addVisit(String date, int entryTime, String category, int duration, 
+            Integer animalFeedback, Integer cleanlinessFeedback, Integer pricingFeedback) {
         visitorManagement.addVisit(date, entryTime, category, duration, animalFeedback, cleanlinessFeedback, pricingFeedback);
     }
 
     /**
-     * Get the list of the visitors.
+     * Get the list of the visits.
      * 
-     * @return the list of the visitors
+     * @return the list of the visits
      */
     public List<Visit> getVisits() {
         return visitorManagement.getVisits();
     }
 
     /**
-     * Get the visitor index.
+     * Get the visit at a specified index.
      * 
-     * @param index index of the visitors
-     * @return visitor index
+     * @param index index of the visit
+     * @return the visit at the specified index
      */
     public Visit getVisit(int index) {
         return visitorManagement.getVisit(index);
     }
 
     /**
-     * Get the total visits.
+     * Get the total number of visits.
      * 
-     * @return the total visits.
+     * @return the total of visits.
      */
     public int getTotalVisits() {
         return visitorManagement.getTotalVisits();
     }
     
     /**
-     * Get the visits count by date.
+     * Get the number of visits on a specific date.
      * 
      * @param date the date of the visits
-     * @return the visit counts by date
+     * @return the number visits on the specified date
      */
     public int getVisitsCountByDate(String date) {
         return visitorManagement.getVisitsCountByDate(date);
     }
 
     /**
-     * Get the peak hour by date.
+     * Get the peak hour count by date.
      * 
-     * @param date the peak hour in the date
-     * @return the peak hour count by date
+     * @param date the date for which to get the peak hour count
+     * @return the peak hour count on the specified date
      */
     public int getPeakHourByDate(String date) {
         return visitorManagement.getPeakHourByDate(date);
     }
 
     /**
-     * Get the average animal feed back by date.
+     * Get the average animal feedback by date.
      * 
-     * @param date the feed back in the date
-     * @return the feed back by the date
+     * @param date the date for which to get the average animal feedback
+     * @return the average animal feedback on the specified date
      */
     public double getAverageAnimalFeedbackByDate(String date) {
         return visitorManagement.getAverageAnimalFeedbackByDate(date);
-    }
-
-    /**
-     * Get the average pricing feed back by date.
-     * 
-     * @param date the average pricing feed back by date
-     * @return the feed back on pricing by the date
-     */
-    public double getAveragePricingFeedbackByDate(String date) {
-        return visitorManagement.getAveragePricingFeedbackByDate(date);
-    }
-
-    /**
-     * Set the pricing for all ages & groups of people.
-     * 
-     * @param pricing the pricing for the people in different ages & status
-     */
-    public void setPricing(Map<String, Double> pricing) {
-        visitorManagement.setPricing(pricing);
-    }
-
-    /**
-     * Get the daily revenue.
-     * 
-     * @param date the daily revenue
-     * @return the revenue of the day
-     */
-    public double getRevenueByDate(String date) {
-        return visitorManagement.getRevenueByDate(date);
     }
 }
