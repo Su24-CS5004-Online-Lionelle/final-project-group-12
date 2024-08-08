@@ -629,73 +629,9 @@ public class view extends JFrame {
     }
 
     // Method to open the Visitors Information window
-    private void visitorsInformation() {
-        JFrame visitorsFrame = new JFrame("Visitors Information");
-        visitorsFrame.setSize(600, 400);
-
-        JPanel visitorsPanel = new JPanel();
-        visitorsPanel.setLayout(new BorderLayout());
-
-        // Collect unique dates from the visits
-        Set<String> availableDates = visitor.getVisits().stream()
-                .map(Visit::getDate)
-                .collect(Collectors.toSet());
-
-        // Create JComboBox with the available dates
-        JComboBox<String> dateComboBox = new JComboBox<>(availableDates.toArray(new String[0]));
-        JTextArea visitorDetailsTextArea = new JTextArea(15, 50);
-        visitorDetailsTextArea.setEditable(false);
-
-        JPanel summaryPanel = new JPanel();
-        summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.Y_AXIS));
-        JLabel visitsCountLabel = new JLabel();
-        JLabel peakHourLabel = new JLabel();
-        JLabel averageAnimalFeedbackLabel = new JLabel();
-        JLabel averageCleanlinessFeedbackLabel = new JLabel();
-        JLabel averagePricingFeedbackLabel = new JLabel();
-        JLabel revenueLabel = new JLabel();
-
-        // Add ActionListener to dateComboBox
-        dateComboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String selectedDate = (String) dateComboBox.getSelectedItem();
-                if (selectedDate != null && !selectedDate.isEmpty()) {
-                    // Build the details string directly without using a list
-                    StringBuilder details = new StringBuilder();
-                    for (Visit visit : visitor.getVisits()) {
-                        if (visit.getDate().equals(selectedDate)) {
-                            details.append(visit.toString()).append("\n");
-                        }
-                    }
-                    visitorDetailsTextArea.setText(details.toString());
-
-                    // Update summary labels
-                    visitsCountLabel.setText("Total Visits: " + visitor.getVisitsCountByDate(selectedDate));
-                    peakHourLabel.setText("Peak Hour: " + visitor.getPeakHourByDate(selectedDate));
-                    averageAnimalFeedbackLabel.setText("Average Animal Feedback: " + visitor.getAverageAnimalFeedbackByDate(selectedDate));
-                    averageCleanlinessFeedbackLabel.setText("Average Cleanliness Feedback: " + visitor.getAverageCleanlinessFeedbackByDate(selectedDate));
-                    averagePricingFeedbackLabel.setText("Average Pricing Feedback: " + visitor.getAveragePricingFeedbackByDate(selectedDate));
-                    revenueLabel.setText("Total Revenue: " + visitor.getRevenueByDate(selectedDate));
-                }
-            }
-        });
-
-        // Add components to summaryPanel
-        summaryPanel.add(visitsCountLabel);
-        summaryPanel.add(peakHourLabel);
-        summaryPanel.add(averageAnimalFeedbackLabel);
-        summaryPanel.add(averageCleanlinessFeedbackLabel);
-        summaryPanel.add(averagePricingFeedbackLabel);
-        summaryPanel.add(revenueLabel);
-
-        // Add components to visitorsPanel
-        visitorsPanel.add(dateComboBox, BorderLayout.NORTH);
-        visitorsPanel.add(new JScrollPane(visitorDetailsTextArea), BorderLayout.CENTER);
-        visitorsPanel.add(summaryPanel, BorderLayout.SOUTH);
-
-        // Add visitorsPanel to visitorsFrame and make it visible
-        visitorsFrame.add(visitorsPanel);
-        visitorsFrame.setVisible(true);
+        public void visitorsInformation() {
+        Visitor visitor = new Visitor();
+        new VisitorView(visitor);
     }
 
     // Method to show the Help dialog
