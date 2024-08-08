@@ -28,10 +28,6 @@ public class EmployeeImpl implements Employee {
      */
     private List<String> responsibilities;
 
-    /**
-     * The list of tasks assigned to the employee.
-     */
-    private List<String> tasks;
 
     /**
      * Constructs a new EmployeeImpl with the specified name and role.
@@ -43,7 +39,6 @@ public class EmployeeImpl implements Employee {
         this.name = name;
         this.role = role;
         this.responsibilities = new ArrayList<>();
-        this.tasks = new ArrayList<>();
     }
 
     /**
@@ -97,16 +92,6 @@ public class EmployeeImpl implements Employee {
     }
 
     /**
-     * Adds a task to the employee's list of tasks.
-     * 
-     * @param task the task to add
-     */
-    @Override
-    public void addTask(String task) {
-        tasks.add(task);
-    }
-
-    /**
      * Gets the employee's list of responsibilities.
      * 
      * @return a string of responsibilities
@@ -116,13 +101,13 @@ public class EmployeeImpl implements Employee {
         return String.join(", ", responsibilities);
     }
 
+
     /**
-     * Gets the employee's list of tasks.
+     * Generate CSV representation of employee data.
      * 
-     * @return a string of tasks
+     * @return the csv
      */
-    @Override
-    public String getTasks() {
-        return String.join(", ", tasks);
+    public String toCSV() {
+        return name + "," + role + "," + shift + "," + getResponsibilities();
     }
 }
