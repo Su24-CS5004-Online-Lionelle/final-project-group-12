@@ -84,6 +84,7 @@ public class controller {
      * 
      * @param employee the employee to be added
      */
+<<<<<<< HEAD
     public void addEmployee(String name, String role, String shift, String responsibilities) {
         Employee employee = new EmployeeImpl(name, role);
         employee.setShift(shift);
@@ -91,6 +92,12 @@ public class controller {
             employee.addResponsibility(responsibility.trim());
         }
         employeeManagement.addEmployee(employee);
+=======
+    public void addEmployee(Employee employee) {
+        if (employee != null) {
+            employeeManagement.addEmployee(employee);
+        }
+>>>>>>> 55e21fffe097ef7bc691c86d22916c8f1ddcc7c2
     }
 
     public EmployeeManagement getEmployeeManagement() {
@@ -127,6 +134,7 @@ public class controller {
      * @return the employee with the name
      */
     public Employee getEmployee(String name) {
+<<<<<<< HEAD
         return employeeManagement.getEmployee(name);
     }
 
@@ -157,6 +165,12 @@ public class controller {
      */
     public void printEmployeeDetails(String name) {
         employeeManagement.printEmployeeDetails(name);
+=======
+        if (name != null && !name.isEmpty()) {
+            return employeeManagement.getEmployee(name);
+        }
+        return null;
+>>>>>>> 55e21fffe097ef7bc691c86d22916c8f1ddcc7c2
     }
 
     // Enclosures
