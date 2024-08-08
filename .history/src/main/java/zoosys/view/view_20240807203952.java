@@ -1,13 +1,16 @@
 package zoosys.view;
 
 import zoosys.controller.controller;
+import zoosys.model.Animal;
 import zoosys.model.EnclosureType;
+import zoosys.model.FeedingTime;
 import zoosys.model.Visitor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class view extends JFrame {
     private JPanel mainPanel;
@@ -105,7 +108,179 @@ public class view extends JFrame {
 
     // Method to open the Animal Management window
     private void openAnimalManagementWindow() {
-        new AnimalManagementView(controller);
+        JFrame animalFrame = new JFrame("Animal Management");
+        animalFrame.setSize(400, 300);
+
+        JPanel animalPanel = new JPanel();
+        animalPanel.setLayout(new BoxLayout(animalPanel, BoxLayout.Y_AXIS));
+        animalPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JButton addAnimalButton = new JButton("Add Animal");
+        JButton editAnimalButton = new JButton("Edit Animal");
+        JButton deleteAnimalButton = new JButton("Delete Animal");
+
+        addAnimalButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showAddAnimalDialog();
+            }
+        });
+
+        editAnimalButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showEditAnimalDialog();
+            }
+        });
+
+        deleteAnimalButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                showDeleteAnimalDialog();
+            }
+        });
+
+        animalPanel.add(addAnimalButton);
+        animalPanel.add(editAnimalButton);
+        animalPanel.add(deleteAnimalButton);
+
+        animalFrame.add(animalPanel);
+        animalFrame.setVisible(true);
+    }
+
+    // Method to show the Add Animal dialog
+    private void showAddAnimalDialog() {
+        JDialog addAnimalDialog = new JDialog(this, "Add Animal", true);
+        addAnimalDialog.setSize(300, 300);
+        addAnimalDialog.setLayout(new GridLayout(7, 2));
+
+        JLabel idLabel = new JLabel("ID:");
+        JTextField idField = new JTextField();
+        JLabel nameLabel = new JLabel("Name:");
+        JTextField nameField = new JTextField();
+        JLabel typeLabel = new JLabel("Type:");
+        JTextField typeField = new JTextField();
+        JLabel ageLabel = new JLabel("Age:");
+        JTextField ageField = new JTextField();
+        JLabel feedingTimeLabel = new JLabel("Feeding Time (HH:MM):");
+        JTextField feedingTimeField = new JTextField();
+        JLabel medicalRecordLabel = new JLabel("Medical Record:");
+        JTextField medicalRecordField = new JTextField();
+
+        JButton submitButton = new JButton("Submit");
+
+        submitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(idField.getText());
+                String name = nameField.getText();
+                String type = typeField.getText();
+                int age = Integer.parseInt(ageField.getText());
+                FeedingTime feedingTime = new FeedingTime(Integer.parseInt(feedingTimeField.getText().split(":")[0]), Integer.parseInt(feedingTimeField.getText().split(":")[1]));
+                ArrayList<FeedingTime> feedingTimes = new ArrayList<>();
+                feedingTimes.add(feedingTime);
+                String medicalRecord = medicalRecordField.getText();
+
+                Animal animal = new Animal(id, name, type, age, feedingTimes, medicalRecord);
+                controller.addAnimal(animal);
+
+                addAnimalDialog.dispose();
+            }
+        });
+
+        addAnimalDialog.add(idLabel);
+        addAnimalDialog.add(idField);
+        addAnimalDialog.add(nameLabel);
+        addAnimalDialog.add(nameField);
+        addAnimalDialog.add(typeLabel);
+        addAnimalDialog.add(typeField);
+        addAnimalDialog.add(ageLabel);
+        addAnimalDialog.add(ageField);
+        addAnimalDialog.add(feedingTimeLabel);
+        addAnimalDialog.add(feedingTimeField);
+        addAnimalDialog.add(medicalRecordLabel);
+        addAnimalDialog.add(medicalRecordField);
+        addAnimalDialog.add(submitButton);
+
+        addAnimalDialog.setVisible(true);
+    }
+
+    // Method to show the Edit Animal dialog
+    private void showEditAnimalDialog() {
+        JDialog editAnimalDialog = new JDialog(this, "Edit Animal", true);
+        editAnimalDialog.setSize(300, 300);
+        editAnimalDialog.setLayout(new GridLayout(7, 2));
+
+        JLabel idLabel = new JLabel("ID:");
+        JTextField idField = new JTextField();
+        JLabel nameLabel = new JLabel("Name:");
+        JTextField nameField = new JTextField();
+        JLabel typeLabel = new JLabel("Type:");
+        JTextField typeField = new JTextField();
+        JLabel ageLabel = new JLabel("Age:");
+        JTextField ageField = new JTextField();
+        JLabel feedingTimeLabel = new JLabel("Feeding Time (HH:MM):");
+        JTextField feedingTimeField = new JTextField();
+        JLabel medicalRecordLabel = new JLabel("Medical Record:");
+        JTextField medicalRecordField = new JTextField();
+
+        JButton submitButton = new JButton("Submit");
+
+        submitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(idField.getText());
+                String name = nameField.getText();
+                String type = typeField.getText();
+                int age = Integer.parseInt(ageField.getText());
+                FeedingTime feedingTime = new FeedingTime(Integer.parseInt(feedingTimeField.getText().split(":")[0]), Integer.parseInt(feedingTimeField.getText().split(":")[1]));
+                ArrayList<FeedingTime> feedingTimes = new ArrayList<>();
+                feedingTimes.add(feedingTime);
+                String medicalRecord = medicalRecordField.getText();
+
+                Animal updatedAnimal = new Animal(id, name, type, age, feedingTimes, medicalRecord);
+                controller.editAnimal(updatedAnimal);
+
+                editAnimalDialog.dispose();
+            }
+        });
+
+        editAnimalDialog.add(idLabel);
+        editAnimalDialog.add(idField);
+        editAnimalDialog.add(nameLabel);
+        editAnimalDialog.add(nameField);
+        editAnimalDialog.add(typeLabel);
+        editAnimalDialog.add(typeField);
+        editAnimalDialog.add(ageLabel);
+        editAnimalDialog.add(ageField);
+        editAnimalDialog.add(feedingTimeLabel);
+        editAnimalDialog.add(feedingTimeField);
+        editAnimalDialog.add(medicalRecordLabel);
+        editAnimalDialog.add(medicalRecordField);
+        editAnimalDialog.add(submitButton);
+
+        editAnimalDialog.setVisible(true);
+    }
+
+    // Method to show the Delete Animal dialog
+    private void showDeleteAnimalDialog() {
+        JDialog deleteAnimalDialog = new JDialog(this, "Delete Animal", true);
+        deleteAnimalDialog.setSize(300, 100);
+        deleteAnimalDialog.setLayout(new GridLayout(2, 2));
+
+        JLabel idLabel = new JLabel("ID:");
+        JTextField idField = new JTextField();
+        JButton deleteButton = new JButton("Delete");
+
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int id = Integer.parseInt(idField.getText());
+                controller.removeAnimal(id);
+
+                deleteAnimalDialog.dispose();
+            }
+        });
+
+        deleteAnimalDialog.add(idLabel);
+        deleteAnimalDialog.add(idField);
+        deleteAnimalDialog.add(deleteButton);
+
+        deleteAnimalDialog.setVisible(true);
     }
 
     // Method to open the Enclosure Management window
