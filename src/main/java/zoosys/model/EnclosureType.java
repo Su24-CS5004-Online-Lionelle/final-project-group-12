@@ -8,5 +8,7 @@ public enum EnclosureType {
     TROPICAL, // tropical climate animal enclosure
     DESERT, // desert climate animal enclosure
     ARCTIC, // arctic climate animal enclosure
-    STEPPE // steppe climate animal enclosure
+    STEPPE, // steppe climate animal enclosure
+    LAKE, // lake&river animal enclosure
+    OCEANIC // ocean animal enclosure
 }
