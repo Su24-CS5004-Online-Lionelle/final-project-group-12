@@ -245,4 +245,29 @@ public void setEnclosureType(EnclosureType enclosureType) {
 public int getId() {
     return id;
 }
+
+public Object getSize() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getSize'");
+}
+
+public void setSize(double size) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setSize'");
+}
+
+public Object getType() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getType'");
+}
+
+public double getSize(int id2) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'getSize'");
+}
+
+public void setType(EnclosureType type) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'setType'");
+}
 }

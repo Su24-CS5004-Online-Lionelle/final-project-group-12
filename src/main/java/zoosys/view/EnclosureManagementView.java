@@ -143,7 +143,7 @@ public class EnclosureManagementView extends JFrame {
             JTextField idField = new JTextField(String.valueOf(enclosure.getId()));
             idField.setEditable(false);
             JLabel sizeLabel = new JLabel("Size:");
-            JTextField sizeField = new JTextField(String.valueOf(enclosure.getEnclosureSize()));
+            JTextField sizeField = new JTextField(String.valueOf(enclosure.getSize()));
             JLabel humidityLabel = new JLabel("Humidity:");
             JTextField humidityField = new JTextField(String.valueOf(enclosure.getHumidity()));
             JLabel temperatureLabel = new JLabel("Temperature:");
@@ -170,7 +170,7 @@ public class EnclosureManagementView extends JFrame {
                     int foodInTrough = Integer.parseInt(foodField.getText());
                     EnclosureType type = (EnclosureType) typeComboBox.getSelectedItem();
 
-                    enclosure.setEnclosureSize(size);
+                    enclosure.setSize(size);
                     enclosure.setHumidity(humidity);
                     enclosure.setTemperature(temperature);
                     enclosure.setVegetationCoverage(vegetationCoverage);
@@ -229,7 +229,7 @@ public class EnclosureManagementView extends JFrame {
         for (Enclosure enclosure : controller.getEnclosureManagement().getAllEnclosures()) {
             tableModel.addRow(new Object[]{
                 enclosure.getId(),
-                enclosure.getEnclosureSize(),
+                enclosure.getSize(),
                 enclosure.getHumidity(),
                 enclosure.getTemperature(),
                 enclosure.getVegetationCoverage(),
