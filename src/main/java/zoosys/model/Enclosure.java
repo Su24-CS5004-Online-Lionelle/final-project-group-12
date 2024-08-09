@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Attributes for the enclosures's conditions.
  */
-public class Enclosure implements IEnclosures{
+public class Enclosure implements IEnclosure{
     private List<Animal> animals = new ArrayList<>(); // Initialize the list 
     private double enclosureSize;
     private double humidity;
