@@ -16,12 +16,13 @@ public class ZooApp {
 
                 // Initialize the models
                 EmployeeManagement employeeManagement = new EmployeeManagement();
-                Enclosure enclosureManagement = new Enclosure(1, 1000, 50, 22, 75, 90, 50, EnclosureType.TEMPERATE);
+                EnclosureManagement enclosureManagement = new EnclosureManagement();
                 Visitor visitorManagement = new Visitor();
 
                 // Initialize the controller
                 controller controller = new controller(employeeManagement, enclosureManagement, visitorManagement);
 
+                AnimalManagementView animalView = new AnimalManagementView(controller, 1);
                 // Initialize the view
                 view view = new view(controller);
 

@@ -12,10 +12,12 @@ import java.util.ArrayList;
 
 public class AnimalManagementView extends JFrame {
     private controller controller;
+    private int enclosureId;
 
     // Constructor to initialize the Animal Management window
-    public AnimalManagementView(controller controller) {
+    public AnimalManagementView(controller controller, int enclosureId) {
         this.controller = controller;
+        this.enclosureId = enclosureId;
         setTitle("Animal Management");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -23,6 +25,10 @@ public class AnimalManagementView extends JFrame {
         initialize();
 
         setVisible(true);
+    }
+
+    public AnimalManagementView(zoosys.controller.controller controller2) {
+        //TODO Auto-generated constructor stub
     }
 
     // Method to set up the initial layout and components
@@ -96,7 +102,7 @@ public class AnimalManagementView extends JFrame {
                 String medicalRecord = medicalRecordField.getText();
 
                 Animal animal = new Animal(id, name, type, age, feedingTimes, medicalRecord);
-                controller.addAnimal(animal);
+                controller.addAnimal(enclosureId, animal);
 
                 addAnimalDialog.dispose();
             }
@@ -154,7 +160,7 @@ public class AnimalManagementView extends JFrame {
                 String medicalRecord = medicalRecordField.getText();
 
                 Animal updatedAnimal = new Animal(id, name, type, age, feedingTimes, medicalRecord);
-                controller.editAnimal(updatedAnimal);
+                controller.editAnimal(enclosureId, updatedAnimal);
 
                 editAnimalDialog.dispose();
             }
@@ -192,7 +198,7 @@ public class AnimalManagementView extends JFrame {
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(idField.getText());
-                controller.removeAnimal(id);
+                controller.removeAnimal(enclosureId, id);
 
                 deleteAnimalDialog.dispose();
             }

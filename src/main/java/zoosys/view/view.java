@@ -180,13 +180,13 @@ public class view extends JFrame {
                 int food = Integer.parseInt(foodField.getText());
                 EnclosureType type = (EnclosureType) typeComboBox.getSelectedItem();
 
-                controller.setEnclosureSize(size);
-                controller.setHumidity(humidity);
-                controller.setTemperature(temperature);
-                controller.setVegetationCoverage(vegetationCoverage);
-                controller.setZoneCleanliness(cleanliness);
-                controller.setFoodInTrough(food);
-                controller.setEnclosureType(type);
+                controller.setEnclosureSize(1, size);
+                controller.setHumidity(1,humidity);
+                controller.setTemperature(1,temperature);
+                controller.setVegetationCoverage(1,vegetationCoverage);
+                controller.setZoneCleanliness(1,cleanliness);
+                controller.setFoodInTrough(1,food);
+                controller.setEnclosureType(1,type);
 
                 addEnclosureDialog.dispose();
             }
@@ -243,13 +243,13 @@ public class view extends JFrame {
                 int food = Integer.parseInt(foodField.getText());
                 EnclosureType type = (EnclosureType) typeComboBox.getSelectedItem();
 
-                controller.setEnclosureSize(size);
-                controller.setHumidity(humidity);
-                controller.setTemperature(temperature);
-                controller.setVegetationCoverage(vegetationCoverage);
-                controller.setZoneCleanliness(cleanliness);
-                controller.setFoodInTrough(food);
-                controller.setEnclosureType(type);
+                controller.setEnclosureSize(1,size);
+                controller.setHumidity(1,humidity);
+                controller.setTemperature(1,temperature);
+                controller.setVegetationCoverage(1,vegetationCoverage);
+                controller.setZoneCleanliness(1,cleanliness);
+                controller.setFoodInTrough(1,food);
+                controller.setEnclosureType(1,type);
 
                 editEnclosureDialog.dispose();
             }

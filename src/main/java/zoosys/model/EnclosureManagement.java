@@ -22,11 +22,11 @@ public class EnclosureManagement {
 
     public void readCSV(String filePath) {
         this.csvFilePath = filePath;
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                if(data.length == 8) {
+                if (data.length == 8) {
                     int id = Integer.parseInt(data[0]);
                     double size = Double.parseDouble(data[1]);
                     double humidity = Double.parseDouble(data[2]);
@@ -47,8 +47,8 @@ public class EnclosureManagement {
     
     public void writeCSV(String filePath) {
         this.csvFilePath = filePath;
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for(Enclosure enclosure : enclosures) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (Enclosure enclosure : enclosures) {
                 bw.write(String.format("%d,%.2f,%.2f,%.2f,%.2f,%d,%d,%s%n",
                 enclosure.getId(),
                 enclosure.getSize(),
@@ -57,15 +57,15 @@ public class EnclosureManagement {
                 enclosure.getVegetationCoverage(),
                 enclosure.getZoneCleanliness(),
                 enclosure.getFoodInTrough(),
-                enclosure.getType()));
+                enclosure.getEnclosureType()));
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
     public void addEnclosure(Enclosure enclosure) {
-        if(enclosure != null) {
+        if (enclosure != null) {
             enclosures.add(enclosure);
         }
     }
@@ -75,9 +75,9 @@ public class EnclosureManagement {
     }
 
     public void updateEnclosure(Enclosure updatedEnclosure) {
-        if(updatedEnclosure != null) {
-            for(int i = 0; i < enclosures.size(); i++) {
-                if(enclosures.get(i).getId() == updatedEnclosure.getId()) {
+        if (updatedEnclosure != null) {
+            for (int i = 0; i < enclosures.size(); i++) {
+                if (enclosures.get(i).getId() == updatedEnclosure.getId()) {
                     enclosures.set(i, updatedEnclosure);
                     break;
                 }
@@ -86,50 +86,52 @@ public class EnclosureManagement {
     }
 
     public Enclosure getEnclosure(int id) {
-        for(Enclosure enclosure : enclosures) {
-            if(enclosure.getId() == id) {
+        for (Enclosure enclosure : enclosures) {
+            if (enclosure.getId() == id) {
                 return enclosure;
             }
         }
         return null;
     }
 
-   
-
     public List<Enclosure> getAllEnclosures() {
         return new ArrayList<>(enclosures);
     }
 
-    public void addAnimal(Animal animal) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAnimal'");
+    public void addAnimal(int enclosureId, Animal animal) {
+        Enclosure enclosure = getEnclosure(enclosureId);
+        if (enclosure != null) {
+            enclosure.addAnimal(animal);
+        }
     }
 
-    public void removeAnimal(Animal animal) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeAnimal'");
+    public void removeAnimal(int enclosureId, Animal animal) {
+        Enclosure enclosure = getEnclosure(enclosureId);
+        if (enclosure != null) {
+            enclosure.removeAnimal(animal);
+        }
     }
 
-    public Animal[] getAnimals() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAnimals'");
+    public List<Animal> getAnimals(int enclosureId) {
+        Enclosure enclosure = getEnclosure(enclosureId);
+        return enclosure != null ? enclosure.getAnimals() : new ArrayList<>();
     }
 
     public void setEnclosureSize(int id, double size) {
-       Enclosure enclosure = getEnclosure(id);
-       if(enclosure != null) {
-        enclosure.setSize(size);
-       }
+        Enclosure enclosure = getEnclosure(id);
+        if (enclosure != null) {
+            enclosure.setSize(size);
+        }
     }
 
     public double getEnclosureSize(int id) {
         Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getSize(id) : 0;
+        return enclosure != null ? enclosure.getSize() : 0;
     }
 
     public void setHumidity(int id, double humidity) {
         Enclosure enclosure = getEnclosure(id);
-        if(enclosure != null) {
+        if (enclosure != null) {
             enclosure.setHumidity(humidity);
         }
     }
@@ -141,7 +143,7 @@ public class EnclosureManagement {
 
     public void setTemperature(int id, double temperature) {
         Enclosure enclosure = getEnclosure(id);
-        if(enclosure != null) {
+        if (enclosure != null) {
             enclosure.setTemperature(temperature);
         }
     }
@@ -153,7 +155,7 @@ public class EnclosureManagement {
 
     public void setVegetationCoverage(int id, double vegetationCoverage) {
         Enclosure enclosure = getEnclosure(id);
-        if(enclosure != null) {
+        if (enclosure != null) {
             enclosure.setVegetationCoverage(vegetationCoverage);
         }
     }
@@ -165,20 +167,20 @@ public class EnclosureManagement {
 
     public void setZoneCleanliness(int id, int zoneCleanliness) {
         Enclosure enclosure = getEnclosure(id);
-        if(enclosure != null) {
+        if (enclosure != null) {
             enclosure.setZoneCleanliness(zoneCleanliness);
         }
     }
 
     public int getZoneCleanliness(int id) {
-       Enclosure enclosure = getEnclosure(id);
-       return enclosure != null ? enclosure.getZoneCleanliness() : 0;
+        Enclosure enclosure = getEnclosure(id);
+        return enclosure != null ? enclosure.getZoneCleanliness() : 0;
     }
 
-    public void setFoodInTrough(int id, int FoodInTrough) {
+    public void setFoodInTrough(int id, int foodInTrough) {
         Enclosure enclosure = getEnclosure(id);
-        if(enclosure != null) {
-            enclosure.setFoodInTrough(FoodInTrough);
+        if (enclosure != null) {
+            enclosure.setFoodInTrough(foodInTrough);
         }
     }
 
@@ -188,14 +190,14 @@ public class EnclosureManagement {
     }
 
     public void setEnclosureType(int id, EnclosureType type) {
-       Enclosure enclosure = getEnclosure(id);
-       if(enclosure != null) {
-        enclosure.setType(type);
-       }
+        Enclosure enclosure = getEnclosure(id);
+        if (enclosure != null) {
+            enclosure.setType(type);
+        }
     }
 
     public EnclosureType getEnclosureType(int id) {
-       Enclosure enclosure = getEnclosure(id);
-       return enclosure != null ? enclosure.getType() : null;
+        Enclosure enclosure = getEnclosure(id);
+        return enclosure != null ? enclosure.getEnclosureType() : null;
     }
 }

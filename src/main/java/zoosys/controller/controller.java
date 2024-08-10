@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class controller {
     private EmployeeManagement employeeManagement;
-    private Enclosure enclosureManagement;
+    private EnclosureManagement enclosureManagement;
     private Visitor visitorManagement;
     
     /**
@@ -18,7 +18,7 @@ public class controller {
      * @param visitorManagement visitormanagement the visitor management
      */
     public controller(EmployeeManagement employeeManagement,
-            Enclosure enclosureManagement, Visitor visitorManagement) {
+            EnclosureManagement enclosureManagement, Visitor visitorManagement) {
         this.employeeManagement = new EmployeeManagement();
         this.enclosureManagement = enclosureManagement;
         this.visitorManagement = visitorManagement;
@@ -30,9 +30,9 @@ public class controller {
      * 
      * @param animal the animal to be added
      */
-    public void addAnimal(Animal animal) {
+    public void addAnimal(int enclosureId, Animal animal) {
         if (animal != null) {
-            enclosureManagement.addAnimal(animal);
+            enclosureManagement.addAnimal(enclosureId, animal);
         }
     }
 
@@ -41,10 +41,10 @@ public class controller {
      * 
      * @param id the ID of the animal to be removed
      */
-    public void removeAnimal(int id) {
-        Animal animal = findAnimalById(id);
+    public void removeAnimal(int enclosureId, int animalId) {
+        Animal animal = findAnimalById(enclosureId, animalId);
         if (animal != null) {
-            enclosureManagement.removeAnimal(animal);
+            enclosureManagement.removeAnimal(enclosureId, animal);
         }
     }
 
@@ -53,12 +53,12 @@ public class controller {
      * 
      * @param updatedAnimal the updated animal data
      */
-    public void editAnimal(Animal updatedAnimal) {
+    public void editAnimal(int enclosureId, Animal updatedAnimal) {
         if (updatedAnimal != null) {
-            Animal animal = findAnimalById(updatedAnimal.getAnimal_id());
+            Animal animal = findAnimalById(enclosureId, updatedAnimal.getAnimal_id());
             if (animal != null) {
-                enclosureManagement.removeAnimal(animal);
-                enclosureManagement.addAnimal(updatedAnimal);
+                enclosureManagement.removeAnimal(enclosureId, animal);
+                enclosureManagement.addAnimal(enclosureId, updatedAnimal);
             }
         }
     }
@@ -69,9 +69,9 @@ public class controller {
      * @param id the ID of the animal
      * @return the animal with the specified ID, or null if not found
      */
-    private Animal findAnimalById(int id) {
-        for (Animal animal : enclosureManagement.getAnimals()) {
-            if (animal.getAnimal_id() == id) {
+    private Animal findAnimalById(int enclosureId, int animalId) {
+        for (Animal animal : enclosureManagement.getAnimals(enclosureId)) {
+            if (animal.getAnimal_id() == animalId) {
                 return animal;
             }
         }
@@ -165,9 +165,9 @@ public class controller {
 
     * @param animal name/type of the animal
     */
-    public void addAnimalToEnclosure(Animal animal) {
-        if (animal != null) {
-            enclosureManagement.addAnimal(animal);
+    public void addEnclosure(Enclosure enclosure) {
+        if (enclosure != null) {
+            enclosureManagement.addEnclosure(enclosure);
         }
     }
 
@@ -176,19 +176,20 @@ public class controller {
      * 
      * @param animal name of animal
      */
-    public void removeAnimalFromEnclosure(Animal animal) {
-        if (animal != null) {
-            enclosureManagement.removeAnimal(animal);
-        }
+    public void removeEnclosure(int id) {
+            enclosureManagement.removeEnclosure(id);
     }
-    
+
     /**
      * Set the size of the enclosure.
      * 
      * @param size the size of the enclosure
      */
-    public void setEnclosureSize(double size) {
-        enclosureManagement.setEnclosureSize(size);
+    public void updateEnclosure(Enclosure enclosure) {
+        if(enclosure != null) {
+            enclosureManagement.updateEnclosure(enclosure);
+        }
+        
     }
 
     /**
@@ -196,119 +197,63 @@ public class controller {
      * 
      * @return the size of the enclosure
      */
-    public double getEnclosureSize() {
-        return enclosureManagement.getEnclosureSize();
+    public Enclosure getEnclosureById(int id) {
+        return enclosureManagement.getEnclosure(id);
+    }
+
+    public EnclosureManagement getEnclosureManagement() {
+        return enclosureManagement;
+    }
+
+    public void setEnclosureSize(int enclosureId, double size) {
+        Enclosure enclosure = enclosureManagement.getEnclosure(enclosureId);
+        if(enclosure != null) {
+            enclosure.setSize(size);
+        }
+    }
+
+    public void setHumidity(int enclosureId, double humidity) {
+        Enclosure enclosure = enclosureManagement.getEnclosure(enclosureId);
+        if(enclosure != null) {
+            enclosure.setHumidity(humidity);
+        }
     }
     
-
-    /**
-     * Set the humidity in the enclosure.
-     * 
-     * @param humidity the humidity of the enclosure
-     */
-    public void setHumidity(double humidity) {
-        enclosureManagement.setHumidity(humidity);
+    public void setTemperature(int enclosureId, double temperature) {
+        Enclosure enclosure = enclosureManagement.getEnclosure(enclosureId);
+        if (enclosure != null) {
+            enclosure.setTemperature(temperature);
+        }
     }
 
-    /**
-     * Get the humidity of the enclosure.
-     * 
-     * @return the humidity of the enclosure
-     */
-    public double getHumidity() {
-        return enclosureManagement.getHumidity();
+    public void setVegetationCoverage(int enclosureId, double vegetationCoverage) {
+        Enclosure enclosure = enclosureManagement.getEnclosure(enclosureId);
+        if (enclosure != null) {
+            enclosure.setVegetationCoverage(vegetationCoverage);
+        }
     }
 
-    /**
-     * Set the temperature in the enclosure.
-     * 
-     * @param temperature the temperature in the enclosure
-     */
-    public void setTemperature(double temperature) {
-        enclosureManagement.setTemperature(temperature);
+    public void setZoneCleanliness(int enclosureId, int cleanliness) {
+        Enclosure enclosure = enclosureManagement.getEnclosure(enclosureId);
+        if (enclosure != null) {
+            enclosure.setZoneCleanliness(cleanliness);
+        }
     }
 
-    /**
-     * Get the temperature of the enclosure.
-     * 
-     * @return the temperature of the enclosure
-     */
-    public double getTemperature() {
-        return enclosureManagement.getTemperature();
+    public void setFoodInTrough(int enclosureId, int food) {
+        Enclosure enclosure = enclosureManagement.getEnclosure(enclosureId);
+        if (enclosure != null) {
+            enclosure.setFoodInTrough(food);
+        }
     }
 
-    /**
-     * Set the vegetation coverage in the enclosure.
-     * 
-     * @param vegetationCoverage the vegetation coverage in the enclosure
-     */
-    public void setVegetationCoverage(double vegetationCoverage) {
-        enclosureManagement.setVegetationCoverage(vegetationCoverage);
-    }
-
-    /**
-     * Get the vegetation coverage of the enclosure.
-     * 
-     * @return the vegetation coverage of the enclosure
-     */
-    public double getVegetationCoverage() {
-        return enclosureManagement.getVegetationCoverage();
+    public void setEnclosureType(int enclosureId, EnclosureType type) {
+        Enclosure enclosure = enclosureManagement.getEnclosure(enclosureId);
+        if (enclosure != null) {
+            enclosure.setEnclosureType(type);
+        }
     }
     
-    /**
-     * Set the zone cleanliness in the enclosure.
-     * 
-     * @param zoneCleanliness the zone cleanliness in the enclosure.
-     */
-    public void setZoneCleanliness(int zoneCleanliness) {
-        enclosureManagement.setZoneCleanliness(zoneCleanliness);
-    }
-
-    /**
-     * Get the zone cleanliness of the enclosure.
-     * 
-     * @return the zone cleanliness of the enclosure
-     */
-    public int getZoneCleanliness() {
-        return enclosureManagement.getZoneCleanliness();
-    }
-
-    /**
-     * Set the amount of food in the trough.
-     * 
-     * @param foodInTrough the amount of food in trough
-     */
-    public void setFoodInTrough(int getFoodInTrough) {
-        enclosureManagement.setFoodInTrough(getFoodInTrough);
-    }
-
-    /**
-     * Get the food amount inside the trough.
-     * 
-     * @return the amount of food inside the trough
-     */
-    public int getFoodInTrough() {
-        return enclosureManagement.getFoodInTrough();
-    }
-
-    /**
-     * Set the type of the enclosure (climate).
-     * 
-     * @param type the type of the enclosure
-     */
-    public void setEnclosureType(EnclosureType type) {
-        enclosureManagement.setEnclosureType(type);
-    }
-
-    /**
-     * Get the type of the enclosure (climate)
-     * 
-     * @return the type of the enclosure
-     */
-    public EnclosureType getEnclosureType() {
-        return enclosureManagement.getEnclosureType();
-    }
-
     // Visitor
     /**
      * Add a visit record for a visitor.
@@ -384,34 +329,23 @@ public class controller {
         return visitorManagement.getAverageAnimalFeedbackByDate(date);
     }
 
-    public void addEnclosure(double size, double humidity, double temperature, double vegetationCoverage,
-            int cleanliness, int food, EnclosureType type) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addEnclosure'");
+    /**
+     * Get the average cleanliness feedback by date.
+     * 
+     * @param date the date for which to get the average cleanliness feedback
+     * @return the average cleanliness feedback on the specified date
+     */
+    public double getAverageCleanlinessFeedbackByDate(String date) {
+        return visitorManagement.getAverageCleanlinessFeedbackByDate(date);
     }
 
-    public void removeEnclosure(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeEnclosure'");
-    }
-
-    public void addEnclosure(Enclosure enclosure) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addEnclosure'");
-    }
-
-    public Enclosure getEnclosureById(int valueAt) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEnclosureById'");
-    }
-
-    public void updateEnclosure(Enclosure enclosure) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEnclosure'");
-    }
-
-    public Object getEnclosureManagement() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEnclosureManagement'");
+    /**
+     * Get the average pricing feedback by date.
+     * 
+     * @param date the date for which to get the average pricing feedback
+     * @return the average pricing feedback on the specified date
+     */
+    public double getAveragePricingFeedbackByDate(String date) {
+        return visitorManagement.getAveragePricingFeedbackByDate(date);
     }
 }
