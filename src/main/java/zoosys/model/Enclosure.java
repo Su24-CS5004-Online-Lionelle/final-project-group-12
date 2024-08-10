@@ -1,238 +1,120 @@
 package zoosys.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Represents an enclosure with various attributes and methods to manage animals within the enclosure.
+ * The Enclosure interface defines the basic structure and functionality 
+ * for enclosures in the zoo management system.
  */
-public class Enclosure implements IEnclosure {
-    private int id;
-    private double enclosureSize;
-    private double humidity;
-    private double temperature;
-    private double vegetationCoverage;
-    private int zoneCleanliness;
-    private int foodInTrough;
-    private EnclosureType enclosureType;
-    
+public interface Enclosure {
 
     /**
-     * Constructs a new Enclosure with the specified attributes.
+     * Gets the ID of the enclosure.
      * 
-     * @param id the ID of the enclosure
-     * @param size Size of the enclosure
-     * @param humidity Humidity inside the enclosure
-     * @param temperature Temperature inside the enclosure
-     * @param vegetationCoverage Vegetation coverage inside the enclosure
-     * @param zoneCleanliness Cleanliness inside the enclosure
-     * @param foodInTrough Amount of food in the trough
-     * @param enclosureType The type of enclosure
+     * @return the enclosure ID
      */
-    public Enclosure(int id, double enclosureSize, double humidity, double temperature, double vegetationCoverage,
-                      int zoneCleanliness, int foodInTrough, EnclosureType enclosureType) {
-        this.id = id;
-        this.enclosureSize = enclosureSize;
-        this.humidity = humidity;
-        this.temperature = temperature;
-        this.vegetationCoverage = vegetationCoverage;
-        this.zoneCleanliness = zoneCleanliness;
-        this.foodInTrough = foodInTrough;
-        this.enclosureType = enclosureType;
-    }
+    int getId();
 
     /**
-     * Get the size of the enclosure.
+     * Gets the size of the enclosure.
      * 
-     * @return The enclosure size
+     * @return the size of the enclosure
      */
-    @Override
-    public double getSize() {
-        return enclosureSize;
-    }
+    double getSize();
 
     /**
-     * Set the size of the enclosure.
+     * Sets the size of the enclosure.
      * 
-     * @param size The new size of the enclosure
-     * @throws IllegalArgumentException if the size is not greater than 0
+     * @param size the size to be set
      */
-    @Override
-    public void setSize(double size) {
-        setEnclosureSize(size);
-    }
+    void setSize(double size);
 
     /**
-     * Get the type of the enclosure.
+     * Gets the enclosure size.
      * 
-     * @return The enclosure type
+     * @return the enclosure size
      */
-    @Override
-    public EnclosureType getEnclosureType() {
-        return enclosureType;
-    }
+    double getEnclosureSize();
 
     /**
-     * Set the type of the enclosure.
+     * Sets the enclosure size.
      * 
-     * @param type The new type of the enclosure
+     * @param enclosureSize the enclosure size to be set
      */
-    @Override
-    public void setType(EnclosureType type) {
-        setEnclosureType(type);
-    }
+    void setEnclosureSize(double enclosureSize);
 
     /**
-     * Getter and setter for humidity.
+     * Gets the humidity level in the enclosure.
      * 
-     * @return The humidity inside the enclosure
+     * @return the humidity level
      */
-    public double getHumidity() {
-        return humidity;
-    }
+    double getHumidity();
 
     /**
-     * Set the humidity inside the enclosure.
+     * Sets the humidity level in the enclosure.
      * 
-     * @param humidity The new humidity level
-     * @throws IllegalArgumentException if the humidity is not between 0 and 100
+     * @param humidity the humidity level to be set
      */
-    public void setHumidity(double humidity) {
-        if (humidity >= 0 && humidity <= 100) {
-            this.humidity = humidity;
-        } else {
-            throw new IllegalArgumentException("Humidity must be between 0 and 100.");
-        }
-    }
+    void setHumidity(double humidity);
 
     /**
-     * Getter and setter for temperature.
+     * Gets the temperature in the enclosure.
      * 
-     * @return The temperature inside the enclosure
+     * @return the temperature
      */
-    public double getTemperature() {
-        return temperature;
-    }
+    double getTemperature();
 
     /**
-     * Set the temperature inside the enclosure.
+     * Sets the temperature in the enclosure.
      * 
-     * @param temperature The new temperature
-     * @throws IllegalArgumentException if the temperature is lower than -30 or higher than 50
+     * @param temperature the temperature to be set
      */
-    public void setTemperature(double temperature) {
-        if (temperature >= -30 && temperature <= 50) {
-            this.temperature = temperature;
-        } else {
-            throw new IllegalArgumentException("Temperature must be between -30 and 50 degrees Celsius.");
-        }
-    }
+    void setTemperature(double temperature);
 
     /**
-     * Getter and setter for vegetation coverage.
+     * Gets the vegetation coverage in the enclosure.
      * 
-     * @return The vegetation coverage
+     * @return the vegetation coverage
      */
-    public double getVegetationCoverage() {
-        return vegetationCoverage;
-    }
+    double getVegetationCoverage();
 
     /**
-     * Set the vegetation coverage inside the enclosure.
+     * Sets the vegetation coverage in the enclosure.
      * 
-     * @param vegetationCoverage The new vegetation coverage
-     * @throws IllegalArgumentException if the coverage is not between 0 and 100
+     * @param vegetationCoverage the vegetation coverage to be set
      */
-    public void setVegetationCoverage(double vegetationCoverage) {
-        if (vegetationCoverage >= 0 && vegetationCoverage <= 100) {
-            this.vegetationCoverage = vegetationCoverage;
-        } else {
-            throw new IllegalArgumentException("Vegetation coverage must be between 0 and 100.");
-        }
-    }
+    void setVegetationCoverage(double vegetationCoverage);
 
     /**
-     * Getter and setter for zone cleanliness.
+     * Gets the cleanliness level of the zone.
      * 
-     * @return The zone cleanliness
+     * @return the cleanliness level
      */
-    public int getZoneCleanliness() {
-        return zoneCleanliness;
-    }
+    int getZoneCleanliness();
 
     /**
-     * Set the zone cleanliness.
+     * Sets the cleanliness level of the zone.
      * 
-     * @param zoneCleanliness The new cleanliness level
-     * @throws IllegalArgumentException if the cleanliness is lower than 0 or higher than 100
+     * @param zoneCleanliness the cleanliness level to be set
      */
-    public void setZoneCleanliness(int zoneCleanliness) {
-        if (zoneCleanliness >= 0 && zoneCleanliness <= 100) {
-            this.zoneCleanliness = zoneCleanliness;
-        } else {
-            throw new IllegalArgumentException("Zone cleanliness must be between 0 and 100.");
-        }
-    }
+    void setZoneCleanliness(int zoneCleanliness);
 
     /**
-     * Getter and setter for food in the trough.
+     * Gets the amount of food in the trough.
      * 
-     * @return The amount of food in the trough
+     * @return the amount of food in the trough
      */
-    public int getFoodInTrough() {
-        return foodInTrough;
-    }
+    int getFoodInTrough();
 
     /**
-     * Set the amount of food in the trough.
+     * Sets the amount of food in the trough.
      * 
-     * @param foodInTrough The new amount of food
-     * @throws IllegalArgumentException if the amount of food is negative
+     * @param foodInTrough the amount of food to be set
      */
-    public void setFoodInTrough(int foodInTrough) {
-        if (foodInTrough >= 0) {
-            this.foodInTrough = foodInTrough;
-        } else {
-            throw new IllegalArgumentException("The food amount in the trough cannot be negative.");
-        }
-    }
+    void setFoodInTrough(int foodInTrough);
 
     /**
-     * Set the type of the enclosure.
+     * Generate CSV representation of enclosure data.
      * 
-     * @param enclosureType The new enclosure type
+     * @return the csv
      */
-    public void setEnclosureType(EnclosureType enclosureType) {
-        this.enclosureType = enclosureType;
-    }
-
-    /**
-     * Get the ID of the enclosure.
-     * 
-     * @return The enclosure ID
-     */
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public double getEnclosureSize() {
-        return enclosureSize;
-    }
-
-    @Override
-    public void setEnclosureSize(double enclosureSize) {
-        if (enclosureSize > 0){
-            this.enclosureSize = enclosureSize;
-        } else {
-            throw new IllegalArgumentException("The enclosure size can not be less than 0.");
-        }
-    }
-
-    @Override 
-    public String toString() {
-        return "Enclosure{id=" + id + ", enclosureSize=" + enclosureSize + ", humidity=" + humidity + ", temperature=" + temperature + 
-        ", vegetationCoverage=" + vegetationCoverage + ", zoneCleanliness=" + zoneCleanliness + ", foodInTrough=" + foodInTrough + 
-        ", enclosureType=" + enclosureType + '}';
-    }
+    String toCSV();
 }

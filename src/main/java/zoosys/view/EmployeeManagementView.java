@@ -1,6 +1,6 @@
 package zoosys.view;
 
-import zoosys.controller.controller;
+import zoosys.controller.Controller;
 import zoosys.model.Employee;
 import zoosys.model.EmployeeImpl;
 
@@ -11,11 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EmployeeManagementView extends JFrame {
-    private controller controller;
+    private Controller controller;
     private JTable table;
     private DefaultTableModel tableModel;
 
-    public EmployeeManagementView(controller controller) {
+    public EmployeeManagementView(Controller controller) {
         this.controller = controller;
         setTitle("Employee Management");
         setSize(800, 600);

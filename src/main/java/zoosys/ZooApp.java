@@ -20,7 +20,7 @@ public class ZooApp {
                 Visitor visitorManagement = new Visitor();
 
                 // Initialize the controller
-                controller controller = new controller(employeeManagement, enclosureManagement, visitorManagement);
+                Controller controller = new Controller(employeeManagement, enclosureManagement, visitorManagement);
 
                 AnimalManagementView animalView = new AnimalManagementView(controller, 1);
                 // Initialize the view

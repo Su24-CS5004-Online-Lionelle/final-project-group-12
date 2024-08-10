@@ -1,28 +1,27 @@
 package zoosys.view;
 
-import zoosys.controller.controller;
-import zoosys.model.Enclosure;
-import zoosys.model.EnclosureType;
+import zoosys.controller.Controller;
+import zoosys.model.*;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class EnclosureManagementView extends JFrame {
-    private controller controller;
+    private Controller controller;
     private JTable table;
     private DefaultTableModel tableModel;
 
-    public EnclosureManagementView(controller controller) {
+    public EnclosureManagementView(Controller controller) {
         this.controller = controller;
         setTitle("Enclosure Management");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         initialize();
-        populateTable();
+        populateTable(); // Populate table with enclosure data on initialization
 
         setVisible(true);
     }
@@ -54,7 +53,7 @@ public class EnclosureManagementView extends JFrame {
             }
         });
 
-        tableModel = new DefaultTableModel(new Object[]{"ID", "Size", "Humidity", "Temperature", "Vegetation", "Cleanliness", "Food", "Type"}, 0);
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Size", "Humidity", "Temperature", "Vegetation Coverage", "Zone Cleanliness", "Food in Trough"}, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -68,7 +67,7 @@ public class EnclosureManagementView extends JFrame {
 
     private void showAddEnclosureDialog() {
         JDialog addEnclosureDialog = new JDialog(this, "Add Enclosure", true);
-        addEnclosureDialog.setSize(300, 300);
+        addEnclosureDialog.setSize(400, 400);
         addEnclosureDialog.setLayout(new GridLayout(8, 2));
 
         JLabel idLabel = new JLabel("ID:");
@@ -79,33 +78,35 @@ public class EnclosureManagementView extends JFrame {
         JTextField humidityField = new JTextField();
         JLabel temperatureLabel = new JLabel("Temperature:");
         JTextField temperatureField = new JTextField();
-        JLabel vegetationLabel = new JLabel("Vegetation Coverage:");
-        JTextField vegetationField = new JTextField();
-        JLabel cleanlinessLabel = new JLabel("Cleanliness:");
-        JTextField cleanlinessField = new JTextField();
-        JLabel foodLabel = new JLabel("Food in Trough:");
-        JTextField foodField = new JTextField();
-        JLabel typeLabel = new JLabel("Type:");
-        JComboBox<EnclosureType> typeComboBox = new JComboBox<>(EnclosureType.values());
+        JLabel vegetationCoverageLabel = new JLabel("Vegetation Coverage:");
+        JTextField vegetationCoverageField = new JTextField();
+        JLabel zoneCleanlinessLabel = new JLabel("Zone Cleanliness:");
+        JTextField zoneCleanlinessField = new JTextField();
+        JLabel foodInTroughLabel = new JLabel("Food in Trough:");
+        JTextField foodInTroughField = new JTextField();
 
         JButton submitButton = new JButton("Submit");
 
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int id = Integer.parseInt(idField.getText());
-                double size = Double.parseDouble(sizeField.getText());
-                double humidity = Double.parseDouble(humidityField.getText());
-                double temperature = Double.parseDouble(temperatureField.getText());
-                double vegetationCoverage = Double.parseDouble(vegetationField.getText());
-                int cleanliness = Integer.parseInt(cleanlinessField.getText());
-                int foodInTrough = Integer.parseInt(foodField.getText());
-                EnclosureType type = (EnclosureType) typeComboBox.getSelectedItem();
+                try {
+                    int id = Integer.parseInt(idField.getText());
+                    double size = Double.parseDouble(sizeField.getText());
+                    double humidity = Double.parseDouble(humidityField.getText());
+                    double temperature = Double.parseDouble(temperatureField.getText());
+                    double vegetationCoverage = Double.parseDouble(vegetationCoverageField.getText());
+                    int zoneCleanliness = Integer.parseInt(zoneCleanlinessField.getText());
+                    int foodInTrough = Integer.parseInt(foodInTroughField.getText());
 
-                Enclosure enclosure = new Enclosure(id, size, humidity, temperature, vegetationCoverage, cleanliness, foodInTrough, type);
-                controller.addEnclosure(enclosure);
-                populateTable();
+                    Enclosure newEnclosure = new EnclosureImpl(id, size, humidity, temperature, vegetationCoverage, 
+                        zoneCleanliness, foodInTrough);
+                    controller.addEnclosure(newEnclosure);
+                    populateTable();
 
-                addEnclosureDialog.dispose();
+                    addEnclosureDialog.dispose();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(addEnclosureDialog, "Invalid input. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -117,14 +118,12 @@ public class EnclosureManagementView extends JFrame {
         addEnclosureDialog.add(humidityField);
         addEnclosureDialog.add(temperatureLabel);
         addEnclosureDialog.add(temperatureField);
-        addEnclosureDialog.add(vegetationLabel);
-        addEnclosureDialog.add(vegetationField);
-        addEnclosureDialog.add(cleanlinessLabel);
-        addEnclosureDialog.add(cleanlinessField);
-        addEnclosureDialog.add(foodLabel);
-        addEnclosureDialog.add(foodField);
-        addEnclosureDialog.add(typeLabel);
-        addEnclosureDialog.add(typeComboBox);
+        addEnclosureDialog.add(vegetationCoverageLabel);
+        addEnclosureDialog.add(vegetationCoverageField);
+        addEnclosureDialog.add(zoneCleanlinessLabel);
+        addEnclosureDialog.add(zoneCleanlinessField);
+        addEnclosureDialog.add(foodInTroughLabel);
+        addEnclosureDialog.add(foodInTroughField);
         addEnclosureDialog.add(submitButton);
 
         addEnclosureDialog.setVisible(true);
@@ -132,111 +131,124 @@ public class EnclosureManagementView extends JFrame {
 
     private void showEditEnclosureDialog() {
         int selectedRow = table.getSelectedRow();
-        if (selectedRow >= 0) {
-            Enclosure enclosure = controller.getEnclosureById((int) tableModel.getValueAt(selectedRow, 0));
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Please select an enclosure to edit.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            JDialog editEnclosureDialog = new JDialog(this, "Edit Enclosure", true);
-            editEnclosureDialog.setSize(300, 300);
-            editEnclosureDialog.setLayout(new GridLayout(8, 2));
+        int id = (int) tableModel.getValueAt(selectedRow, 0);
+        Enclosure enclosure = controller.getEnclosureManagement().getEnclosureById(id);
 
-            JLabel idLabel = new JLabel("ID:");
-            JTextField idField = new JTextField(String.valueOf(enclosure.getId()));
-            idField.setEditable(false);
-            JLabel sizeLabel = new JLabel("Size:");
-            JTextField sizeField = new JTextField(String.valueOf(enclosure.getEnclosureSize()));
-            JLabel humidityLabel = new JLabel("Humidity:");
-            JTextField humidityField = new JTextField(String.valueOf(enclosure.getHumidity()));
-            JLabel temperatureLabel = new JLabel("Temperature:");
-            JTextField temperatureField = new JTextField(String.valueOf(enclosure.getTemperature()));
-            JLabel vegetationLabel = new JLabel("Vegetation Coverage:");
-            JTextField vegetationField = new JTextField(String.valueOf(enclosure.getVegetationCoverage()));
-            JLabel cleanlinessLabel = new JLabel("Cleanliness:");
-            JTextField cleanlinessField = new JTextField(String.valueOf(enclosure.getZoneCleanliness()));
-            JLabel foodLabel = new JLabel("Food in Trough:");
-            JTextField foodField = new JTextField(String.valueOf(enclosure.getFoodInTrough()));
-            JLabel typeLabel = new JLabel("Type:");
-            JComboBox<EnclosureType> typeComboBox = new JComboBox<>(EnclosureType.values());
-            typeComboBox.setSelectedItem(enclosure.getEnclosureType());
+        if (enclosure == null) {
+            JOptionPane.showMessageDialog(this, "Enclosure not found.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            JButton submitButton = new JButton("Submit");
+        JDialog editEnclosureDialog = new JDialog(this, "Edit Enclosure", true);
+        editEnclosureDialog.setSize(400, 400);
+        editEnclosureDialog.setLayout(new GridLayout(8, 2));
 
-            submitButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+        JLabel idLabel = new JLabel("ID:");
+        JTextField idField = new JTextField(String.valueOf(enclosure.getId()));
+        idField.setEditable(false);
+        JLabel sizeLabel = new JLabel("Size:");
+        JTextField sizeField = new JTextField(String.valueOf(enclosure.getSize()));
+        JLabel humidityLabel = new JLabel("Humidity:");
+        JTextField humidityField = new JTextField(String.valueOf(enclosure.getHumidity()));
+        JLabel temperatureLabel = new JLabel("Temperature:");
+        JTextField temperatureField = new JTextField(String.valueOf(enclosure.getTemperature()));
+        JLabel vegetationCoverageLabel = new JLabel("Vegetation Coverage:");
+        JTextField vegetationCoverageField = new JTextField(String.valueOf(enclosure.getVegetationCoverage()));
+        JLabel zoneCleanlinessLabel = new JLabel("Zone Cleanliness:");
+        JTextField zoneCleanlinessField = new JTextField(String.valueOf(enclosure.getZoneCleanliness()));
+        JLabel foodInTroughLabel = new JLabel("Food in Trough:");
+        JTextField foodInTroughField = new JTextField(String.valueOf(enclosure.getFoodInTrough()));
+
+        JButton submitButton = new JButton("Submit");
+
+        submitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
                     double size = Double.parseDouble(sizeField.getText());
                     double humidity = Double.parseDouble(humidityField.getText());
                     double temperature = Double.parseDouble(temperatureField.getText());
-                    double vegetationCoverage = Double.parseDouble(vegetationField.getText());
-                    int cleanliness = Integer.parseInt(cleanlinessField.getText());
-                    int foodInTrough = Integer.parseInt(foodField.getText());
-                    EnclosureType type = (EnclosureType) typeComboBox.getSelectedItem();
+                    double vegetationCoverage = Double.parseDouble(vegetationCoverageField.getText());
+                    int zoneCleanliness = Integer.parseInt(zoneCleanlinessField.getText());
+                    int foodInTrough = Integer.parseInt(foodInTroughField.getText());
 
-                    enclosure.setSize(size);
-                    enclosure.setHumidity(humidity);
-                    enclosure.setTemperature(temperature);
-                    enclosure.setVegetationCoverage(vegetationCoverage);
-                    enclosure.setZoneCleanliness(cleanliness);
-                    enclosure.setFoodInTrough(foodInTrough);
-                    enclosure.setEnclosureType(type);
-
-                    controller.updateEnclosure(enclosure);
+                    Enclosure updatedEnclosure = new EnclosureImpl(id, size, humidity, temperature, vegetationCoverage, 
+                        zoneCleanliness, foodInTrough);
+                    controller.updateEnclosure(updatedEnclosure);
                     populateTable();
 
                     editEnclosureDialog.dispose();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(editEnclosureDialog, "Invalid input. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            });
+            }
+        });
 
-            editEnclosureDialog.add(idLabel);
-            editEnclosureDialog.add(idField);
-            editEnclosureDialog.add(sizeLabel);
-            editEnclosureDialog.add(sizeField);
-            editEnclosureDialog.add(humidityLabel);
-            editEnclosureDialog.add(humidityField);
-            editEnclosureDialog.add(temperatureLabel);
-            editEnclosureDialog.add(temperatureField);
-            editEnclosureDialog.add(vegetationLabel);
-            editEnclosureDialog.add(vegetationField);
-            editEnclosureDialog.add(cleanlinessLabel);
-            editEnclosureDialog.add(cleanlinessField);
-            editEnclosureDialog.add(foodLabel);
-            editEnclosureDialog.add(foodField);
-            editEnclosureDialog.add(typeLabel);
-            editEnclosureDialog.add(typeComboBox);
-            editEnclosureDialog.add(submitButton);
+        editEnclosureDialog.add(idLabel);
+        editEnclosureDialog.add(idField);
+        editEnclosureDialog.add(sizeLabel);
+        editEnclosureDialog.add(sizeField);
+        editEnclosureDialog.add(humidityLabel);
+        editEnclosureDialog.add(humidityField);
+        editEnclosureDialog.add(temperatureLabel);
+        editEnclosureDialog.add(temperatureField);
+        editEnclosureDialog.add(vegetationCoverageLabel);
+        editEnclosureDialog.add(vegetationCoverageField);
+        editEnclosureDialog.add(zoneCleanlinessLabel);
+        editEnclosureDialog.add(zoneCleanlinessField);
+        editEnclosureDialog.add(foodInTroughLabel);
+        editEnclosureDialog.add(foodInTroughField);
+        editEnclosureDialog.add(submitButton);
 
-            editEnclosureDialog.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select an enclosure to edit.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        editEnclosureDialog.setVisible(true);
     }
 
     private void showDeleteEnclosureDialog() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow >= 0) {
-            int id = (int) tableModel.getValueAt(selectedRow, 0);
-            int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to remove this enclosure?", "Confirm", JOptionPane.YES_NO_OPTION);
-            if (confirmation == JOptionPane.YES_OPTION) {
-                controller.removeEnclosure(id);
-                populateTable();
+        JDialog deleteEnclosureDialog = new JDialog(this, "Delete Enclosure", true);
+        deleteEnclosureDialog.setSize(300, 100);
+        deleteEnclosureDialog.setLayout(new GridLayout(2, 2));
+
+        JLabel idLabel = new JLabel("ID:");
+        JTextField idField = new JTextField();
+        JButton deleteButton = new JButton("Delete");
+
+        deleteButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int id = Integer.parseInt(idField.getText());
+                    controller.removeEnclosure(id);
+                    populateTable();
+
+                    deleteEnclosureDialog.dispose();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(deleteEnclosureDialog, "Invalid ID. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select an enclosure to delete.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        });
+
+        deleteEnclosureDialog.add(idLabel);
+        deleteEnclosureDialog.add(idField);
+        deleteEnclosureDialog.add(deleteButton);
+
+        deleteEnclosureDialog.setVisible(true);
     }
 
     private void populateTable() {
         tableModel.setRowCount(0);
-        String csvFilePath = "resources/enclosures.csv";
-        controller.getEnclosureManagement().readCSV(csvFilePath);
+        controller.getEnclosureManagement().readCSV(); // Ensure the CSV data is loaded
         for (Enclosure enclosure : controller.getEnclosureManagement().getAllEnclosures()) {
             tableModel.addRow(new Object[]{
                 enclosure.getId(),
-                enclosure.getEnclosureSize(),
+                enclosure.getSize(),
                 enclosure.getHumidity(),
                 enclosure.getTemperature(),
                 enclosure.getVegetationCoverage(),
                 enclosure.getZoneCleanliness(),
-                enclosure.getFoodInTrough(),
-                enclosure.getEnclosureType()
+                enclosure.getFoodInTrough()
             });
         }
     }

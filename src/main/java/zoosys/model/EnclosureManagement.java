@@ -1,203 +1,104 @@
 package zoosys.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.io.FileInputStream;
 
+/**
+ * The EnclosureManagement class manages the enclosures, including
+ * adding, removing, and updating enclosures.
+ */
 public class EnclosureManagement {
-    private List<Enclosure> enclosures = new ArrayList<>();
-    private String csvFilePath;
-    
+    private Map<Integer, Enclosure> enclosures;
+
     public EnclosureManagement() {
-        this.enclosures = new ArrayList<>();
+        enclosures = new HashMap<>();
+        readCSV(); // Read enclosures from CSV on initialization
     }
 
-    public void setCSVFilePath(String filePath) {
-        this.csvFilePath = filePath;
-    }
+    public void readCSV() {
+        List<String> lines;
+        try {
+            InputStream is = new FileInputStream("resources/enclosures.csv");
+            InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(isr);
+            lines = reader.lines().collect(Collectors.toList());
+        } catch (Exception e) {
+            System.err.println("Error reading file: " + e.getMessage());
+            return;
+        }
 
-    public void readCSV(String filePath) {
-        this.csvFilePath = filePath;
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length == 8) {
-                    int id = Integer.parseInt(data[0]);
-                    double size = Double.parseDouble(data[1]);
-                    double humidity = Double.parseDouble(data[2]);
-                    double temperature = Double.parseDouble(data[3]);
-                    double vegetationCoverage = Double.parseDouble(data[4]);
-                    int zoneCleanliness = Integer.parseInt(data[5]);
-                    int foodInTrough = Integer.parseInt(data[6]);
-                    EnclosureType type = EnclosureType.valueOf(data[7]);
+        if (lines == null || lines.isEmpty()) {
+            return;
+        }
 
-                    Enclosure enclosure = new Enclosure(id, size, humidity, temperature, vegetationCoverage, zoneCleanliness, foodInTrough, type);
-                    enclosures.add(enclosure);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Process header and remove it from lines
+        lines.remove(0);
+
+        // Process each line and add enclosures
+        for (String line : lines) {
+            String[] record = line.split(",");
+            int id = Integer.parseInt(record[0]);
+            double size = Double.parseDouble(record[1]);
+            double humidity = Double.parseDouble(record[2]);
+            double temperature = Double.parseDouble(record[3]);
+            double vegetationCoverage = Double.parseDouble(record[4]);
+            int zoneCleanliness = Integer.parseInt(record[5]);
+            int foodInTrough = Integer.parseInt(record[6]);
+          
+
+            Enclosure enclosure = new EnclosureImpl(id, size, humidity, temperature, vegetationCoverage, 
+                zoneCleanliness, foodInTrough);
+            enclosures.put(id, enclosure);
         }
     }
-    
-    public void writeCSV(String filePath) {
-        this.csvFilePath = filePath;
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for (Enclosure enclosure : enclosures) {
-                bw.write(String.format("%d,%.2f,%.2f,%.2f,%.2f,%d,%d,%s%n",
-                enclosure.getId(),
-                enclosure.getSize(),
-                enclosure.getHumidity(),
-                enclosure.getTemperature(),
-                enclosure.getVegetationCoverage(),
-                enclosure.getZoneCleanliness(),
-                enclosure.getFoodInTrough(),
-                enclosure.getEnclosureType()));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
+
     public void addEnclosure(Enclosure enclosure) {
-        if (enclosure != null) {
-            enclosures.add(enclosure);
-        }
+        enclosures.put(enclosure.getId(), enclosure);
+        updateEnclosuresToCSV();
     }
 
     public void removeEnclosure(int id) {
-        enclosures.removeIf(enclosure -> enclosure.getId() == id);
-    }
-
-    public void updateEnclosure(Enclosure updatedEnclosure) {
-        if (updatedEnclosure != null) {
-            for (int i = 0; i < enclosures.size(); i++) {
-                if (enclosures.get(i).getId() == updatedEnclosure.getId()) {
-                    enclosures.set(i, updatedEnclosure);
-                    break;
-                }
-            }
-        }
+        enclosures.remove(id);
+        updateEnclosuresToCSV();
     }
 
     public Enclosure getEnclosure(int id) {
-        for (Enclosure enclosure : enclosures) {
-            if (enclosure.getId() == id) {
-                return enclosure;
-            }
-        }
-        return null;
+        return enclosures.get(id);
+    }
+
+    public void updateEnclosure(int id, Enclosure updatedEnclosure) {
+        enclosures.put(id, updatedEnclosure);
+        updateEnclosuresToCSV();
+    }
+
+    public Set<Integer> getEnclosureIds() {
+        return enclosures.keySet();
     }
 
     public List<Enclosure> getAllEnclosures() {
-        return new ArrayList<>(enclosures);
+        return enclosures.values().stream().collect(Collectors.toList());
     }
 
-    public void addAnimal(int enclosureId, Animal animal) {
-        Enclosure enclosure = getEnclosure(enclosureId);
-        if (enclosure != null) {
-            enclosure.addAnimal(animal);
+    private void updateEnclosuresToCSV() {
+        try (FileWriter writer = new FileWriter("resources/enclosures.csv", false)) {
+            writer.append("ID,Size,Humidity,Temperature,VegetationCoverage,ZoneCleanliness,FoodInTrough");
+            writer.append("\n");
+            for (Enclosure enclosure : getAllEnclosures()) {
+                writer.append(enclosure.toCSV());
+                writer.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    public void removeAnimal(int enclosureId, Animal animal) {
-        Enclosure enclosure = getEnclosure(enclosureId);
-        if (enclosure != null) {
-            enclosure.removeAnimal(animal);
-        }
-    }
-
-    public List<Animal> getAnimals(int enclosureId) {
-        Enclosure enclosure = getEnclosure(enclosureId);
-        return enclosure != null ? enclosure.getAnimals() : new ArrayList<>();
-    }
-
-    public void setEnclosureSize(int id, double size) {
-        Enclosure enclosure = getEnclosure(id);
-        if (enclosure != null) {
-            enclosure.setSize(size);
-        }
-    }
-
-    public double getEnclosureSize(int id) {
-        Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getSize() : 0;
-    }
-
-    public void setHumidity(int id, double humidity) {
-        Enclosure enclosure = getEnclosure(id);
-        if (enclosure != null) {
-            enclosure.setHumidity(humidity);
-        }
-    }
-
-    public double getHumidity(int id) {
-        Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getHumidity() : 0;
-    }
-
-    public void setTemperature(int id, double temperature) {
-        Enclosure enclosure = getEnclosure(id);
-        if (enclosure != null) {
-            enclosure.setTemperature(temperature);
-        }
-    }
-
-    public double getTemperature(int id) {
-        Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getTemperature() : 0;
-    }
-
-    public void setVegetationCoverage(int id, double vegetationCoverage) {
-        Enclosure enclosure = getEnclosure(id);
-        if (enclosure != null) {
-            enclosure.setVegetationCoverage(vegetationCoverage);
-        }
-    }
-
-    public double getVegetationCoverage(int id) {
-        Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getVegetationCoverage() : 0;
-    }
-
-    public void setZoneCleanliness(int id, int zoneCleanliness) {
-        Enclosure enclosure = getEnclosure(id);
-        if (enclosure != null) {
-            enclosure.setZoneCleanliness(zoneCleanliness);
-        }
-    }
-
-    public int getZoneCleanliness(int id) {
-        Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getZoneCleanliness() : 0;
-    }
-
-    public void setFoodInTrough(int id, int foodInTrough) {
-        Enclosure enclosure = getEnclosure(id);
-        if (enclosure != null) {
-            enclosure.setFoodInTrough(foodInTrough);
-        }
-    }
-
-    public int getFoodInTrough(int id) {
-        Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getFoodInTrough() : 0;
-    }
-
-    public void setEnclosureType(int id, EnclosureType type) {
-        Enclosure enclosure = getEnclosure(id);
-        if (enclosure != null) {
-            enclosure.setType(type);
-        }
-    }
-
-    public EnclosureType getEnclosureType(int id) {
-        Enclosure enclosure = getEnclosure(id);
-        return enclosure != null ? enclosure.getEnclosureType() : null;
     }
 }
