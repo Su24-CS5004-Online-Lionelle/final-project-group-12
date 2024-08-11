@@ -1,8 +1,0 @@
-ID,Name,Size,Humidity,Temperature,VegetationCoverage,Cleanliness,FoodInTrough,Type
-1,Kiki,200.0,50.0,25.0,60.0,88,70,TEMPERATE
-2,kun,50.0,15.0,30.0,30.0,90,20,DESERT
-3,dun,150.0,77.0,-10.0,10.0,80,50,ARCTIC
-4,bee,400.0,90.0,27.0,90.0,70,40,TROPICAL
-5,bird,2000.0,50.0,25.0,70.0,85,60,STEPPE
-6,tiger,75.0,55.0,15.0,80.0,77,80,TEMPERATE
-7,lion,5.0,80.0,28.0,90.0,95,10,TROPICAL

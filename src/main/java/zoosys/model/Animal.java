@@ -1,84 +1,167 @@
 package zoosys.model;
 
+import java.util.List;
+
 /**
- * Interface that defines the structure for animal entity.
+ * The Animal class represents an animal in the zoo management system.
  */
-public interface Animal {
-
+public class Animal {
     /**
-     * Get the id of the specific animal.
-     * 
-     * @return the id of the animal
+     * The unique ID of the animal.
      */
-    int getAnimal_id();
+    private int animal_id;
 
     /**
-     * Set the id for the specific animal.
-     * 
-     * @param animal_id the animal's ID
+     * The name of the animal.
      */
-    void setAnimal_id(int animal_id);
+    private String animal_name;
 
     /**
-     * Get the name of the animal.
-     * 
-     * @return the animal's name
+     * The type of the animal.
      */
-    String getAnimal_name();
+    private String animal_type;
 
     /**
-     * Set the name for the animal.
-     * 
-     * @param animal_name the animal's name
+     * The age of the animal.
      */
-    void setAnimal_name(String animal_name);
+    private int age;
 
     /**
-     * Get the type of animal.
-     * 
-     * @return animal's type
+     * The list of feeding times for the animal.
      */
-    String getAnimal_type();
+    private List<FeedingTime> feeding_times;
 
     /**
-     * Set the type for the animal
-     * 
-     * @param animal_type the type of animal
+     * The medical record of the animal.
      */
-    void setAnimal_type(String animal_type);
+    private String medical_record;
 
     /**
-     * Get the age of the animal.
+     * Constructs an Animal instance.
+     * 
+     * @param animal_id the unique ID of the animal
+     * @param animal_name the name of the animal
+     * @param animal_type the type of the animal
+     * @param age the age of the animal
+     * @param feeding_times the list of feeding times for the animal
+     * @param medical_record the medical record of the animal
+     */
+    public Animal(int animal_id, String animal_name, String animal_type, int age, List<FeedingTime> feeding_times, String medical_record) {
+        this.animal_id = animal_id;
+        this.animal_name = animal_name;
+        this.animal_type = animal_type;
+        this.age = age;
+        this.feeding_times = feeding_times;
+        this.medical_record = medical_record;
+    }
+
+    // Getters and Setters
+
+    /**
+     * Gets the ID of the animal.
+     * 
+     * @return the ID of the animal
+     */
+    public int getAnimal_id() {
+        return animal_id;
+    }
+
+    /**
+     * Sets the ID of the animal.
+     * 
+     * @param animal_id the ID of the animal
+     */
+    public void setAnimal_id(int animal_id) {
+        this.animal_id = animal_id;
+    }
+
+    /**
+     * Gets the name of the animal.
+     * 
+     * @return the name of the animal
+     */
+    public String getAnimal_name() {
+        return animal_name;
+    }
+
+    /**
+     * Sets the name of the animal.
+     * 
+     * @param animal_name the name of the animal
+     */
+    public void setAnimal_name(String animal_name) {
+        this.animal_name = animal_name;
+    }
+
+    /**
+     * Gets the type of the animal.
+     * 
+     * @return the type of the animal
+     */
+    public String getAnimal_type() {
+        return animal_type;
+    }
+
+    /**
+     * Sets the type of the animal.
+     * 
+     * @param animal_type the type of the animal
+     */
+    public void setAnimal_type(String animal_type) {
+        this.animal_type = animal_type;
+    }
+
+    /**
+     * Gets the age of the animal.
      * 
      * @return the age of the animal
      */
-    int getAge();
+    public int getAge() {
+        return age;
+    }
 
     /**
-     * Set the age for the animal.
+     * Sets the age of the animal.
      * 
      * @param age the age of the animal
      */
-    void setAge(int age);
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     /**
-     * Get the medical record for the animal.
+     * Gets the list of feeding times for the animal.
      * 
-     * @return the medical record for the animal
+     * @return the list of feeding times
      */
-    String getMedical_record();
+    public List<FeedingTime> getFeeding_times() {
+        return feeding_times;
+    }
 
     /**
-     * Set the medical record for the animal.
+     * Sets the list of feeding times for the animal.
      * 
-     * @param medical_record the medical record for the animal
+     * @param feeding_times the list of feeding times
      */
-    void setMedical_record(String medical_record);
+    public void setFeeding_times(List<FeedingTime> feeding_times) {
+        this.feeding_times = feeding_times;
+    }
 
     /**
-     * Convert animal's attributes to CSV format string.
+     * Gets the medical record of the animal.
      * 
-     * @return CSV format string.
+     * @return the medical record of the animal
      */
-    String toCSV();
+    public String getMedical_record() {
+        return medical_record;
+    }
+
+    /**
+     * Sets the medical record of the animal.
+     * 
+     * @param medical_record the medical record of the animal
+     */
+    public void setMedical_record(String medical_record) {
+        this.medical_record = medical_record;
+    }
 }
