@@ -1,6 +1,7 @@
 package zoosys.view;
 
 import zoosys.controller.controller;
+import zoosys.model.AnimalNew;
 import zoosys.model.EnclosureType;
 import zoosys.model.Visitor;
 
@@ -37,6 +38,7 @@ public class view extends JFrame {
 
         // Create buttons for each management section
         JButton animalButton = new JButton("ANIMAL Management");
+        JButton animalNewButton = new JButton("ANIMAL Management2.0");
         JButton enclosureButton = new JButton("ENCLOSURE Management");
         JButton employeeButton = new JButton("EMPLOYEES Management");
         JButton visitorsButton = new JButton("VISITORS Information");
@@ -45,6 +47,7 @@ public class view extends JFrame {
 
         // Add buttons to the JPanel
         buttonPanel.add(animalButton);
+        buttonPanel.add(animalNewButton);
         buttonPanel.add(enclosureButton);
         buttonPanel.add(employeeButton);
         buttonPanel.add(visitorsButton);
@@ -65,6 +68,13 @@ public class view extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Animal Management button clicked");
                 openAnimalManagementWindow();
+            }
+        });
+
+        animalNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("New Animal Management button clicked");
+                AnimalManagementWindow();
             }
         });
 
@@ -105,7 +115,12 @@ public class view extends JFrame {
 
     // Method to open the Animal Management window
     private void openAnimalManagementWindow() {
-        new AnimalManagementView(controller);
+//        new AnimalManagementView(controller);
+    }
+
+    private void AnimalManagementWindow() {
+        AnimalNew animalNew = new AnimalNew();
+        new AnimalView(animalNew);
     }
 
     // Method to open the Enclosure Management window
@@ -364,3 +379,4 @@ public class view extends JFrame {
         JOptionPane.showMessageDialog(this, "Contact Support:\nEmail: support@zoo.com\nPhone: 123-456-7890", "Contact Support", JOptionPane.INFORMATION_MESSAGE);
     }
 }
+
