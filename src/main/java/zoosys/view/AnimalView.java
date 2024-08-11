@@ -244,3 +244,4 @@ public class AnimalView extends JFrame {
             infoTextArea.append("Names: " + String.join(", ", animalsNeedingAttention) + "\n");
         }
     }
+}
