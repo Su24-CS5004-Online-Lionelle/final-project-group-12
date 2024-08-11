@@ -11,8 +11,8 @@ public class ZooApp {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 System.out.println("Starting Zoo Management Application...");
-                IVisitor visitor = new Visitor();
-                visitor.readCSV();
+                // IVisitor visitor = new Visitor();
+                // visitor.readCSV();
 
                 // Initialize the models
                 EmployeeManagement employeeManagement = new EmployeeManagement();
