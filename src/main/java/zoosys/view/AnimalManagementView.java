@@ -1,31 +1,36 @@
 package zoosys.view;
 
-import zoosys.controller.controller;
-import zoosys.model.Animal;
-import zoosys.model.FeedingTime;
+import zoosys.controller.Controller;
+import zoosys.model.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * AnimalManagementView provides the user interface for managing animals,
+ * including adding, editing, and deleting animals.
+ */
 public class AnimalManagementView extends JFrame {
-    private controller controller;
+    private final Controller controller;
+    private JTable table;
+    private DefaultTableModel tableModel;
 
-    // Constructor to initialize the Animal Management window
-    public AnimalManagementView(controller controller) {
+    public AnimalManagementView(Controller controller) {
         this.controller = controller;
         setTitle("Animal Management");
-        setSize(400, 300);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         initialize();
+        populateTable(); // Populate table with animal data on initialization
 
         setVisible(true);
     }
 
-    // Method to set up the initial layout and components
     private void initialize() {
         JPanel animalPanel = new JPanel();
         animalPanel.setLayout(new BoxLayout(animalPanel, BoxLayout.Y_AXIS));
@@ -35,7 +40,6 @@ public class AnimalManagementView extends JFrame {
         JButton editAnimalButton = new JButton("Edit Animal");
         JButton deleteAnimalButton = new JButton("Delete Animal");
 
-        // Add action listeners to the buttons
         addAnimalButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 showAddAnimalDialog();
@@ -54,19 +58,22 @@ public class AnimalManagementView extends JFrame {
             }
         });
 
-        // Add buttons to the panel
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Name", "Type", "Age", "Medical Record"}, 0);
+        table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
+
         animalPanel.add(addAnimalButton);
         animalPanel.add(editAnimalButton);
         animalPanel.add(deleteAnimalButton);
+        animalPanel.add(scrollPane);
 
         add(animalPanel);
     }
 
-    // Method to show the Add Animal dialog
     private void showAddAnimalDialog() {
         JDialog addAnimalDialog = new JDialog(this, "Add Animal", true);
-        addAnimalDialog.setSize(300, 300);
-        addAnimalDialog.setLayout(new GridLayout(7, 2));
+        addAnimalDialog.setSize(400, 300);
+        addAnimalDialog.setLayout(new GridLayout(5, 2));
 
         JLabel idLabel = new JLabel("ID:");
         JTextField idField = new JTextField();
@@ -76,33 +83,26 @@ public class AnimalManagementView extends JFrame {
         JTextField typeField = new JTextField();
         JLabel ageLabel = new JLabel("Age:");
         JTextField ageField = new JTextField();
-        JLabel feedingTimeLabel = new JLabel("Feeding Time (HH:MM):");
-        JTextField feedingTimeField = new JTextField();
         JLabel medicalRecordLabel = new JLabel("Medical Record:");
         JTextField medicalRecordField = new JTextField();
 
         JButton submitButton = new JButton("Submit");
 
-        // Add action listener to the submit button
         submitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(idField.getText());
                 String name = nameField.getText();
                 String type = typeField.getText();
                 int age = Integer.parseInt(ageField.getText());
-                FeedingTime feedingTime = new FeedingTime(Integer.parseInt(feedingTimeField.getText().split(":")[0]), Integer.parseInt(feedingTimeField.getText().split(":")[1]));
-                ArrayList<FeedingTime> feedingTimes = new ArrayList<>();
-                feedingTimes.add(feedingTime);
                 String medicalRecord = medicalRecordField.getText();
 
-                Animal animal = new Animal(id, name, type, age, feedingTimes, medicalRecord);
-                controller.addAnimal(animal);
+                controller.addAnimal(id, name, type, age, medicalRecord);
+                populateTable();
 
                 addAnimalDialog.dispose();
             }
         });
 
-        // Add components to the dialog
         addAnimalDialog.add(idLabel);
         addAnimalDialog.add(idField);
         addAnimalDialog.add(nameLabel);
@@ -111,8 +111,6 @@ public class AnimalManagementView extends JFrame {
         addAnimalDialog.add(typeField);
         addAnimalDialog.add(ageLabel);
         addAnimalDialog.add(ageField);
-        addAnimalDialog.add(feedingTimeLabel);
-        addAnimalDialog.add(feedingTimeField);
         addAnimalDialog.add(medicalRecordLabel);
         addAnimalDialog.add(medicalRecordField);
         addAnimalDialog.add(submitButton);
@@ -120,65 +118,61 @@ public class AnimalManagementView extends JFrame {
         addAnimalDialog.setVisible(true);
     }
 
-    // Method to show the Edit Animal dialog
     private void showEditAnimalDialog() {
-        JDialog editAnimalDialog = new JDialog(this, "Edit Animal", true);
-        editAnimalDialog.setSize(300, 300);
-        editAnimalDialog.setLayout(new GridLayout(7, 2));
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow >= 0) {
+            IAnimal selectedAnimal = getAnimalAt(selectedRow);
 
-        JLabel idLabel = new JLabel("ID:");
-        JTextField idField = new JTextField();
-        JLabel nameLabel = new JLabel("Name:");
-        JTextField nameField = new JTextField();
-        JLabel typeLabel = new JLabel("Type:");
-        JTextField typeField = new JTextField();
-        JLabel ageLabel = new JLabel("Age:");
-        JTextField ageField = new JTextField();
-        JLabel feedingTimeLabel = new JLabel("Feeding Time (HH:MM):");
-        JTextField feedingTimeField = new JTextField();
-        JLabel medicalRecordLabel = new JLabel("Medical Record:");
-        JTextField medicalRecordField = new JTextField();
+            JDialog editAnimalDialog = new JDialog(this, "Edit Animal", true);
+            editAnimalDialog.setSize(400, 300);
+            editAnimalDialog.setLayout(new GridLayout(5, 2));
 
-        JButton submitButton = new JButton("Submit");
+            JLabel idLabel = new JLabel("ID:");
+            JTextField idField = new JTextField(String.valueOf(selectedAnimal.getAnimal_id()));
+            JLabel nameLabel = new JLabel("Name:");
+            JTextField nameField = new JTextField(selectedAnimal.getAnimal_name());
+            JLabel typeLabel = new JLabel("Type:");
+            JTextField typeField = new JTextField(selectedAnimal.getAnimal_type());
+            JLabel ageLabel = new JLabel("Age:");
+            JTextField ageField = new JTextField(String.valueOf(selectedAnimal.getAge()));
+            JLabel medicalRecordLabel = new JLabel("Medical Record:");
+            JTextField medicalRecordField = new JTextField(selectedAnimal.getMedical_record());
 
-        // Add action listener to the submit button
-        submitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int id = Integer.parseInt(idField.getText());
-                String name = nameField.getText();
-                String type = typeField.getText();
-                int age = Integer.parseInt(ageField.getText());
-                FeedingTime feedingTime = new FeedingTime(Integer.parseInt(feedingTimeField.getText().split(":")[0]), Integer.parseInt(feedingTimeField.getText().split(":")[1]));
-                ArrayList<FeedingTime> feedingTimes = new ArrayList<>();
-                feedingTimes.add(feedingTime);
-                String medicalRecord = medicalRecordField.getText();
+            JButton saveButton = new JButton("Save");
 
-                Animal updatedAnimal = new Animal(id, name, type, age, feedingTimes, medicalRecord);
-                controller.editAnimal(updatedAnimal);
+            saveButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    int id = Integer.parseInt(idField.getText());
+                    String name = nameField.getText();
+                    String type = typeField.getText();
+                    int age = Integer.parseInt(ageField.getText());
+                    String medicalRecord = medicalRecordField.getText();
 
-                editAnimalDialog.dispose();
-            }
-        });
+                    controller.updateAnimal(id, name, type, age, medicalRecord);
+                    populateTable();
 
-        // Add components to the dialog
-        editAnimalDialog.add(idLabel);
-        editAnimalDialog.add(idField);
-        editAnimalDialog.add(nameLabel);
-        editAnimalDialog.add(nameField);
-        editAnimalDialog.add(typeLabel);
-        editAnimalDialog.add(typeField);
-        editAnimalDialog.add(ageLabel);
-        editAnimalDialog.add(ageField);
-        editAnimalDialog.add(feedingTimeLabel);
-        editAnimalDialog.add(feedingTimeField);
-        editAnimalDialog.add(medicalRecordLabel);
-        editAnimalDialog.add(medicalRecordField);
-        editAnimalDialog.add(submitButton);
+                    editAnimalDialog.dispose();
+                }
+            });
 
-        editAnimalDialog.setVisible(true);
+            editAnimalDialog.add(idLabel);
+            editAnimalDialog.add(idField);
+            editAnimalDialog.add(nameLabel);
+            editAnimalDialog.add(nameField);
+            editAnimalDialog.add(typeLabel);
+            editAnimalDialog.add(typeField);
+            editAnimalDialog.add(ageLabel);
+            editAnimalDialog.add(ageField);
+            editAnimalDialog.add(medicalRecordLabel);
+            editAnimalDialog.add(medicalRecordField);
+            editAnimalDialog.add(saveButton);
+
+            editAnimalDialog.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select an animal to edit.");
+        }
     }
 
-    // Method to show the Delete Animal dialog
     private void showDeleteAnimalDialog() {
         JDialog deleteAnimalDialog = new JDialog(this, "Delete Animal", true);
         deleteAnimalDialog.setSize(300, 100);
@@ -188,21 +182,39 @@ public class AnimalManagementView extends JFrame {
         JTextField idField = new JTextField();
         JButton deleteButton = new JButton("Delete");
 
-        // Add action listener to the delete button
         deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int id = Integer.parseInt(idField.getText());
                 controller.removeAnimal(id);
+                populateTable();
 
                 deleteAnimalDialog.dispose();
             }
         });
 
-        // Add components to the dialog
         deleteAnimalDialog.add(idLabel);
         deleteAnimalDialog.add(idField);
         deleteAnimalDialog.add(deleteButton);
 
         deleteAnimalDialog.setVisible(true);
+    }
+
+    private void populateTable() {
+        tableModel.setRowCount(0);
+        List<IAnimal> animals = controller.getAllAnimals();
+        for (IAnimal animal : animals) {
+            tableModel.addRow(new Object[]{
+                animal.getAnimal_id(),
+                animal.getAnimal_name(),
+                animal.getAnimal_type(),
+                animal.getAge(),
+                animal.getMedical_record()
+            });
+        }
+    }
+
+    private IAnimal getAnimalAt(int rowIndex) {
+        int id = (int) tableModel.getValueAt(rowIndex, 0);
+        return controller.getAnimal(id); // Updated method to get the animal by id
     }
 }

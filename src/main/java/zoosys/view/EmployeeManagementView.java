@@ -1,6 +1,6 @@
 package zoosys.view;
 
-import zoosys.controller.controller;
+import zoosys.controller.Controller;
 import zoosys.model.Employee;
 import zoosys.model.EmployeeImpl;
 
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  * for managing employees in the Employee Management System.
  */
 public class EmployeeManagementView extends JFrame {
-    private controller controller;
+    private Controller controller;
     private JTable table;
     private DefaultTableModel tableModel;
 
