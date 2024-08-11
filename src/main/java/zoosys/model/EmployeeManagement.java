@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.io.FileInputStream;
 
+import com.google.common.io.Files;
+
 /**
  * The EmployeeManagement class manages the employees, including
  * adding, removing, scheduling shifts, and assigning responsibilities.
@@ -22,16 +24,15 @@ public class EmployeeManagement {
 
     /**
      * Constructs a new EmployeeManagement instance.
-     * Initializes the employees map and reads the employee data from a CSV file.
      */
     public EmployeeManagement() {
         employees = new HashMap<>();
         readCSV(); // Read employees from CSV on initialization
     }
 
+
     /**
      * Reads the employees from a CSV file and populates the employee list.
-     * The CSV file is expected to be in the resources directory.
      */
     public void readCSV() {
         List<String> lines;
@@ -44,29 +45,21 @@ public class EmployeeManagement {
             System.err.println("Error reading file: " + e.getMessage());
             return;
         }
-    
+
         if (lines == null || lines.isEmpty()) {
             return;
         }
-    
+
         // Process header and remove it from lines
         lines.remove(0);
-    
+
         // Process each line and add employees
         for (String line : lines) {
             String[] record = line.split(",");
-            
-            // Handle cases where the CSV line doesn't have all required fields
-            if (record.length < 4) {
-                System.err.println("Skipping malformed line: " + line);
-                continue; // Skip this line and move to the next one
-            }
-    
             String name = record[0];
             String role = record[1];
             String shift = record[2];
             String responsibilities = record[3];
-            
             Employee employee = new EmployeeImpl(name, role);
             employee.setShift(shift);
             for (String responsibility : responsibilities.split(",")) {
@@ -75,34 +68,24 @@ public class EmployeeManagement {
             employees.put(name, employee);
         }
     }
-    
+
+
     /**
      * Adds an employee to the management system.
      * @param employee the employee to add
-     * @return true if the employee was successfully added, false if the employee already exists
      */
-    public boolean addEmployee(Employee employee) {
-        if (employees.containsKey(employee.getName())) {
-            return false; // Employee already exists, not added
-        }
+    public void addEmployee(Employee employee) {
         employees.put(employee.getName(), employee);
         updateEmployeesToCSV();
-        return true; // Employee successfully added
     }
 
     /**
      * Removes an employee from the management system.
      * @param name the name of the employee to remove
-     * @return true if the employee was found and removed, false otherwise
      */
-    public boolean removeEmployee(String name) {
-        if (employees.containsKey(name)) {
-            employees.remove(name);
-            updateEmployeesToCSV();
-            return true;
-        } else {
-            return false;
-        }
+    public void removeEmployee(String name) {
+        employees.remove(name);
+        updateEmployeesToCSV();
     }
 
     /**
@@ -115,20 +98,14 @@ public class EmployeeManagement {
     }
 
     /**
-     * Updates the employee's information.
-     * @param name the name of the employee to update
-     * @param updatedEmployee the updated employee information
-     * @return true if the employee was found and updated, false otherwise
+     * Updates the employee's info.
+     * 
+     * @param name name of the employee
+     * @param updatedEmployee updated employee info.
      */
-    public boolean updateEmployee(String name, Employee updatedEmployee) {
-        if (employees.containsKey(name)) {
-            employees.put(name, updatedEmployee);
-            updateEmployeesToCSV();
-            return true;
-        } else {
-            System.out.println("Employee not found");
-            return false;
-        }
+    public void updateEmployee(String name, Employee updatedEmployee) {
+        employees.put(name, updatedEmployee);
+        updateEmployeesToCSV();
     }
 
     /**
@@ -195,7 +172,6 @@ public class EmployeeManagement {
 
     /**
      * Updates the CSV file with all employee details.
-     * The CSV file is overwritten with the current list of employees.
      */
     private void updateEmployeesToCSV() {
         try (FileWriter writer = new FileWriter("resources/employees.csv", false)) {
