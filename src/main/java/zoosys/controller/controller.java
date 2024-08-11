@@ -27,11 +27,11 @@ public class Controller {
     public void removeAnimal(int id) {
         animalManagement.removeAnimal(id);
     }
-
+  
     public void updateAnimal(int id, String name, String type, int age, String medicalRecord) {
         animalManagement.updateAnimal(id, name, type, age, medicalRecord);
     }
-
+  
     public Animal getAnimal(int id) {
         return animalManagement.getAnimal(id);
     }
@@ -40,6 +40,63 @@ public class Controller {
         return animalManagement.getAllAnimals();
     }
 
+    /**
+     * Adds a new employee into the system.
+     * 
+     * @param name the name of the employee
+     * @param role the role of the employee
+     * @param shift the shift assigned to the employee
+     * @param responsibilities the responsibilities of the employee, provided as a comma-separated string
+     * @return true if the employee was successfully added, false if the employee already exists or the input is invalid
+     */
+    public boolean addEmployee(String name, String role, String shift, String responsibilities) {
+        if (name != null && !name.isEmpty() && role != null && !role.isEmpty()) {
+            Employee employee = new EmployeeImpl(name, role);
+            employee.setShift(shift);
+            for (String responsibility : responsibilities.split(",")) {
+                employee.addResponsibility(responsibility.trim());
+            }
+            return employeeManagement.addEmployee(employee);
+        return false;
+    }
+
+    /**
+     * Retrieves the EmployeeManagement instance.
+     * 
+     * @return the EmployeeManagement instance that manages employees
+     */
+    public EmployeeManagement getEmployeeManagement() {
+        return employeeManagement;
+    }
+
+    /**
+     * Removes an employee from the management system.
+     * 
+     * @param name the name of the employee to be removed
+     * @return true if the employee was successfully removed, false if the employee was not found or the input is invalid
+     */
+    public boolean removeEmployee(String name) {
+        if (name != null && !name.isEmpty()) {
+            return employeeManagement.removeEmployee(name);
+        }
+        return false;
+    }
+
+    /**
+     * Updates an employee in the management system.
+     * 
+     * @param name the name of the employee to be updated
+     * @param updatedEmployee the updated employee data
+     * @return true if the employee was successfully updated, false if the employee was not found or the input is invalid
+     */
+    public boolean updateEmployee(String name, Employee updatedEmployee) {
+        if (name != null && !name.isEmpty() && updatedEmployee != null) {
+            return employeeManagement.updateEmployee(name, updatedEmployee);
+        }
+        return false;
+    }
+
+
     // Enclosure Management Methods
     public void addEnclosure(int id, double size, double humidity, double temperature, 
                              double vegetationCoverage, int zoneCleanliness, int foodInTrough) {
@@ -47,7 +104,7 @@ public class Controller {
                                                  zoneCleanliness, foodInTrough);
         enclosureManagement.addEnclosure(enclosure);
     }
-
+  
     public void removeEnclosure(int id) {
         enclosureManagement.removeEnclosure(id);
     }
@@ -59,6 +116,57 @@ public class Controller {
         enclosureManagement.updateEnclosure(id, enclosure);
     }
 
+    /**
+     * Assign the responsibility for the employee.
+     * 
+     * @param name the name of the employee
+     * @param responsibility the responsibility of the employee
+     */
+    public void assignResponsibility(String name, String responsibility) {
+        employeeManagement.assignResponsibility(name, responsibility);
+    }
+
+    /**
+     * Printe all the detials of the employees.
+     * 
+     * @param name the name of the employees
+     */
+    public void printEmployeeDetails(String name) {
+        employeeManagement.printEmployeeDetails(name);
+    }
+
+    // Enclosures
+   /**
+    * Add animal to the enclosure.
+
+    * @param animal name/type of the animal
+    */
+    public void addAnimalToEnclosure(Animal animal) {
+        if (animal != null) {
+            enclosureManagement.addAnimal(animal);
+        }
+    }
+
+    /**
+     * Remove animal from enclosure.
+     * 
+     * @param animal name of animal
+     */
+    public void removeAnimalFromEnclosure(Animal animal) {
+        if (animal != null) {
+            enclosureManagement.removeAnimal(animal);
+        }
+    }
+    
+    /**
+     * Set the size of the enclosure.
+     * 
+     * @param size the size of the enclosure
+     */
+    public void setEnclosureSize(double size) {
+        enclosureManagement.setEnclosureSize(size);
+    }
+      
     public Enclosure getEnclosure(int id) {
         return enclosureManagement.getEnclosure(id);
     }
