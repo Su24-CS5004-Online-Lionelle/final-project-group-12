@@ -98,9 +98,9 @@ public class Visit {
     }
 
     /**
-     * Retrieves the overall feedback on the visit.
+     * Retrieves the overall feedback for pricing on the visit.
      *
-     * @return The overall feedback on the visit(1-5).
+     * @return The overall feedback for pricing on the visit(1-5).
      */
     public Integer getOverallFeedback() {
         return overallFeedback;
