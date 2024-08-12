@@ -6,14 +6,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+/**
+ * Class implementing the IAnimalNew interface.
+ * Make sure all methods in the IAnimalNew interface can be properly used.
+ */
 public class AnimalNew implements IAnimalNew {
 
     private List<List<String>> animalData;
 
+    /**
+     * Constructor initializing the animal data list.
+     */
     public AnimalNew() {
         this.animalData = new ArrayList<>();
     }
+
+    
+    /**
+     * Adds a new animal to the system.
+     *
+     * @param category               The category of the animal.(category can be found in AnimalCategoty.java)
+     * @param name                   The name of the animal.(No same name is allowed for easy management)
+     * @param age                    The age of the animal in years.
+     * @param foodType               The type of food the animal consumes (foodtype can be found in FoodType.java).
+     * @param medicalAttentionNeeded If the animal requires medical attention.
+     * @param sex                    The sex of the animal (Male, Female).
+     */
 
     @Override
     public void addAnimal(AnimalCategory category, String name, int age, FoodType foodType, boolean medicalAttentionNeeded, Sex sex) {
@@ -25,15 +43,22 @@ public class AnimalNew implements IAnimalNew {
         newAnimal.add(medicalAttentionNeeded ? "yes" : "no");
         newAnimal.add(sex.name());
         animalData.add(newAnimal);
-        saveAnimalData();  // Update the CSV file after adding
+        saveAnimalData();
     }
 
+    /**
+     * Removes an animal by name.
+     * @param name The name of the animal to be removed.
+     */
     @Override
     public void removeAnimal(String name) {
         animalData.removeIf(animal -> animal.get(1).equalsIgnoreCase(name));
         saveAnimalData();  // Update the CSV file after removing
     }
 
+    /**
+     * Saves the updated animal info to the csv file under resources.
+     */
     @Override
     public void saveAnimalData() {
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("src/main/resources/animal.csv"), StandardCharsets.UTF_8))) {
@@ -47,25 +72,31 @@ public class AnimalNew implements IAnimalNew {
         }
     }
 
+    /**
+     * Retrieves a list of all animals.
+     *
+     * @return A list where each element is a list of strings representing an animal'.
+     */
     @Override
     public List<List<String>> getAllAnimals() {
         return animalData;
     }
 
-    @Override
-    public List<String> getAnimal(int index) {
-        if (index >= 0 && index < animalData.size()) {
-            return animalData.get(index);
-        } else {
-            return null; // Or throw an exception
-        }
-    }
-
+    /**
+     * Get the total number of animals.
+     *
+     * @return The total number of animals.
+     */
     @Override
     public int getTotalAnimals() {
         return animalData.size();
     }
 
+    /**
+     * Counts number of animal in different categories.
+     *
+     * @return A map where the key is the AnimalCategory and the value is the count of animals in that category.
+     */
     @Override
     public Map<AnimalCategory, Integer> getAnimalsCountByCategory() {
         return animalData.stream()
@@ -75,6 +106,11 @@ public class AnimalNew implements IAnimalNew {
                 ));
     }
 
+    /**
+     * Calculates the total foods needed for all animals, categorized by food type.
+     *
+     * @return A map where the key is the FoodType and the value is the total amount of food required.
+     */
     @Override
     public Map<FoodType, Integer> getTotalFoodNeeded() {
         return animalData.stream()
@@ -84,6 +120,11 @@ public class AnimalNew implements IAnimalNew {
                 ));
     }
 
+    /**
+     * Retrieves a list of animals that need medical attention.
+     *
+     * @return A list of strings, each representing the details of an animal that requires medical attention.
+     */
     @Override
     public List<String> getAnimalsNeedingMedicalAttention() {
         return animalData.stream()
@@ -92,6 +133,9 @@ public class AnimalNew implements IAnimalNew {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Loads animal data from the csv file under resources.
+     */
     @Override
     public void loadAnimalData() {
         List<String> lines;
@@ -147,6 +191,17 @@ public class AnimalNew implements IAnimalNew {
             }
         }
     }
+
+    /**
+     * Updates an existing animal's details based on the provided information and updates the data source.
+     *
+     * @param category               The new category of the animal.(category can be found in AnimalCategoty.java)
+     * @param name                   The new name of the animal.(No same name is allowed for easy management)
+     * @param age                    The new age of the animal in years.
+     * @param foodType               The new type of food the animal consumes (foodtype can be found in FoodType.java).
+     * @param medicalAttentionNeeded Update if animal needs medical attention
+     * @param sex                    The new sex of the animal (Male, Female).
+     */
     public void updateAnimal(String existingName, AnimalCategory category, String newName, int age, FoodType foodType, boolean medicalAttentionNeeded, Sex sex) {
         for (List<String> animal : animalData) {
             if (animal.get(1).equalsIgnoreCase(existingName)) {
