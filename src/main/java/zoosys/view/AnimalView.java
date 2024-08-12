@@ -41,7 +41,6 @@ public class AnimalView extends JFrame {
 
         setTitle("Animal Information");
         setSize(800, 800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Initialize table model with column names
