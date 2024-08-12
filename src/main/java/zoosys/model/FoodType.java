@@ -1,7 +1,6 @@
 package zoosys.model;
 
 /**
- * Yangcheng Luo
  * Enum representing different food type for animal.
  */
 public enum FoodType {
