@@ -8,13 +8,17 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * Yangcheng Luo
- * The current code will have the controller methods in it.Bowen is responsible for the controller part he can take it out and put it under the controller.
- * It is easier for me to test my gui this way.
- * GUI for Visitor info.
+ * GUI class for displaying and interacting with visitor information in the zoo system.
+ *
+ * Note: The current code contains controller methods directly within the GUI class.
+ * This structure is for ease of testing, and these methods can be refactored out later by Bowen as needed.
+ *
+ * Created by Yangcheng Luo.
  */
 public class VisitorView extends JFrame {
     private Visitor visitor;
@@ -44,10 +48,10 @@ public class VisitorView extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Populate table with visitor data
+        // Populate the table with visitor data from the CSV
         populateTable();
 
-        // Create panel for date input and results
+        // Create a panel for date input and displaying results
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BorderLayout());
 
@@ -62,16 +66,46 @@ public class VisitorView extends JFrame {
 
         add(inputPanel, BorderLayout.SOUTH);
 
-        // Add action listener to the submit button
+        // Add action listener to the submit button to trigger statistics display
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String date = dateTextField.getText();
-                displayStatistics(date);
+                if (isValidDate(date)) {
+                    displayStatistics(date);
+                } else {
+                    showError("Not a valid date! Please enter a date in the format MM_DD_yyyy.");
+                }
             }
         });
 
         setVisible(true);
+    }
+
+    /**
+     * Validates if the input string is a valid date in the format "M_d_yyyy".
+     *
+     * @param date The date string to validate.
+     * @return True if the date is valid, false otherwise.
+     */
+    private boolean isValidDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("M_d_yyyy");
+        sdf.setLenient(false);
+        try {
+            sdf.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Displays an error message dialog.
+     *
+     * @param message The error message to display.
+     */
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -96,7 +130,7 @@ public class VisitorView extends JFrame {
     /**
      * Displays statistics for visits on a specific date.
      *
-     * @param date The date for which to display statistics (format: "YYYY-MM-DD").
+     * @param date The date for which to display statistics (format: "d_M_yyyy").
      */
     private void displayStatistics(String date) {
         int visitCount = visitor.getVisitsCountByDate(date);
@@ -115,3 +149,4 @@ public class VisitorView extends JFrame {
         resultTextArea.append("Average Pricing Feedback: " + avgPricingFeedback + "\n");
     }
 }
+
