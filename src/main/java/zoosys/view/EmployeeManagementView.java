@@ -112,7 +112,7 @@ public class EmployeeManagementView extends JFrame {
                 String responsibilities = responsibilitiesField.getText();
 
                 if (name.isEmpty()) {
-                    JOptionPane.showMessageDialog(addEmployeeDialog, "Employee cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(addEmployeeDialog, "Employee name cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 
