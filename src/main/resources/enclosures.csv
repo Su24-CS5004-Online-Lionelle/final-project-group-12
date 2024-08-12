@@ -1,0 +1,7 @@
+Size,Humidity,Temperature,Vegetation Coverage,Zone Cleanliness,Food in Trough,Type
+500.0,60.0,22.5,75.0,8.0,50.0,TEMPERATE
+300.0,65.0,20.0,60.0,7.0,30.0,DESERT
+150.0,55.0,30.0,80.0,6.0,20.0,TROPICAL
+2000.0,50.0,25,88.0,8.0,40.0,TEMPERATE
+
+

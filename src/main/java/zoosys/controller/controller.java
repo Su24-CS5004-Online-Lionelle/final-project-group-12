@@ -2,13 +2,14 @@ package zoosys.controller;
 
 import zoosys.model.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  *  The Controller class that manages interactions between model and the view.
  */
 public class controller {
     private EmployeeManagement employeeManagement;
-    private Enclosures enclosureManagement;
+    private EnclosureManagement enclosureManagement;
     private Visitor visitorManagement;
     
     /**
@@ -18,123 +19,69 @@ public class controller {
      * @param visitorManagement visitormanagement the visitor management
      */
     public controller(EmployeeManagement employeeManagement,
-            Enclosures enclosureManagement, Visitor visitorManagement) {
+            EnclosureManagement enclosureManagement, Visitor visitorManagement) {
         this.employeeManagement = new EmployeeManagement();
         this.enclosureManagement = enclosureManagement;
         this.visitorManagement = visitorManagement;
     }
 
-    // Animal
+    //Employee
     /**
-     * Add new animal to the enclosure
+     * Adds a new employee into the system.
      * 
-     * @param animal the animal to be added
+     * @param name the name of the employee
+     * @param role the role of the employee
+     * @param shift the shift assigned to the employee
+     * @param responsibilities the responsibilities of the employee, provided as a comma-separated string
+     * @return true if the employee was successfully added, false if the employee already exists or the input is invalid
      */
-    public void addAnimal(Animal animal) {
-        if (animal != null) {
-            enclosureManagement.addAnimal(animal);
-        }
-    }
-
-    /**
-     * Remove existed animal from the system.
-     * 
-     * @param id the ID of the animal to be removed
-     */
-    public void removeAnimal(int id) {
-        Animal animal = findAnimalById(id);
-        if (animal != null) {
-            enclosureManagement.removeAnimal(animal);
-        }
-    }
-
-    /**
-     * Edit an existing animal in the system.
-     * 
-     * @param updatedAnimal the updated animal data
-     */
-    public void editAnimal(Animal updatedAnimal) {
-        if (updatedAnimal != null) {
-            Animal animal = findAnimalById(updatedAnimal.getAnimal_id());
-            if (animal != null) {
-                enclosureManagement.removeAnimal(animal);
-                enclosureManagement.addAnimal(updatedAnimal);
+    public boolean addEmployee(String name, String role, String shift, String responsibilities) {
+        if (name != null && !name.isEmpty() && role != null && !role.isEmpty()) {
+            Employee employee = new EmployeeImpl(name, role);
+            employee.setShift(shift);
+            for (String responsibility : responsibilities.split(",")) {
+                employee.addResponsibility(responsibility.trim());
             }
+            return employeeManagement.addEmployee(employee);
         }
+        return false;
     }
 
     /**
-     * Find an animal by its ID.
+     * Retrieves the EmployeeManagement instance.
      * 
-     * @param id the ID of the animal
-     * @return the animal with the specified ID, or null if not found
+     * @return the EmployeeManagement instance that manages employees
      */
-    private Animal findAnimalById(int id) {
-        for (Animal animal : enclosureManagement.getAnimals()) {
-            if (animal.getAnimal_id() == id) {
-                return animal;
-            }
+    public EmployeeManagement getEmployeeManagement() {
+        return employeeManagement;
+    }
+
+    /**
+     * Removes an employee from the management system.
+     * 
+     * @param name the name of the employee to be removed
+     * @return true if the employee was successfully removed, false if the employee was not found or the input is invalid
+     */
+    public boolean removeEmployee(String name) {
+        if (name != null && !name.isEmpty()) {
+            return employeeManagement.removeEmployee(name);
         }
-        return null;
+        return false;
     }
 
-/**
- * Adds a new employee into the system.
- * 
- * @param name the name of the employee
- * @param role the role of the employee
- * @param shift the shift assigned to the employee
- * @param responsibilities the responsibilities of the employee, provided as a comma-separated string
- * @return true if the employee was successfully added, false if the employee already exists or the input is invalid
- */
-public boolean addEmployee(String name, String role, String shift, String responsibilities) {
-    if (name != null && !name.isEmpty() && role != null && !role.isEmpty()) {
-        Employee employee = new EmployeeImpl(name, role);
-        employee.setShift(shift);
-        for (String responsibility : responsibilities.split(",")) {
-            employee.addResponsibility(responsibility.trim());
+    /**
+    * Updates an employee in the management system.
+    * 
+    * @param name the name of the employee to be updated
+    * @param updatedEmployee the updated employee data
+    * @return true if the employee was successfully updated, false if the employee was not found or the input is invalid
+    */
+    public boolean updateEmployee(String name, Employee updatedEmployee) {
+        if (name != null && !name.isEmpty() && updatedEmployee != null) {
+            return employeeManagement.updateEmployee(name, updatedEmployee);
         }
-        return employeeManagement.addEmployee(employee);
+        return false;
     }
-    return false;
-}
-
-/**
- * Retrieves the EmployeeManagement instance.
- * 
- * @return the EmployeeManagement instance that manages employees
- */
-public EmployeeManagement getEmployeeManagement() {
-    return employeeManagement;
-}
-
-/**
- * Removes an employee from the management system.
- * 
- * @param name the name of the employee to be removed
- * @return true if the employee was successfully removed, false if the employee was not found or the input is invalid
- */
-public boolean removeEmployee(String name) {
-    if (name != null && !name.isEmpty()) {
-        return employeeManagement.removeEmployee(name);
-    }
-    return false;
-}
-
-/**
- * Updates an employee in the management system.
- * 
- * @param name the name of the employee to be updated
- * @param updatedEmployee the updated employee data
- * @return true if the employee was successfully updated, false if the employee was not found or the input is invalid
- */
-public boolean updateEmployee(String name, Employee updatedEmployee) {
-    if (name != null && !name.isEmpty() && updatedEmployee != null) {
-        return employeeManagement.updateEmployee(name, updatedEmployee);
-    }
-    return false;
-}
-
 
     /**
      * Get the employee from the management system.
@@ -171,159 +118,39 @@ public boolean updateEmployee(String name, Employee updatedEmployee) {
      * 
      * @param name the name of the employees
      */
-public void printEmployeeDetails(String name) {
-    employeeManagement.printEmployeeDetails(name);
-}
-
+    public void printEmployeeDetails(String name) {
+        employeeManagement.printEmployeeDetails(name);
+    }
+    
     // Enclosures
-   /**
-    * Add animal to the enclosure.
-
-    * @param animal name/type of the animal
-    */
-    public void addAnimalToEnclosure(Animal animal) {
-        if (animal != null) {
-            enclosureManagement.addAnimal(animal);
-        }
+    public boolean addEnclosure(Enclosure enclosure) {
+        return enclosureManagement.addEnclosure(enclosure);
     }
 
-    /**
-     * Remove animal from enclosure.
-     * 
-     * @param animal name of animal
-     */
-    public void removeAnimalFromEnclosure(Animal animal) {
-        if (animal != null) {
-            enclosureManagement.removeAnimal(animal);
-        }
+    public boolean removeEnclosure(EnclosureType type) {
+        return enclosureManagement.removeEnclosure(type);
     }
     
-    /**
-     * Set the size of the enclosure.
-     * 
-     * @param size the size of the enclosure
-     */
-    public void setEnclosureSize(double size) {
-        enclosureManagement.setEnclosureSize(size);
+    public boolean updateEnclosure(EnclosureType type, Enclosure updatedEnclosure) {
+        return enclosureManagement.updateEnclosure(type, updatedEnclosure);
     }
 
-    /**
-     * Get the size of the enclosure
-     * 
-     * @return the size of the enclosure
-     */
-    public double getEnclosureSize() {
-        return enclosureManagement.getEnclosureSize();
-    }
-    
-
-    /**
-     * Set the humidity in the enclosure.
-     * 
-     * @param humidity the humidity of the enclosure
-     */
-    public void setHumidity(double humidity) {
-        enclosureManagement.setHumidity(humidity);
+    public Enclosure getEnclosure(EnclosureType type) {
+        return enclosureManagement.getEnclosure(type);
     }
 
-    /**
-     * Get the humidity of the enclosure.
-     * 
-     * @return the humidity of the enclosure
-     */
-    public double getHumidity() {
-        return enclosureManagement.getHumidity();
+    public void printEnclosureDetails(EnclosureType type, double size) {
+        enclosureManagement.printEnclosureDetails(type, size);
     }
 
-    /**
-     * Set the temperature in the enclosure.
-     * 
-     * @param temperature the temperature in the enclosure
-     */
-    public void setTemperature(double temperature) {
-        enclosureManagement.setTemperature(temperature);
+    public Set<EnclosureType> getEnclosureType() {
+        return enclosureManagement.getEnclosureTypes();
     }
 
-    /**
-     * Get the temperature of the enclosure.
-     * 
-     * @return the temperature of the enclosure
-     */
-    public double getTemperature() {
-        return enclosureManagement.getTemperature();
+    public List<Enclosure> getAllEnclosures() {
+        return enclosureManagement.getAllEnclosures();
     }
 
-    /**
-     * Set the vegetation coverage in the enclosure.
-     * 
-     * @param vegetationCoverage the vegetation coverage in the enclosure
-     */
-    public void setVegetationCoverage(double vegetationCoverage) {
-        enclosureManagement.setVegetationCoverage(vegetationCoverage);
-    }
-
-    /**
-     * Get the vegetation coverage of the enclosure.
-     * 
-     * @return the vegetation coverage of the enclosure
-     */
-    public double getVegetationCoverage() {
-        return enclosureManagement.getVegetationCoverage();
-    }
-    
-    /**
-     * Set the zone cleanliness in the enclosure.
-     * 
-     * @param zoneCleanliness the zone cleanliness in the enclosure.
-     */
-    public void setZoneCleanliness(int zoneCleanliness) {
-        enclosureManagement.setZoneCleanliness(zoneCleanliness);
-    }
-
-    /**
-     * Get the zone cleanliness of the enclosure.
-     * 
-     * @return the zone cleanliness of the enclosure
-     */
-    public int getZoneCleanliness() {
-        return enclosureManagement.getZoneCleanliness();
-    }
-
-    /**
-     * Set the amount of food in the trough.
-     * 
-     * @param foodInTrough the amount of food in trough
-     */
-    public void setFoodInTrough(int getFoodInTrough) {
-        enclosureManagement.setFoodInTrough(getFoodInTrough);
-    }
-
-    /**
-     * Get the food amount inside the trough.
-     * 
-     * @return the amount of food inside the trough
-     */
-    public int getFoodInTrough() {
-        return enclosureManagement.getFoodInTrough();
-    }
-
-    /**
-     * Set the type of the enclosure (climate).
-     * 
-     * @param type the type of the enclosure
-     */
-    public void setEnclosureType(EnclosureType type) {
-        enclosureManagement.setEnclosureType(type);
-    }
-
-    /**
-     * Get the type of the enclosure (climate)
-     * 
-     * @return the type of the enclosure
-     */
-    public EnclosureType getEnclosureType() {
-        return enclosureManagement.getEnclosureType();
-    }
 
     // Visitor
     /**
