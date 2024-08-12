@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 /**
- * Yangcheng Luo
  * Class implementing the IAnimalNew interface.
  * Make sure all methods in the IAnimalNew interface can be properly used.
  */
