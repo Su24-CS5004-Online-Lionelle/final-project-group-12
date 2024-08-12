@@ -179,16 +179,6 @@ public class controller {
     }
 
     /**
-     * Get the visit at a specified index.
-     * 
-     * @param index index of the visit
-     * @return the visit at the specified index
-     */
-    public Visit getVisit(int index) {
-        return visitorManagement.getVisit(index);
-    }
-
-    /**
      * Get the total number of visits.
      * 
      * @return the total of visits.
