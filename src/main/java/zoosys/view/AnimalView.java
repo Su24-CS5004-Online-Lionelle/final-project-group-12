@@ -13,6 +13,12 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Yangcheng Luo
+ * The current code will have the controller methods in it.Bowen is responsible for the controller part he can take it out and put it under the controller.
+ * It is easier for me to test my gui this way.
+ * GUI for managing animal info in the zoo app.
+ */
 public class AnimalView extends JFrame {
     private AnimalNew animalNew;
     private JTable table;
@@ -24,6 +30,12 @@ public class AnimalView extends JFrame {
     private JComboBox<Sex> sexComboBox, editSexComboBox;
     private JCheckBox medicalAttentionCheckBox, editMedicalAttentionCheckBox;
 
+    /**
+     * Constructor for the AnimalView class.
+     * Initializes the GUI components and sets up the layout.
+     *
+     * @param animalNew The AnimalNew object to interact with the animal data model.
+     */
     public AnimalView(AnimalNew animalNew) {
         this.animalNew = animalNew;
 
@@ -179,12 +191,21 @@ public class AnimalView extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Loads animal data and refreshes the table and statistics display.
+     */
     private void loadAndDisplayData() {
         animalNew.loadAnimalData();  // Load data first
         refreshTable();  // Then refresh the table
         displayStatistics();  // Finally, display statistics
     }
 
+    /**
+     * Checks if an animal name already exists in the system.
+     *
+     * @param name The name to check for duplicates.
+     * @return True if the name exists, false otherwise.
+     */
     private boolean isNameDuplicate(String name) {
         List<List<String>> animals = animalNew.getAllAnimals();
         for (List<String> animal : animals) {
@@ -195,6 +216,9 @@ public class AnimalView extends JFrame {
         return false;
     }
 
+    /**
+     * Refreshes the JTable with the latest animal data.
+     */
     private void refreshTable() {
         tableModel.setRowCount(0); // Clear existing rows
         List<List<String>> animals = animalNew.getAllAnimals();
@@ -221,6 +245,9 @@ public class AnimalView extends JFrame {
         }
     }
 
+    /**
+     * Displays various statistics about the animals, such as total count and breakdown by category.
+     */
     private void displayStatistics() {
         int totalAnimals = animalNew.getTotalAnimals();
 
