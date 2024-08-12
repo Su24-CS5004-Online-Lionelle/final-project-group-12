@@ -4,7 +4,7 @@ import zoosys.model.AnimalCategory;
 import zoosys.model.AnimalNew;
 import zoosys.model.FoodType;
 import zoosys.model.Sex;
-
+import java.util.Comparator;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
