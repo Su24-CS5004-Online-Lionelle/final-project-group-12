@@ -10,6 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Yangcheng Luo
+ * The current code will have the controller methods in it.Bowen is responsible for the controller part he can take it out and put it under the controller.
+ * It is easier for me to test my gui this way.
+ * GUI for Visitor info.
+ */
 public class VisitorView extends JFrame {
     private Visitor visitor;
     private JTable table;
@@ -17,6 +23,12 @@ public class VisitorView extends JFrame {
     private JTextField dateTextField;
     private JTextArea resultTextArea;
 
+    /**
+     * Constructor for the VisitorView class.
+     * Initializes the GUI components and sets up the layout.
+     *
+     * @param visitor The Visitor object to interact with the visitor data model.
+     */
     public VisitorView(Visitor visitor) {
         this.visitor = visitor;
         setTitle("Visitor Information");
@@ -62,6 +74,9 @@ public class VisitorView extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Populates the JTable with visitor data read from the CSV file.
+     */
     private void populateTable() {
         visitor.readCSV(); // Read the CSV file to populate the visits list
         List<Visit> visits = visitor.getVisits();
@@ -78,6 +93,11 @@ public class VisitorView extends JFrame {
         }
     }
 
+    /**
+     * Displays statistics for visits on a specific date.
+     *
+     * @param date The date for which to display statistics (format: "YYYY-MM-DD").
+     */
     private void displayStatistics(String date) {
         int visitCount = visitor.getVisitsCountByDate(date);
         double revenue = visitor.getRevenueByDate(date);
