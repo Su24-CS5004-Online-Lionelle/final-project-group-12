@@ -41,8 +41,7 @@ public interface IVisitor {
      /**
      * Retrieves the total number of visits.
      *
-     * @param date The date of interest in the format "MM-DD-YYYY".
-     * @return The number of visits on the specified date.
+     * @return The total number of visits.
      */
     int getVisitsCountByDate(String date);
 
