@@ -75,3 +75,4 @@ public interface IAnimalNew {
      * @param name The name of the animal to be removed.
      */
     void removeAnimal(String name); 
+}
