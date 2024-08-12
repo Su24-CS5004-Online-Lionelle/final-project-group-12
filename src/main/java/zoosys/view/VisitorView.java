@@ -37,7 +37,6 @@ public class VisitorView extends JFrame {
         this.visitor = visitor;
         setTitle("Visitor Information");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // Initialize table model with column names
