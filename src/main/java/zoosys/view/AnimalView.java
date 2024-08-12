@@ -223,13 +223,7 @@ public class AnimalView extends JFrame {
         List<List<String>> animals = animalNew.getAllAnimals();
 
         // Sort animals by category and then by name
-        animals.sort((a, b) -> {
-            int categoryComparison = a.get(0).compareTo(b.get(0));
-            if (categoryComparison != 0) {
-                return categoryComparison;
-            }
-            return a.get(1).compareTo(b.get(1));
-        });
+        animals.sort(Comparator.comparing((List<String> a) -> a.get(0)).thenComparing(a -> a.get(1)));
 
         // Add rows to the table
         for (List<String> animal : animals) {
