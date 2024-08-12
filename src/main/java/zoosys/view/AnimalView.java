@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Yangcheng Luo
  * The current code will have the controller methods in it.Bowen is responsible for the controller part he can take it out and put it under the controller.
  * It is easier for me to test my gui this way.
  * GUI for managing animal info in the zoo app.
