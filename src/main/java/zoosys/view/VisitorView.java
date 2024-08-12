@@ -114,12 +114,4 @@ public class VisitorView extends JFrame {
         resultTextArea.append("Average Cleanliness Feedback: " + avgCleanlinessFeedback + "\n");
         resultTextArea.append("Average Pricing Feedback: " + avgPricingFeedback + "\n");
     }
-
-    public static void main(String[] args) {
-        // Create a Visitor instance
-        Visitor visitor = new Visitor();
-
-        // Create and display the GUI
-        new VisitorView(visitor);
-    }
 }
