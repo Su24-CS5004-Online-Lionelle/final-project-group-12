@@ -97,3 +97,4 @@ public class AnimalTest {
 
         assertTrue(found, "The animal 'gorilla1' should be saved to the CSV file.");
     }
+}
