@@ -2,6 +2,7 @@ package zoosys.model;
 
 
 /**
+ * Yangcheng Luo
  * Enum that have categories of animals in the zoo system.
  */
 public enum AnimalCategory {
