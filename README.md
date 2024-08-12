@@ -12,6 +12,12 @@ This readme should contain the following information:
 * Links to design documents
 https://docs.google.com/document/d/1O_sO9AKvfFi_5G2hLLhuA3nowhppxMk9Kv_AlIFhAiw/edit?usp=sharing
 
+* Instructions on how to run the application
+* 
+Please use the goole doc link below to see user manual
+
+* https://docs.google.com/document/d/1gYCBzU1Terovg1x306U4hsmRh4pdsWT0ZeHF3ABdbUE/edit?usp=sharing
+
 Pre design UML
 ```mermaid
 classDiagram
@@ -353,11 +359,6 @@ classDiagram
     ZooApp --> Controller : uses
 ```
 
-* Instructions on how to run the application
-* 
-Please use the goole doc link below to see user manual
-
-* https://docs.google.com/document/d/1gYCBzU1Terovg1x306U4hsmRh4pdsWT0ZeHF3ABdbUE/edit?usp=sharing
 
 
 Ask yourself, if you started here in the readme, would you have what you need to work on this project and/or use the application?
