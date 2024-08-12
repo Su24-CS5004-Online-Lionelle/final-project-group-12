@@ -4,7 +4,9 @@
 This readme should contain the following information: 
 
 * The group member's names and link to their personal githubs
+* 
   Wing Yee Li https://github.com/liwingy
+  
   YANGCHENG LUO https://github.com/YangChengLuo
   
 * The application name and a brief description of the application
