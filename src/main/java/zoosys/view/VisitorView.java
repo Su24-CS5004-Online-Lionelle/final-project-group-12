@@ -17,8 +17,6 @@ import java.util.List;
  *
  * Note: The current code contains controller methods directly within the GUI class.
  * This structure is for ease of testing, and these methods can be refactored out later by Bowen as needed.
- *
- * Created by Yangcheng Luo.
  */
 public class VisitorView extends JFrame {
     private Visitor visitor;
