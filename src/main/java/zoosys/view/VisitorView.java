@@ -13,10 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
- * GUI class for displaying and interacting with visitor information in the zoo system.
- *
- * Note: The current code contains controller methods directly within the GUI class.
- * This structure is for ease of testing, and these methods can be refactored out later by Bowen as needed.
+ * The current code will have the controller methods in it.Bowen is responsible for the controller part he can take it out and put it under the controller.
+ * It is easier for me to test my gui this way.
+ * GUI for Visitor info in the zoo app.
  */
 public class VisitorView extends JFrame {
     private Visitor visitor;
